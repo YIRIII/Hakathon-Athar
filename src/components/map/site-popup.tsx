@@ -26,7 +26,19 @@ export function SitePopupContent({ site }: { site: HeritageSite }) {
       dir={isAr ? 'rtl' : 'ltr'}
       style={{ fontFamily: 'inherit' }}
     >
-      <h3 className="mb-1 text-sm font-bold" style={{ color: '#1a1410' }}>
+      {/* Gold accent bar at top */}
+      <div
+        style={{
+          height: 3,
+          borderRadius: 2,
+          background: 'linear-gradient(90deg, #C8A45C, #B8956A)',
+          marginBottom: 10,
+        }}
+      />
+      <h3
+        className="mb-1.5 text-sm font-bold leading-snug"
+        style={{ color: '#1a1410' }}
+      >
         {name}
       </h3>
       <span
@@ -35,14 +47,20 @@ export function SitePopupContent({ site }: { site: HeritageSite }) {
       >
         {t(site.type)}
       </span>
-      <p className="mb-2 text-xs leading-relaxed" style={{ color: '#555' }}>
+      <p
+        className="mb-3 text-xs leading-relaxed"
+        style={{ color: '#555', lineHeight: isAr ? '1.7' : '1.5' }}
+      >
         {brief.slice(0, 120)}
         {brief.length > 120 ? '...' : ''}
       </p>
       <Link
         href={`/sites/${site.id}` as any}
-        className="inline-block rounded-md px-3 py-1 text-xs font-medium text-white transition-colors hover:opacity-90"
-        style={{ backgroundColor: '#C8A45C' }}
+        className="inline-block rounded-md px-3 py-1.5 text-xs font-semibold text-white transition-all hover:brightness-110"
+        style={{
+          background: 'linear-gradient(135deg, #C8A45C 0%, #B8944C 100%)',
+          boxShadow: '0 2px 4px rgba(200,164,92,0.3)',
+        }}
       >
         {tCommon('viewDetails')}
       </Link>

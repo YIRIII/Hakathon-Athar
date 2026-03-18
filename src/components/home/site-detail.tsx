@@ -18,6 +18,29 @@ const typeColorMap: Record<string, string> = {
   museum: 'bg-muted text-muted-foreground',
 };
 
+/**
+ * Atmospheric CSS gradient backgrounds per site type.
+ * Light mode uses warm, subtle tones; dark mode uses deeper versions.
+ */
+const typeBgGradientMap: Record<string, { light: string; dark: string }> = {
+  religious: {
+    light: 'linear-gradient(135deg, #C8A45C 0%, #E8D5B7 40%, #F5EDE0 70%)',
+    dark: 'linear-gradient(135deg, #5C4A28 0%, #3D3020 40%, #1A1410 70%)',
+  },
+  archaeological: {
+    light: 'linear-gradient(135deg, #D4B896 0%, #E8D5B7 35%, #F0E6D4 65%)',
+    dark: 'linear-gradient(135deg, #4A3728 0%, #3D3020 35%, #1A1410 65%)',
+  },
+  cultural: {
+    light: 'linear-gradient(135deg, #2D6A4F 0%, #6FCF97 30%, #E6F4EA 60%)',
+    dark: 'linear-gradient(135deg, #1A3D2F 0%, #2D4A3F 30%, #1A1410 60%)',
+  },
+  museum: {
+    light: 'linear-gradient(135deg, #6B5744 0%, #B8956A 35%, #EDE3D3 65%)',
+    dark: 'linear-gradient(135deg, #2C2218 0%, #4A3728 35%, #1A1410 65%)',
+  },
+};
+
 // Gradient for hero
 const heroGradient = 'from-primary/60 via-accent/30 to-primary/50';
 
@@ -36,108 +59,132 @@ export function SiteDetail({ site }: SiteDetailProps) {
   const hours = isAr ? site.hours_ar : site.hours;
   const accessibility = isAr ? site.accessibility_ar : site.accessibility;
 
+  const bgGradient = typeBgGradientMap[site.type] ?? typeBgGradientMap.religious;
+
   function handleComingSoon() {
     alert(t('common.comingSoon'));
   }
 
   return (
-    <div className="mx-auto max-w-6xl px-4 pb-16 sm:px-6">
-      {/* Hero Section */}
-      <section className="relative -mx-4 mb-8 overflow-hidden sm:-mx-6 md:mx-0 md:rounded-2xl">
-        <div className={`aspect-[21/9] w-full bg-gradient-to-br ${heroGradient}`}>
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-          <div className="absolute inset-x-0 bottom-0 p-6 sm:p-8">
-            <h1 className="text-2xl font-bold text-white sm:text-3xl md:text-4xl">
-              {name}
-            </h1>
+    <div className="relative min-h-screen">
+      {/* Atmospheric background — light mode */}
+      <div
+        className="pointer-events-none fixed inset-0 -z-10 opacity-30 dark:opacity-0"
+        style={{ background: bgGradient.light }}
+        aria-hidden="true"
+      />
+      {/* Atmospheric background — dark mode */}
+      <div
+        className="pointer-events-none fixed inset-0 -z-10 opacity-0 dark:opacity-40"
+        style={{ background: bgGradient.dark }}
+        aria-hidden="true"
+      />
+      {/* Fade-out overlay: transparent at top, solid background at bottom */}
+      <div
+        className="pointer-events-none fixed inset-0 -z-10 bg-gradient-to-b from-transparent via-transparent to-background"
+        aria-hidden="true"
+      />
+
+      <div className="mx-auto max-w-6xl px-4 pb-16 sm:px-6">
+        {/* Hero Section */}
+        <section className="relative -mx-4 mb-8 overflow-hidden sm:-mx-6 md:mx-0 md:rounded-2xl">
+          <div className={`aspect-[21/9] w-full bg-gradient-to-br ${heroGradient}`}>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+            <div className="absolute inset-x-0 bottom-0 p-6 sm:p-8">
+              <h1 className="text-2xl font-bold text-white sm:text-3xl md:text-4xl">
+                {name}
+              </h1>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Badges */}
-      <div className="mb-6 flex flex-wrap items-center gap-2">
-        <Badge className={typeColorMap[site.type]}>
-          {t(`sites.${site.type}`)}
-        </Badge>
-        <Badge variant="outline">
-          {t(`sites.${site.city}`)}
-        </Badge>
-      </div>
-
-      {/* Main layout: content + sidebar */}
-      <div className="grid gap-8 lg:grid-cols-[1fr_300px]">
-        {/* Left column — main content */}
-        <div className="min-w-0 space-y-8">
-          {/* Image Gallery */}
-          <ImageGallery siteName={name} images={site.images} />
-
-          {/* Narrative Tabs */}
-          <Tabs defaultValue={0}>
-            <TabsList>
-              <TabsTrigger value={0}>{t('sites.brief')}</TabsTrigger>
-              <TabsTrigger value={1}>{t('sites.fullStory')}</TabsTrigger>
-            </TabsList>
-            <TabsContent value={0} className="mt-4">
-              <p className="leading-relaxed text-foreground/90">
-                {brief}
-              </p>
-            </TabsContent>
-            <TabsContent value={1} className="mt-4">
-              <div className="space-y-4">
-                {full.split('\n\n').map((paragraph, idx) => (
-                  <p key={idx} className="leading-relaxed text-foreground/90">
-                    {paragraph}
-                  </p>
-                ))}
-              </div>
-            </TabsContent>
-          </Tabs>
-
-          {/* Visitor Info Card */}
-          <Card>
-            <CardHeader>
-              <CardTitle>{t('sites.visitorInfo')}</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-start gap-3">
-                <ClockIcon className="mt-0.5 size-5 shrink-0 text-primary" />
-                <div>
-                  <p className="text-sm font-medium text-foreground">
-                    {t('sites.hours')}
-                  </p>
-                  <p className="text-sm text-muted-foreground">{hours}</p>
-                </div>
-              </div>
-              <Separator />
-              <div className="flex items-start gap-3">
-                <AccessibilityIcon className="mt-0.5 size-5 shrink-0 text-primary" />
-                <div>
-                  <p className="text-sm font-medium text-foreground">
-                    {t('sites.accessibility')}
-                  </p>
-                  <p className="text-sm text-muted-foreground">{accessibility}</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Action Buttons */}
-          <div className="flex flex-wrap gap-3">
-            <Button size="lg" onClick={handleComingSoon} className="gap-2">
-              <MapPinIcon className="size-4" />
-              {t('common.getDirections')}
-            </Button>
-            <Button size="lg" variant="outline" onClick={handleComingSoon} className="gap-2">
-              <QrCodeIcon className="size-4" />
-              {t('common.scanQR')}
-            </Button>
-          </div>
+        {/* Badges */}
+        <div className="mb-6 flex flex-wrap items-center gap-2">
+          <Badge className={typeColorMap[site.type]}>
+            {t(`sites.${site.type}`)}
+          </Badge>
+          <Badge variant="outline">
+            {t(`sites.${site.city}`)}
+          </Badge>
         </div>
 
-        {/* Right column — sidebar */}
-        <aside className="space-y-6">
-          <NearbySites currentSite={site} />
-        </aside>
+        {/* Main layout: content + sidebar */}
+        <div className="grid gap-8 lg:grid-cols-[1fr_300px]">
+          {/* Left column — main content */}
+          <div className="min-w-0 space-y-8">
+            {/* Image Gallery */}
+            <ImageGallery siteName={name} images={site.images} />
+
+            {/* Narrative Tabs */}
+            <div className="rounded-lg bg-card/80 p-4 backdrop-blur-sm sm:p-6">
+              <Tabs defaultValue={0}>
+                <TabsList>
+                  <TabsTrigger value={0}>{t('sites.brief')}</TabsTrigger>
+                  <TabsTrigger value={1}>{t('sites.fullStory')}</TabsTrigger>
+                </TabsList>
+                <TabsContent value={0} className="mt-4">
+                  <p className="leading-relaxed text-foreground/90">
+                    {brief}
+                  </p>
+                </TabsContent>
+                <TabsContent value={1} className="mt-4">
+                  <div className="space-y-4">
+                    {full.split('\n\n').map((paragraph, idx) => (
+                      <p key={idx} className="leading-relaxed text-foreground/90">
+                        {paragraph}
+                      </p>
+                    ))}
+                  </div>
+                </TabsContent>
+              </Tabs>
+            </div>
+
+            {/* Visitor Info Card */}
+            <Card className="bg-card/80 backdrop-blur-sm">
+              <CardHeader>
+                <CardTitle>{t('sites.visitorInfo')}</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="flex items-start gap-3">
+                  <ClockIcon className="mt-0.5 size-5 shrink-0 text-primary" />
+                  <div>
+                    <p className="text-sm font-medium text-foreground">
+                      {t('sites.hours')}
+                    </p>
+                    <p className="text-sm text-muted-foreground">{hours}</p>
+                  </div>
+                </div>
+                <Separator />
+                <div className="flex items-start gap-3">
+                  <AccessibilityIcon className="mt-0.5 size-5 shrink-0 text-primary" />
+                  <div>
+                    <p className="text-sm font-medium text-foreground">
+                      {t('sites.accessibility')}
+                    </p>
+                    <p className="text-sm text-muted-foreground">{accessibility}</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Action Buttons */}
+            <div className="flex flex-wrap gap-3">
+              <Button size="lg" onClick={handleComingSoon} className="gap-2">
+                <MapPinIcon className="size-4" />
+                {t('common.getDirections')}
+              </Button>
+              <Button size="lg" variant="outline" onClick={handleComingSoon} className="gap-2 bg-card/80 backdrop-blur-sm">
+                <QrCodeIcon className="size-4" />
+                {t('common.scanQR')}
+              </Button>
+            </div>
+          </div>
+
+          {/* Right column — sidebar */}
+          <aside className="space-y-6">
+            <NearbySites currentSite={site} />
+          </aside>
+        </div>
       </div>
     </div>
   );

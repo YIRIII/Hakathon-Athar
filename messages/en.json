@@ -129,7 +129,14 @@
     "filters": "Filters",
     "all": "All",
     "noResults": "No sites match your filters",
-    "gpsComingSoon": "GPS feature coming soon!"
+    "gpsComingSoon": "GPS feature coming soon!",
+    "gpsLoading": "Locating...",
+    "gpsDenied": "Location access was denied. Please enable GPS in your browser settings to use the Near Me feature.",
+    "gpsError": "Unable to determine your location. Please try again.",
+    "nearMeOff": "Clear Near Me",
+    "noNearbySites": "No heritage sites within 2 km of your location",
+    "showAll": "Show All Sites",
+    "youAreHere": "You are here"
   },
   "consent": {
     "title": "Privacy Notice",

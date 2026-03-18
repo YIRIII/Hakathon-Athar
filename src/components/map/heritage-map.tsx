@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback, useRef } from 'react';
 import dynamic from 'next/dynamic';
 import { useLocale, useTranslations } from 'next-intl';
 import { sites as allSites, type HeritageSite } from '@/data/sites';
@@ -14,6 +14,10 @@ import {
   SheetTitle,
 } from '@/components/ui/sheet';
 import { Filter } from 'lucide-react';
+import { haversineKm } from '@/lib/geo';
+import type { MapViewHandle } from './map-view';
+
+const NEAR_ME_RADIUS_KM = 2;
 
 const MapView = dynamic(() => import('./map-view'), {
   ssr: false,
@@ -27,6 +31,17 @@ const MapView = dynamic(() => import('./map-view'), {
   ),
 });
 
+export type GpsStatus = 'idle' | 'loading' | 'active' | 'denied' | 'error';
+
+export interface UserLocation {
+  lat: number;
+  lng: number;
+}
+
+export interface SiteWithDistance extends HeritageSite {
+  distance?: number;
+}
+
 export function HeritageMap() {
   const locale = useLocale();
   const tMap = useTranslations('map');
@@ -36,13 +51,18 @@ export function HeritageMap() {
   const [cityFilter, setCityFilter] = useState('all');
   const [typeFilter, setTypeFilter] = useState('');
 
+  // GPS state
+  const [gpsStatus, setGpsStatus] = useState<GpsStatus>('idle');
+  const [userLocation, setUserLocation] = useState<UserLocation | null>(null);
+  const [nearMeActive, setNearMeActive] = useState(false);
+
+  // Map ref for flyTo
+  const mapRef = useRef<MapViewHandle | null>(null);
+
   const filteredSites = useMemo(() => {
     return allSites.filter((site) => {
-      // City filter
       if (cityFilter !== 'all' && site.city !== cityFilter) return false;
-      // Type filter
       if (typeFilter && site.type !== typeFilter) return false;
-      // Search filter
       if (search.trim()) {
         const q = search.trim().toLowerCase();
         return (
@@ -54,17 +74,77 @@ export function HeritageMap() {
     });
   }, [search, cityFilter, typeFilter]);
 
-  const handleNearMe = useCallback(() => {
-    alert(tMap('gpsComingSoon'));
-  }, [tMap]);
+  // Sites with distance and optional near-me filtering
+  const displaySites: SiteWithDistance[] = useMemo(() => {
+    if (!userLocation) return filteredSites;
 
-  const handleSiteClick = useCallback((_site: HeritageSite) => {
-    // Could pan to site on map; for now the list click is just UX feedback
+    const withDist = filteredSites.map((site) => ({
+      ...site,
+      distance: haversineKm(userLocation, site.coordinates),
+    }));
+
+    const sorted = withDist.sort((a, b) => (a.distance ?? 0) - (b.distance ?? 0));
+
+    if (nearMeActive) {
+      return sorted.filter((s) => (s.distance ?? Infinity) <= NEAR_ME_RADIUS_KM);
+    }
+
+    return sorted;
+  }, [filteredSites, userLocation, nearMeActive]);
+
+  const handleNearMe = useCallback(() => {
+    // If already active, toggle off
+    if (nearMeActive) {
+      setNearMeActive(false);
+      setGpsStatus('idle');
+      setUserLocation(null);
+      return;
+    }
+
+    if (!navigator.geolocation) {
+      setGpsStatus('error');
+      return;
+    }
+
+    setGpsStatus('loading');
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const loc: UserLocation = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        };
+        setUserLocation(loc);
+        setNearMeActive(true);
+        setGpsStatus('active');
+      },
+      (err) => {
+        if (err.code === err.PERMISSION_DENIED) {
+          setGpsStatus('denied');
+        } else {
+          setGpsStatus('error');
+        }
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 60000,
+      }
+    );
+  }, [nearMeActive]);
+
+  const handleShowAll = useCallback(() => {
+    setNearMeActive(false);
+  }, []);
+
+  /** Fly to the selected site on the map */
+  const handleSiteClick = useCallback((site: HeritageSite) => {
+    mapRef.current?.flyToSite(site.coordinates);
   }, []);
 
   const sidebarContent = (
     <MapSidebar
-      sites={filteredSites}
+      sites={displaySites}
       search={search}
       onSearchChange={setSearch}
       cityFilter={cityFilter}
@@ -73,11 +153,14 @@ export function HeritageMap() {
       onTypeFilter={setTypeFilter}
       onSiteClick={handleSiteClick}
       onNearMe={handleNearMe}
+      onShowAll={handleShowAll}
+      gpsStatus={gpsStatus}
+      nearMeActive={nearMeActive}
     />
   );
 
   return (
-    <div className="relative flex h-[calc(100vh-3.5rem)] w-full">
+    <div className="relative flex h-[calc(100dvh-3.5rem)] w-full">
       {/* Desktop sidebar */}
       <aside
         className="hidden w-80 shrink-0 border-e border-border md:block"
@@ -86,8 +169,13 @@ export function HeritageMap() {
       </aside>
 
       {/* Map */}
-      <div className="relative flex-1">
-        <MapView sites={filteredSites} onSelectSite={handleSiteClick} />
+      <div className="relative min-h-0 flex-1">
+        <MapView
+          ref={mapRef}
+          sites={displaySites}
+          onSelectSite={handleSiteClick}
+          userLocation={userLocation}
+        />
 
         {/* Mobile floating filter button */}
         <div className="absolute start-4 top-4 z-[1000] md:hidden">

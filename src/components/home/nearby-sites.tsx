@@ -4,6 +4,7 @@ import { sites, type HeritageSite } from '@/data/sites';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { haversineKm } from '@/lib/geo';
 
 const typeColorMap: Record<string, string> = {
   religious: 'bg-accent text-accent-foreground',
@@ -11,24 +12,6 @@ const typeColorMap: Record<string, string> = {
   cultural: 'bg-secondary text-secondary-foreground',
   museum: 'bg-muted text-muted-foreground',
 };
-
-// Simple distance calculation (Haversine) for mock display
-function haversineKm(
-  a: { lat: number; lng: number },
-  b: { lat: number; lng: number }
-): number {
-  const R = 6371;
-  const dLat = ((b.lat - a.lat) * Math.PI) / 180;
-  const dLng = ((b.lng - a.lng) * Math.PI) / 180;
-  const sinLat = Math.sin(dLat / 2);
-  const sinLng = Math.sin(dLng / 2);
-  const h =
-    sinLat * sinLat +
-    Math.cos((a.lat * Math.PI) / 180) *
-      Math.cos((b.lat * Math.PI) / 180) *
-      sinLng * sinLng;
-  return R * 2 * Math.atan2(Math.sqrt(h), Math.sqrt(1 - h));
-}
 
 interface NearbySitesProps {
   currentSite: HeritageSite;

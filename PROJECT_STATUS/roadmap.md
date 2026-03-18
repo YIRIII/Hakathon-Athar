@@ -1,6 +1,6 @@
 # Roadmap — Athar (أثر) Interactive Heritage Discovery Platform
 **Generated from:** idea-forge/athar-heritage-platform | **Research Tier:** B (Partial)
-**Last Updated:** 2026-03-19 | **Next:** 1.1
+**Last Updated:** 2026-03-19 | **Next:** 2.1
 
 ## Phase 0: Project Foundation 🚧
 - [x] **0.1:** Initialize Next.js 14+ project with App Router, TypeScript, Tailwind CSS → [plan](docs/planning/phase-0-foundation.md)
@@ -44,17 +44,17 @@
 - [x] **0.1.25:** RTL/LTR verification — all pages in Arabic → [plan](docs/planning/phase-0.1-frontend-prototype.md)
 - [x] **0.1.26:** Dark/light theme verification → [plan](docs/planning/phase-0.1-frontend-prototype.md)
 
-## Phase 1: Smart Map & Heritage Content
-- [ ] **1.1:** Build base map component with Leaflet + OpenStreetMap Arabic tiles → [plan](docs/planning/phase-1-map-heritage-content.md)
-- [ ] **1.2:** Heritage site markers — custom branded, classified by type, filterable by city → [plan](docs/planning/phase-1-map-heritage-content.md)
-- [ ] **1.3:** GPS "Near Me" feature — 2km radius discovery → [plan](docs/planning/phase-1-map-heritage-content.md)
-- [ ] **1.4:** Heritage site detail page template — layered bilingual narratives → [plan](docs/planning/phase-1-map-heritage-content.md)
-- [ ] **1.5:** Image gallery with Next.js Image optimization → [plan](docs/planning/phase-1-map-heritage-content.md)
-- [ ] **1.6:** Visitor info section — hours, location, accessibility → [plan](docs/planning/phase-1-map-heritage-content.md)
+## Phase 1: Smart Map & Heritage Content 🚧
+- [x] **1.1:** Build base map component with Leaflet + OpenStreetMap Arabic tiles → [plan](docs/planning/phase-1-map-heritage-content.md)
+- [x] **1.2:** Heritage site markers — custom branded, classified by type, filterable by city → [plan](docs/planning/phase-1-map-heritage-content.md)
+- [x] **1.3:** GPS "Near Me" feature — 2km radius discovery → [plan](docs/planning/phase-1-map-heritage-content.md)
+- [x] **1.4:** Heritage site detail page template — layered bilingual narratives → [plan](docs/planning/phase-1-map-heritage-content.md)
+- [x] **1.5:** Image gallery with Next.js Image optimization → [plan](docs/planning/phase-1-map-heritage-content.md)
+- [x] **1.6:** Visitor info section — hours, location, accessibility → [plan](docs/planning/phase-1-map-heritage-content.md)
 - [ ] **1.7:** Offline caching for visited sites → [plan](docs/planning/phase-1-map-heritage-content.md)
-- [ ] **1.8:** Nearby sites discovery — contextual recommendations → [plan](docs/planning/phase-1-map-heritage-content.md)
-- [ ] **1.9:** Map interaction polish — 60fps, clustering, responsive → [plan](docs/planning/phase-1-map-heritage-content.md)
-- [ ] **1.10:** Site detail page background image (immersive hero bg) → [plan](docs/planning/phase-1-map-heritage-content.md)
+- [x] **1.8:** Nearby sites discovery — contextual recommendations → [plan](docs/planning/phase-1-map-heritage-content.md)
+- [x] **1.9:** Map interaction polish — 60fps, clustering, responsive → [plan](docs/planning/phase-1-map-heritage-content.md)
+- [x] **1.10:** Site detail page background image (immersive hero bg) → [plan](docs/planning/phase-1-map-heritage-content.md)
 
 ## Phase 2: QR Code System
 - [ ] **2.1:** QR generation with heritage branding (qr-code-styling) → [plan](docs/planning/phase-2-qr-system.md)
