@@ -1,6 +1,6 @@
 # Roadmap — Athar (أثر) Interactive Heritage Discovery Platform
 **Generated from:** idea-forge/athar-heritage-platform | **Research Tier:** B (Partial)
-**Last Updated:** 2026-03-19 | **Next:** 3.1
+**Last Updated:** 2026-03-19 | **Next:** 4.1
 
 ## Phase 0: Project Foundation 🚧
 - [x] **0.1:** Initialize Next.js 14+ project with App Router, TypeScript, Tailwind CSS → [plan](docs/planning/phase-0-foundation.md)
@@ -66,16 +66,16 @@
 - [x] **2.7:** QR scan confirmation animation → [plan](docs/planning/phase-2-qr-system.md)
 - [x] **2.8:** Error handling — invalid/expired QR, offline scanning → [plan](docs/planning/phase-2-qr-system.md)
 
-## Phase 3: AI Heritage Chatbot
-- [ ] **3.1:** Enable pgvector in Supabase + create embeddings table → [plan](docs/planning/phase-3-ai-chatbot.md)
-- [ ] **3.2:** Heritage knowledge base ingestion pipeline → [plan](docs/planning/phase-3-ai-chatbot.md)
-- [ ] **3.3:** Vercel AI SDK + Gemini Flash-Lite streaming API route → [plan](docs/planning/phase-3-ai-chatbot.md)
-- [ ] **3.4:** RAG retrieval with source attribution → [plan](docs/planning/phase-3-ai-chatbot.md)
-- [ ] **3.5:** Chat UI — streaming, heritage-themed, bilingual → [plan](docs/planning/phase-3-ai-chatbot.md)
-- [ ] **3.6:** Islamic cultural guardrails system prompt → [plan](docs/planning/phase-3-ai-chatbot.md)
+## Phase 3: AI Heritage Chatbot ✅
+- [x] **3.1:** Enable pgvector in Supabase + create embeddings table → [plan](docs/planning/phase-3-ai-chatbot.md)
+- [x] **3.2:** Heritage knowledge base ingestion pipeline → [plan](docs/planning/phase-3-ai-chatbot.md)
+- [x] **3.3:** Vercel AI SDK + Gemini Flash-Lite streaming API route → [plan](docs/planning/phase-3-ai-chatbot.md)
+- [x] **3.4:** RAG retrieval with source attribution → [plan](docs/planning/phase-3-ai-chatbot.md)
+- [x] **3.5:** Chat UI — streaming, heritage-themed, bilingual → [plan](docs/planning/phase-3-ai-chatbot.md)
+- [x] **3.6:** Islamic cultural guardrails system prompt → [plan](docs/planning/phase-3-ai-chatbot.md)
 - [ ] **3.7:** Usage limits — free tier 3 questions/visit → [plan](docs/planning/phase-3-ai-chatbot.md)
 - [ ] **3.8:** Langfuse LLM tracing setup → [plan](docs/planning/phase-3-ai-chatbot.md)
-- [ ] **3.9:** Contextual awareness — chatbot knows current site → [plan](docs/planning/phase-3-ai-chatbot.md)
+- [x] **3.9:** Contextual awareness — chatbot knows current site → [plan](docs/planning/phase-3-ai-chatbot.md)
 
 ## Phase 4: Heritage Passport & Social Sharing
 - [ ] **4.1:** Dexie.js offline stamp collection schema → [plan](docs/planning/phase-4-passport-social.md)

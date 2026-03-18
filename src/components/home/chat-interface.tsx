@@ -1,105 +1,82 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useRef, useEffect, useState, useMemo } from 'react';
+import { useChat } from '@ai-sdk/react';
+import { DefaultChatTransport } from 'ai';
 import { useTranslations, useLocale } from 'next-intl';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Badge } from '@/components/ui/badge';
-import {
-  type ChatMessage,
-  conversationCaveHira,
-  conversationMadinahSites,
-} from '@/data/chat-messages';
 import { suggestedQuestions } from '@/data/suggested-questions';
 
-interface DisplayMessage {
-  id: string;
-  role: 'user' | 'assistant';
-  content: string;
+interface ChatInterfaceProps {
+  siteId?: string;
 }
 
-const mockResponses: Record<string, ChatMessage[]> = {
-  'sq-1': conversationCaveHira,
-  'sq-2': conversationMadinahSites,
-};
-
-export function ChatInterface() {
+export function ChatInterface({ siteId }: ChatInterfaceProps) {
   const t = useTranslations('chat');
   const locale = useLocale();
-  const [messages, setMessages] = useState<DisplayMessage[]>([]);
-  const [inputValue, setInputValue] = useState('');
-  const [isTyping, setIsTyping] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
-  const questionIndexRef = useRef(0);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [input, setInput] = useState('');
 
+  const transport = useMemo(
+    () =>
+      new DefaultChatTransport({
+        api: '/api/chat',
+        body: { siteId, locale },
+      }),
+    [siteId, locale],
+  );
+
+  const {
+    messages,
+    sendMessage,
+    status,
+    error,
+  } = useChat({
+    transport,
+    onError: () => {
+      setErrorMessage(
+        locale === 'ar'
+          ? 'حدث خطأ أثناء معالجة طلبك. يرجى المحاولة مرة أخرى.'
+          : 'An error occurred while processing your request. Please try again.',
+      );
+    },
+  });
+
+  const isLoading = status === 'streaming' || status === 'submitted';
+
+  // Auto-scroll to bottom when messages change
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
-  }, [messages, isTyping]);
-
-  const addAIResponse = (content: string, delay = 800) => {
-    setIsTyping(true);
-    setTimeout(() => {
-      setIsTyping(false);
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: `ai-${Date.now()}`,
-          role: 'assistant',
-          content,
-        },
-      ]);
-    }, delay);
-  };
+  }, [messages, isLoading]);
 
   const handleSuggestedQuestion = (questionId: string) => {
     const question = suggestedQuestions.find((q) => q.id === questionId);
     if (!question) return;
 
     const questionText = locale === 'ar' ? question.text_ar : question.text_en;
-    setMessages((prev) => [
-      ...prev,
-      { id: `user-${Date.now()}`, role: 'user', content: questionText },
-    ]);
-
-    // Try to find a matching mock conversation
-    const conversation = mockResponses[questionId];
-    if (conversation && conversation.length > 1) {
-      const aiMsg = conversation[1];
-      addAIResponse(locale === 'ar' ? aiMsg.content_ar : aiMsg.content_en);
-    } else {
-      // Cycle through available mock responses
-      const allConvos = [conversationCaveHira, conversationMadinahSites];
-      const convo = allConvos[questionIndexRef.current % allConvos.length];
-      questionIndexRef.current++;
-      const aiMsg = convo[1];
-      addAIResponse(locale === 'ar' ? aiMsg.content_ar : aiMsg.content_en);
-    }
+    setErrorMessage(null);
+    sendMessage({ text: questionText });
   };
 
-  const handleSend = () => {
-    if (!inputValue.trim()) return;
-
-    setMessages((prev) => [
-      ...prev,
-      { id: `user-${Date.now()}`, role: 'user', content: inputValue.trim() },
-    ]);
-    setInputValue('');
-
-    // Cycle through mock responses
-    const allConvos = [conversationCaveHira, conversationMadinahSites];
-    const convo = allConvos[questionIndexRef.current % allConvos.length];
-    questionIndexRef.current++;
-    const aiMsg = convo[1];
-    addAIResponse(locale === 'ar' ? aiMsg.content_ar : aiMsg.content_en);
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!input.trim() || isLoading) return;
+    setErrorMessage(null);
+    sendMessage({ text: input });
+    setInput('');
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
-      handleSend();
+      if (!input.trim() || isLoading) return;
+      setErrorMessage(null);
+      sendMessage({ text: input });
+      setInput('');
     }
   };
 
@@ -141,7 +118,8 @@ export function ChatInterface() {
                   <button
                     key={q.id}
                     onClick={() => handleSuggestedQuestion(q.id)}
-                    className="rounded-full border border-primary/30 bg-primary/5 px-3 py-1.5 text-xs font-medium text-primary transition-colors hover:bg-primary/10"
+                    disabled={isLoading}
+                    className="rounded-full border border-primary/30 bg-primary/5 px-3 py-1.5 text-xs font-medium text-primary transition-colors hover:bg-primary/10 disabled:opacity-50"
                   >
                     {locale === 'ar' ? q.text_ar : q.text_en}
                   </button>
@@ -163,20 +141,42 @@ export function ChatInterface() {
                       : 'rounded-es-sm bg-card ring-1 ring-foreground/10 text-card-foreground'
                   }`}
                 >
-                  {msg.content}
+                  <MessageContent
+                    content={
+                      msg.parts
+                        ?.filter((p): p is { type: 'text'; text: string } => p.type === 'text')
+                        .map((p) => p.text)
+                        .join('') ?? ''
+                    }
+                    role={msg.role as 'user' | 'assistant'}
+                  />
                 </div>
               </div>
             ))}
 
             {/* Typing indicator */}
-            {isTyping && (
-              <div className="flex justify-start">
-                <div className="rounded-2xl rounded-es-sm bg-card px-4 py-3 ring-1 ring-foreground/10">
-                  <div className="flex gap-1.5">
-                    <span className="size-2 animate-bounce rounded-full bg-muted-foreground/50 [animation-delay:0ms]" />
-                    <span className="size-2 animate-bounce rounded-full bg-muted-foreground/50 [animation-delay:150ms]" />
-                    <span className="size-2 animate-bounce rounded-full bg-muted-foreground/50 [animation-delay:300ms]" />
+            {isLoading &&
+              messages.length > 0 &&
+              messages[messages.length - 1].role === 'user' && (
+                <div className="flex justify-start">
+                  <div className="rounded-2xl rounded-es-sm bg-card px-4 py-3 ring-1 ring-foreground/10">
+                    <div className="flex gap-1.5">
+                      <span className="size-2 animate-bounce rounded-full bg-muted-foreground/50 [animation-delay:0ms]" />
+                      <span className="size-2 animate-bounce rounded-full bg-muted-foreground/50 [animation-delay:150ms]" />
+                      <span className="size-2 animate-bounce rounded-full bg-muted-foreground/50 [animation-delay:300ms]" />
+                    </div>
                   </div>
+                </div>
+              )}
+
+            {/* Error message */}
+            {(error || errorMessage) && (
+              <div className="flex justify-center">
+                <div className="rounded-lg bg-destructive/10 px-4 py-2 text-sm text-destructive">
+                  {errorMessage ||
+                    (locale === 'ar'
+                      ? 'حدث خطأ. يرجى المحاولة مرة أخرى.'
+                      : 'An error occurred. Please try again.')}
                 </div>
               </div>
             )}
@@ -186,18 +186,22 @@ export function ChatInterface() {
 
       {/* Input area */}
       <div className="border-t bg-background p-4">
-        <div className="mx-auto flex max-w-2xl items-center gap-2">
+        <form
+          onSubmit={onSubmit}
+          className="mx-auto flex max-w-2xl items-center gap-2"
+        >
           <Input
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder={t('placeholder')}
             className="flex-1"
+            disabled={isLoading}
           />
           <Button
+            type="submit"
             size="icon"
-            onClick={handleSend}
-            disabled={!inputValue.trim() || isTyping}
+            disabled={!input.trim() || isLoading}
             aria-label={t('send')}
           >
             <svg
@@ -214,7 +218,7 @@ export function ChatInterface() {
               />
             </svg>
           </Button>
-        </div>
+        </form>
 
         {/* Powered by AI */}
         <p className="mt-2 text-center text-xs text-muted-foreground">
@@ -222,5 +226,54 @@ export function ChatInterface() {
         </p>
       </div>
     </div>
+  );
+}
+
+/**
+ * Renders message content with source citation parsing.
+ * Detects [Source: ...] patterns and renders them as styled badges.
+ */
+function MessageContent({
+  content,
+  role,
+}: {
+  content: string;
+  role: 'user' | 'assistant';
+}) {
+  if (role === 'user') {
+    return <>{content}</>;
+  }
+
+  // Parse source citations from the content
+  const sourcePattern = /\[(?:Source|المصدر):\s*([^\]]+)\]/g;
+  const sources: string[] = [];
+  let match;
+  while ((match = sourcePattern.exec(content)) !== null) {
+    if (!sources.includes(match[1].trim())) {
+      sources.push(match[1].trim());
+    }
+  }
+
+  // Remove source citations from displayed text
+  const cleanedContent = content
+    .replace(/\[(?:Source|المصدر):\s*[^\]]+\]/g, '')
+    .trim();
+
+  return (
+    <>
+      {cleanedContent}
+      {sources.length > 0 && (
+        <div className="mt-2 flex flex-wrap gap-1 border-t border-foreground/5 pt-2">
+          {sources.map((source) => (
+            <span
+              key={source}
+              className="inline-flex items-center rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-medium text-primary"
+            >
+              {source}
+            </span>
+          ))}
+        </div>
+      )}
+    </>
   );
 }
