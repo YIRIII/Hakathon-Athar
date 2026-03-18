@@ -95,7 +95,23 @@
     "stampEarned": "Heritage stamp earned!",
     "viewSite": "View Site",
     "scanSuccess": "Scan Successful",
-    "scanning": "Scanning..."
+    "scanning": "Scanning...",
+    "startCamera": "Open Camera to Scan",
+    "stopCamera": "Stop Camera",
+    "scanAnother": "Scan Another",
+    "tryAgain": "Try Again",
+    "alreadyVisited": "You have already visited this site",
+    "cameraLoading": "Starting camera...",
+    "cameraDenied": "Camera access denied",
+    "cameraDeniedHint": "Please allow camera access in your browser settings, or use your native camera app to scan the QR code directly.",
+    "cameraUnsupported": "Camera not supported",
+    "cameraError": "Camera error occurred",
+    "retryCamera": "Retry",
+    "nativeCameraHint": "You can scan the QR code with your phone camera — the link will open the site directly in your browser.",
+    "errorTitle": "Invalid QR Code",
+    "errorNotAthar": "This QR code is not from the Athar platform. Please scan the QR code on a heritage site marker.",
+    "errorUnknownSite": "The link was recognized but the heritage site was not found.",
+    "errorEmpty": "No data found in the QR code."
   },
   "profile": {
     "title": "Profile",
@@ -137,6 +153,23 @@
     "noNearbySites": "No heritage sites within 2 km of your location",
     "showAll": "Show All Sites",
     "youAreHere": "You are here"
+  },
+  "qr": {
+    "title": "QR Code Management",
+    "subtitle": "Generate and download heritage-branded QR codes for all sites",
+    "generate": "Generate QR",
+    "qrPreview": "QR Code Preview",
+    "downloadPNG": "Download PNG",
+    "downloadPrint": "Download for Print",
+    "entryQR": "Site Entry",
+    "internalQR": "Internal",
+    "filterByType": "By Type",
+    "filterByCity": "By City",
+    "allTypes": "All",
+    "allCities": "All",
+    "totalQRCodes": "Total QR Codes",
+    "sitesCount": "Sites",
+    "noResults": "No QR codes match your filters"
   },
   "consent": {
     "title": "Privacy Notice",

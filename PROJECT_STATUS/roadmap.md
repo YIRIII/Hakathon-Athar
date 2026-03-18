@@ -1,6 +1,6 @@
 # Roadmap — Athar (أثر) Interactive Heritage Discovery Platform
 **Generated from:** idea-forge/athar-heritage-platform | **Research Tier:** B (Partial)
-**Last Updated:** 2026-03-19 | **Next:** 2.1
+**Last Updated:** 2026-03-19 | **Next:** 3.1
 
 ## Phase 0: Project Foundation 🚧
 - [x] **0.1:** Initialize Next.js 14+ project with App Router, TypeScript, Tailwind CSS → [plan](docs/planning/phase-0-foundation.md)
@@ -56,15 +56,15 @@
 - [x] **1.9:** Map interaction polish — 60fps, clustering, responsive → [plan](docs/planning/phase-1-map-heritage-content.md)
 - [x] **1.10:** Site detail page background image (immersive hero bg) → [plan](docs/planning/phase-1-map-heritage-content.md)
 
-## Phase 2: QR Code System
-- [ ] **2.1:** QR generation with heritage branding (qr-code-styling) → [plan](docs/planning/phase-2-qr-system.md)
-- [ ] **2.2:** Dual-layer QR schema — entry QR + internal QR → [plan](docs/planning/phase-2-qr-system.md)
-- [ ] **2.3:** Admin QR generation page → [plan](docs/planning/phase-2-qr-system.md)
-- [ ] **2.4:** In-app QR scanning UI (qr-scanner) → [plan](docs/planning/phase-2-qr-system.md)
-- [ ] **2.5:** QR routing logic — scan → decode → route to content → [plan](docs/planning/phase-2-qr-system.md)
-- [ ] **2.6:** Native camera fallback for QR scanning → [plan](docs/planning/phase-2-qr-system.md)
-- [ ] **2.7:** QR scan confirmation animation → [plan](docs/planning/phase-2-qr-system.md)
-- [ ] **2.8:** Error handling — invalid/expired QR, offline scanning → [plan](docs/planning/phase-2-qr-system.md)
+## Phase 2: QR Code System ✅
+- [x] **2.1:** QR generation with heritage branding (qr-code-styling) → [plan](docs/planning/phase-2-qr-system.md)
+- [x] **2.2:** Dual-layer QR schema — entry QR + internal QR → [plan](docs/planning/phase-2-qr-system.md)
+- [x] **2.3:** Admin QR generation page → [plan](docs/planning/phase-2-qr-system.md)
+- [x] **2.4:** In-app QR scanning UI (qr-scanner) → [plan](docs/planning/phase-2-qr-system.md)
+- [x] **2.5:** QR routing logic — scan → decode → route to content → [plan](docs/planning/phase-2-qr-system.md)
+- [x] **2.6:** Native camera fallback for QR scanning → [plan](docs/planning/phase-2-qr-system.md)
+- [x] **2.7:** QR scan confirmation animation → [plan](docs/planning/phase-2-qr-system.md)
+- [x] **2.8:** Error handling — invalid/expired QR, offline scanning → [plan](docs/planning/phase-2-qr-system.md)
 
 ## Phase 3: AI Heritage Chatbot
 - [ ] **3.1:** Enable pgvector in Supabase + create embeddings table → [plan](docs/planning/phase-3-ai-chatbot.md)

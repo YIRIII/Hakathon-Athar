@@ -95,7 +95,23 @@
     "stampEarned": "تم الحصول على طابع تراثي!",
     "viewSite": "عرض الموقع",
     "scanSuccess": "تم المسح بنجاح",
-    "scanning": "جارٍ المسح..."
+    "scanning": "جارٍ المسح...",
+    "startCamera": "فتح الكاميرا للمسح",
+    "stopCamera": "إيقاف الكاميرا",
+    "scanAnother": "مسح رمز آخر",
+    "tryAgain": "المحاولة مرة أخرى",
+    "alreadyVisited": "سبق أن زرت هذا الموقع",
+    "cameraLoading": "جارٍ تشغيل الكاميرا...",
+    "cameraDenied": "تم رفض الوصول إلى الكاميرا",
+    "cameraDeniedHint": "يرجى السماح بالوصول إلى الكاميرا في إعدادات المتصفح، أو استخدم تطبيق الكاميرا لمسح رمز QR مباشرةً.",
+    "cameraUnsupported": "الكاميرا غير مدعومة",
+    "cameraError": "حدث خطأ في الكاميرا",
+    "retryCamera": "إعادة المحاولة",
+    "nativeCameraHint": "يمكنك مسح رمز QR بكاميرا هاتفك — الرابط سيفتح الموقع مباشرةً في المتصفح.",
+    "errorTitle": "رمز QR غير صالح",
+    "errorNotAthar": "هذا الرمز لا يخص منصة أثر. يرجى مسح رمز QR الموجود على لوحة الموقع التراثي.",
+    "errorUnknownSite": "تم التعرف على الرابط لكن الموقع التراثي غير موجود.",
+    "errorEmpty": "لم يتم العثور على بيانات في رمز QR."
   },
   "profile": {
     "title": "الملف الشخصي",
@@ -137,6 +153,23 @@
     "noNearbySites": "لا توجد مواقع تراثية ضمن ٢ كم من موقعك",
     "showAll": "عرض جميع المواقع",
     "youAreHere": "أنت هنا"
+  },
+  "qr": {
+    "title": "إدارة رموز QR",
+    "subtitle": "إنشاء وتحميل رموز QR ذات العلامة التراثية لجميع المواقع",
+    "generate": "إنشاء QR",
+    "qrPreview": "معاينة رمز QR",
+    "downloadPNG": "تحميل PNG",
+    "downloadPrint": "تحميل للطباعة",
+    "entryQR": "مدخل الموقع",
+    "internalQR": "داخلي",
+    "filterByType": "حسب النوع",
+    "filterByCity": "حسب المدينة",
+    "allTypes": "الكل",
+    "allCities": "الكل",
+    "totalQRCodes": "إجمالي رموز QR",
+    "sitesCount": "عدد المواقع",
+    "noResults": "لا توجد رموز QR تطابق عوامل التصفية"
   },
   "consent": {
     "title": "إشعار الخصوصية",
