@@ -87,7 +87,14 @@
     "suggestedQuestions": "أسئلة مقترحة",
     "poweredBy": "مدعوم بالذكاء الاصطناعي",
     "welcome": "مرحبًا! أنا مساعدك التراثي. اسألني عن أي موقع تاريخي في مكة أو المدينة.",
-    "send": "إرسال"
+    "send": "إرسال",
+    "voiceStart": "تحدث",
+    "voiceStop": "أوقف",
+    "voiceListening": "أستمع إليك...",
+    "voiceProcessing": "جارٍ التحويل...",
+    "voiceNotAvailable": "التحدث غير متاح في هذا المتصفح",
+    "listenToResponse": "استمع",
+    "stopListening": "أوقف الاستماع"
   },
   "scan": {
     "title": "مسح رمز QR",

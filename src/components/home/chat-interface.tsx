@@ -7,6 +7,9 @@ import { useTranslations, useLocale } from 'next-intl';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { suggestedQuestions } from '@/data/suggested-questions';
+import { useVoiceInput } from '@/hooks/use-voice-input';
+import { useVoiceOutput } from '@/hooks/use-voice-output';
+import type { STTLanguage } from '@/lib/voice/stt-provider';
 
 interface ChatInterfaceProps {
   siteId?: string;
@@ -18,6 +21,8 @@ export function ChatInterface({ siteId }: ChatInterfaceProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [input, setInput] = useState('');
+
+  const voiceLang: STTLanguage = locale === 'ar' ? 'ar-SA' : 'en-US';
 
   const transport = useMemo(
     () =>
@@ -45,6 +50,20 @@ export function ChatInterface({ siteId }: ChatInterfaceProps) {
   });
 
   const isLoading = status === 'streaming' || status === 'submitted';
+
+  // Voice input hook
+  const voice = useVoiceInput({
+    language: voiceLang,
+    onTranscript: (text) => {
+      if (text.trim()) {
+        setErrorMessage(null);
+        sendMessage({ text });
+      }
+    },
+  });
+
+  // Voice output hook (TTS for assistant responses)
+  const tts = useVoiceOutput({ language: voiceLang });
 
   // Auto-scroll to bottom when messages change
   useEffect(() => {
@@ -77,6 +96,22 @@ export function ChatInterface({ siteId }: ChatInterfaceProps) {
       setErrorMessage(null);
       sendMessage({ text: input });
       setInput('');
+    }
+  };
+
+  const handleVoiceToggle = () => {
+    if (voice.isListening) {
+      voice.stopListening();
+    } else {
+      voice.startListening();
+    }
+  };
+
+  const handleListenToMessage = (text: string) => {
+    if (tts.isSpeaking) {
+      tts.stop();
+    } else {
+      tts.speak(text);
     }
   };
 
@@ -129,30 +164,56 @@ export function ChatInterface({ siteId }: ChatInterfaceProps) {
           </div>
         ) : (
           <div className="space-y-4">
-            {messages.map((msg) => (
-              <div
-                key={msg.id}
-                className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
-              >
+            {messages.map((msg) => {
+              const textContent =
+                msg.parts
+                  ?.filter((p): p is { type: 'text'; text: string } => p.type === 'text')
+                  .map((p) => p.text)
+                  .join('') ?? '';
+
+              return (
                 <div
-                  className={`max-w-[80%] rounded-2xl px-4 py-2.5 text-sm whitespace-pre-line ${
-                    msg.role === 'user'
-                      ? 'rounded-ee-sm bg-primary text-primary-foreground'
-                      : 'rounded-es-sm bg-card ring-1 ring-foreground/10 text-card-foreground'
-                  }`}
+                  key={msg.id}
+                  className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
                 >
-                  <MessageContent
-                    content={
-                      msg.parts
-                        ?.filter((p): p is { type: 'text'; text: string } => p.type === 'text')
-                        .map((p) => p.text)
-                        .join('') ?? ''
-                    }
-                    role={msg.role as 'user' | 'assistant'}
-                  />
+                  <div className="flex max-w-[80%] flex-col gap-1">
+                    <div
+                      className={`rounded-2xl px-4 py-2.5 text-sm whitespace-pre-line ${
+                        msg.role === 'user'
+                          ? 'rounded-ee-sm bg-primary text-primary-foreground'
+                          : 'rounded-es-sm bg-card ring-1 ring-foreground/10 text-card-foreground'
+                      }`}
+                    >
+                      <MessageContent
+                        content={textContent}
+                        role={msg.role as 'user' | 'assistant'}
+                      />
+                    </div>
+
+                    {/* Listen button for assistant messages */}
+                    {msg.role === 'assistant' && textContent && tts.isAvailable && (
+                      <button
+                        onClick={() => handleListenToMessage(textContent)}
+                        className="flex items-center gap-1 self-start text-xs text-muted-foreground transition-colors hover:text-primary"
+                        aria-label={tts.isSpeaking ? t('stopListening') : t('listenToResponse')}
+                      >
+                        {tts.isSpeaking ? (
+                          <>
+                            <SpeakerWaveIcon className="size-3.5" />
+                            <span>{t('stopListening')}</span>
+                          </>
+                        ) : (
+                          <>
+                            <SpeakerIcon className="size-3.5" />
+                            <span>{t('listenToResponse')}</span>
+                          </>
+                        )}
+                      </button>
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
 
             {/* Typing indicator */}
             {isLoading &&
@@ -184,6 +245,30 @@ export function ChatInterface({ siteId }: ChatInterfaceProps) {
         )}
       </div>
 
+      {/* Voice listening overlay */}
+      {voice.isListening && (
+        <div className="border-t bg-primary/5 px-4 py-3">
+          <div className="mx-auto flex max-w-2xl items-center justify-center gap-3">
+            <VoicePulse />
+            <span className="text-sm font-medium text-primary">
+              {voice.status === 'processing' ? t('voiceProcessing') : t('voiceListening')}
+            </span>
+            {voice.interimText && (
+              <span className="max-w-xs truncate text-sm text-muted-foreground">
+                {voice.interimText}
+              </span>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Voice error */}
+      {voice.error && (
+        <div className="border-t bg-destructive/5 px-4 py-2 text-center text-xs text-destructive">
+          {voice.error}
+        </div>
+      )}
+
       {/* Input area */}
       <div className="border-t bg-background p-4">
         <form
@@ -196,8 +281,28 @@ export function ChatInterface({ siteId }: ChatInterfaceProps) {
             onKeyDown={handleKeyDown}
             placeholder={t('placeholder')}
             className="flex-1"
-            disabled={isLoading}
+            disabled={isLoading || voice.isListening}
           />
+
+          {/* Microphone button — shown when voice is available */}
+          {voice.isAvailable && (
+            <Button
+              type="button"
+              size="icon"
+              variant={voice.isListening ? 'destructive' : 'outline'}
+              onClick={handleVoiceToggle}
+              disabled={isLoading}
+              aria-label={voice.isListening ? t('voiceStop') : t('voiceStart')}
+              className={`relative shrink-0 ${voice.isListening ? 'animate-pulse' : ''}`}
+            >
+              {voice.isListening ? (
+                <StopIcon className="size-4" />
+              ) : (
+                <MicIcon className="size-4" />
+              )}
+            </Button>
+          )}
+
           <Button
             type="submit"
             size="icon"
@@ -226,6 +331,56 @@ export function ChatInterface({ siteId }: ChatInterfaceProps) {
         </p>
       </div>
     </div>
+  );
+}
+
+/**
+ * Animated voice pulse indicator — shows when actively listening.
+ * Three concentric rings that pulse outward like sound waves.
+ */
+function VoicePulse() {
+  return (
+    <div className="relative flex size-8 items-center justify-center">
+      <div className="absolute size-8 animate-ping rounded-full bg-primary/20 [animation-duration:1.5s]" />
+      <div className="absolute size-6 animate-ping rounded-full bg-primary/30 [animation-duration:1.5s] [animation-delay:200ms]" />
+      <div className="size-4 rounded-full bg-primary" />
+    </div>
+  );
+}
+
+/** Microphone icon */
+function MicIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z" />
+    </svg>
+  );
+}
+
+/** Stop icon */
+function StopIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} fill="currentColor" viewBox="0 0 24 24">
+      <rect x="6" y="6" width="12" height="12" rx="2" />
+    </svg>
+  );
+}
+
+/** Speaker icon (not playing) */
+function SpeakerIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z" />
+    </svg>
+  );
+}
+
+/** Speaker wave icon (playing) */
+function SpeakerWaveIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 9.75L19.5 12m0 0l2.25 2.25M19.5 12l2.25-2.25M19.5 12l-2.25 2.25m-10.5-6l4.72-4.72a.75.75 0 011.28.531V19.94a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z" />
+    </svg>
   );
 }
 

@@ -87,7 +87,14 @@
     "suggestedQuestions": "Suggested Questions",
     "poweredBy": "Powered by AI",
     "welcome": "Welcome! I am your heritage guide. Ask me about any historical site in Makkah or Madinah.",
-    "send": "Send"
+    "send": "Send",
+    "voiceStart": "Speak",
+    "voiceStop": "Stop",
+    "voiceListening": "Listening...",
+    "voiceProcessing": "Processing...",
+    "voiceNotAvailable": "Voice input not available in this browser",
+    "listenToResponse": "Listen",
+    "stopListening": "Stop listening"
   },
   "scan": {
     "title": "Scan QR Code",

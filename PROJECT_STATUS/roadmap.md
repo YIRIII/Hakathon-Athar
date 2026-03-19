@@ -1,6 +1,6 @@
 # Roadmap — Athar (أثر) Interactive Heritage Discovery Platform
 **Generated from:** idea-forge/athar-heritage-platform | **Research Tier:** B (Partial)
-**Last Updated:** 2026-03-19 | **Next:** 5.1
+**Last Updated:** 2026-03-19 | **Next:** 5.6
 
 ## Phase 0: Project Foundation 🚧
 - [x] **0.1:** Initialize Next.js 14+ project with App Router, TypeScript, Tailwind CSS → [plan](docs/planning/phase-0-foundation.md)
@@ -92,14 +92,14 @@
 - [ ] **4.12:** Certificate background picker (Haram, Mina, etc.) → [plan](docs/planning/phase-4-passport-social.md)
 - [ ] **4.13:** Certificate mini-map with visited place photos → [plan](docs/planning/phase-4-passport-social.md)
 
-## Phase 5: Voice AI Heritage Guide
-- [ ] **5.1:** Deepgram Nova-3 STT integration (Arabic + English) → [plan](docs/planning/phase-5-voice-ai.md)
-- [ ] **5.2:** Azure Neural TTS setup (Arabic + English voices) → [plan](docs/planning/phase-5-voice-ai.md)
-- [ ] **5.3:** Voice input UI — microphone button, waveform feedback → [plan](docs/planning/phase-5-voice-ai.md)
-- [ ] **5.4:** SSML pronunciation guide for Islamic terminology → [plan](docs/planning/phase-5-voice-ai.md)
-- [ ] **5.5:** Connect voice pipeline to chatbot (STT → RAG → TTS) → [plan](docs/planning/phase-5-voice-ai.md)
+## Phase 5: Voice AI Heritage Guide 🚧
+- [x] **5.1:** Deepgram Nova-3 STT integration (Arabic + English) → [plan](docs/planning/phase-5-voice-ai.md)
+- [x] **5.2:** Azure Neural TTS setup (Arabic + English voices) → [plan](docs/planning/phase-5-voice-ai.md)
+- [x] **5.3:** Voice input UI — microphone button, waveform feedback → [plan](docs/planning/phase-5-voice-ai.md)
+- [x] **5.4:** SSML pronunciation guide for Islamic terminology → [plan](docs/planning/phase-5-voice-ai.md)
+- [x] **5.5:** Connect voice pipeline to chatbot (STT → RAG → TTS) → [plan](docs/planning/phase-5-voice-ai.md)
 - [ ] **5.6:** End-to-end latency optimization (<5s target) → [plan](docs/planning/phase-5-voice-ai.md)
-- [ ] **5.7:** Graceful fallback to text chat → [plan](docs/planning/phase-5-voice-ai.md)
+- [x] **5.7:** Graceful fallback to text chat → [plan](docs/planning/phase-5-voice-ai.md)
 - [ ] **5.8:** Cross-browser compatibility testing → [plan](docs/planning/phase-5-voice-ai.md)
 
 ## Phase 6: Supporting Systems & Infrastructure
