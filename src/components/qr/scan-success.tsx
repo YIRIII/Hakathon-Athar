@@ -6,7 +6,6 @@ import { Link } from '@/i18n/routing';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import type { HeritageSite } from '@/data/sites';
-import { stamps } from '@/data/stamps';
 
 interface ScanSuccessProps {
   site: HeritageSite;
@@ -18,9 +17,26 @@ export default function ScanSuccess({ site, onNavigate }: ScanSuccessProps) {
   const t = useTranslations('scan');
   const locale = useLocale();
   const [phase, setPhase] = useState<'ripple' | 'reveal' | 'ready'>('ripple');
+  const [alreadyHadStamp, setAlreadyHadStamp] = useState(false);
+  const [stampProcessed, setStampProcessed] = useState(false);
 
-  const stamp = stamps.find((s) => s.siteId === site.id);
-  const hasStamp = stamp?.earned ?? false;
+  // Earn stamp via Dexie on mount
+  useEffect(() => {
+    let cancelled = false;
+    async function processStamp() {
+      if (typeof window === 'undefined') return;
+      const { hasStamp, earnStamp } = await import('@/lib/stamp-db');
+      const had = await hasStamp(site.id);
+      if (cancelled) return;
+      setAlreadyHadStamp(had);
+      if (!had) {
+        await earnStamp(site.id);
+      }
+      setStampProcessed(true);
+    }
+    processStamp();
+    return () => { cancelled = true; };
+  }, [site.id]);
 
   // Auto-navigate after animation
   useEffect(() => {
@@ -89,7 +105,7 @@ export default function ScanSuccess({ site, onNavigate }: ScanSuccessProps) {
         </p>
 
         {/* Stamp earned badge */}
-        {!hasStamp && (
+        {stampProcessed && !alreadyHadStamp && (
           <div className="mb-4 flex items-center justify-center gap-2">
             <svg
               className="size-5 text-primary animate-bounce"
@@ -104,7 +120,7 @@ export default function ScanSuccess({ site, onNavigate }: ScanSuccessProps) {
           </div>
         )}
 
-        {hasStamp && (
+        {stampProcessed && alreadyHadStamp && (
           <p className="mb-4 text-sm text-muted-foreground">
             {t('alreadyVisited')}
           </p>

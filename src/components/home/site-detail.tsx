@@ -9,6 +9,8 @@ import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { ImageGallery } from '@/components/home/image-gallery';
 import { NearbySites } from '@/components/home/nearby-sites';
+import { ShareButton } from '@/components/social/share-button';
+import { buildShareUrl } from '@/lib/referral';
 import { MapPinIcon, QrCodeIcon, ClockIcon, AccessibilityIcon } from 'lucide-react';
 
 const typeColorMap: Record<string, string> = {
@@ -177,6 +179,15 @@ export function SiteDetail({ site }: SiteDetailProps) {
                 <QrCodeIcon className="size-4" />
                 {t('common.scanQR')}
               </Button>
+              <ShareButton
+                title={name}
+                text={`${name} — ${brief}`}
+                url={buildShareUrl(`/${locale}/sites/${site.id}`, { medium: 'site' })}
+                siteId={site.id}
+                shareType="site"
+                size="lg"
+                className="gap-2 bg-card/80 backdrop-blur-sm"
+              />
             </div>
           </div>
 

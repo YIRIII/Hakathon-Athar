@@ -78,7 +78,8 @@
     "certificateDate": "Date of Visit",
     "comingSoon": "Coming soon!",
     "stampCollection": "Stamp Collection",
-    "certificatePreview": "Certificate Preview"
+    "certificatePreview": "Certificate Preview",
+    "downloadCertificate": "Download"
   },
   "chat": {
     "title": "Heritage Guide",
@@ -170,6 +171,15 @@
     "totalQRCodes": "Total QR Codes",
     "sitesCount": "Sites",
     "noResults": "No QR codes match your filters"
+  },
+  "share": {
+    "share": "Share",
+    "shareVia": "Share via",
+    "shareSite": "Share this site",
+    "shareCertificate": "Share Certificate",
+    "copyLink": "Copy Link",
+    "copied": "Copied!",
+    "shareSuccess": "Shared successfully"
   },
   "consent": {
     "title": "Privacy Notice",

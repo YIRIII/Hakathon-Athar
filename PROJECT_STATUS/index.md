@@ -8,7 +8,7 @@
 - [Phase 0.1: Frontend Prototype (No Backend)](docs/planning/phase-0.1-frontend-prototype.md) — COMPLETE
 - [Phase 1: Smart Map & Heritage Content](docs/planning/phase-1-map-heritage-content.md) — planned
 - [Phase 2: QR Code System](docs/planning/phase-2-qr-system.md) — COMPLETE
-- [Phase 3: AI Heritage Chatbot](docs/planning/phase-3-ai-chatbot.md) — planned
+- [Phase 3: AI Heritage Chatbot](docs/planning/phase-3-ai-chatbot.md) — COMPLETE
 - [Phase 4: Heritage Passport & Social Sharing](docs/planning/phase-4-passport-social.md) — planned
 - [Phase 5: Voice AI Heritage Guide](docs/planning/phase-5-voice-ai.md) — planned
 - [Phase 6: Supporting Systems & Infrastructure](docs/planning/phase-6-supporting-systems.md) — planned

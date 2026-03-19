@@ -1,3 +1,8 @@
+import 'dotenv/config';
+// Load .env.local manually since tsx doesn't auto-load it
+import { config } from 'dotenv';
+config({ path: '.env.local' });
+
 /**
  * Heritage Knowledge Base Ingestion Script
  *

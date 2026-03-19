@@ -78,7 +78,8 @@
     "certificateDate": "تاريخ الزيارة",
     "comingSoon": "قريبًا!",
     "stampCollection": "مجموعة الطوابع",
-    "certificatePreview": "معاينة الشهادة"
+    "certificatePreview": "معاينة الشهادة",
+    "downloadCertificate": "تحميل الشهادة"
   },
   "chat": {
     "title": "المساعد التراثي",
@@ -170,6 +171,15 @@
     "totalQRCodes": "إجمالي رموز QR",
     "sitesCount": "عدد المواقع",
     "noResults": "لا توجد رموز QR تطابق عوامل التصفية"
+  },
+  "share": {
+    "share": "مشاركة",
+    "shareVia": "مشاركة عبر",
+    "shareSite": "مشاركة هذا الموقع",
+    "shareCertificate": "مشاركة الشهادة",
+    "copyLink": "نسخ الرابط",
+    "copied": "تم النسخ!",
+    "shareSuccess": "تمت المشاركة بنجاح"
   },
   "consent": {
     "title": "إشعار الخصوصية",

@@ -44,6 +44,8 @@ $0 cash
 - [ ] **4.11:** Print-ready certificate — add print button with CSS @media print styling, proper A4/letter layout
 - [ ] **4.12:** Certificate background picker — let user choose background image (Haram, Mina, Quba, etc.) for their certificate
 - [ ] **4.13:** Certificate mini-map with visited places — embed a small static map showing visited site markers with thumbnail photos of each visited site
+- [ ] **4.14:** Certificate template system — multiple certificate styles/templates the user can choose from (classic, modern, ornate Islamic geometric, minimalist). Each template has different layout, typography, and decorative elements
+- [ ] **4.15:** Certificate background gallery — user picks from a gallery of heritage site images as certificate background (images from places they've visited). Includes blur/overlay options for readability
 
 ## Key Decisions (from research)
 - Dexie.js over raw IndexedDB — cleaner API, better query support, reliable offline-first pattern

@@ -1,6 +1,6 @@
 # Roadmap — Athar (أثر) Interactive Heritage Discovery Platform
 **Generated from:** idea-forge/athar-heritage-platform | **Research Tier:** B (Partial)
-**Last Updated:** 2026-03-19 | **Next:** 4.1
+**Last Updated:** 2026-03-19 | **Next:** 5.1
 
 ## Phase 0: Project Foundation 🚧
 - [x] **0.1:** Initialize Next.js 14+ project with App Router, TypeScript, Tailwind CSS → [plan](docs/planning/phase-0-foundation.md)
@@ -77,17 +77,17 @@
 - [ ] **3.8:** Langfuse LLM tracing setup → [plan](docs/planning/phase-3-ai-chatbot.md)
 - [x] **3.9:** Contextual awareness — chatbot knows current site → [plan](docs/planning/phase-3-ai-chatbot.md)
 
-## Phase 4: Heritage Passport & Social Sharing
-- [ ] **4.1:** Dexie.js offline stamp collection schema → [plan](docs/planning/phase-4-passport-social.md)
-- [ ] **4.2:** Stamp earning logic — QR scan + 30s time-at-site → [plan](docs/planning/phase-4-passport-social.md)
-- [ ] **4.3:** Heritage passport UI — visual stamp collection page → [plan](docs/planning/phase-4-passport-social.md)
-- [ ] **4.4:** Supabase sync for stamps (offline-first) → [plan](docs/planning/phase-4-passport-social.md)
-- [ ] **4.5:** Certificate generation with Canvas API (1080x1920) → [plan](docs/planning/phase-4-passport-social.md)
+## Phase 4: Heritage Passport & Social Sharing 🚧
+- [x] **4.1:** Dexie.js offline stamp collection schema → [plan](docs/planning/phase-4-passport-social.md)
+- [x] **4.2:** Stamp earning logic — QR scan + 30s time-at-site → [plan](docs/planning/phase-4-passport-social.md)
+- [x] **4.3:** Heritage passport UI — visual stamp collection page → [plan](docs/planning/phase-4-passport-social.md)
+- [x] **4.4:** Supabase sync for stamps (offline-first) → [plan](docs/planning/phase-4-passport-social.md)
+- [x] **4.5:** Certificate generation with Canvas API (1080x1920) → [plan](docs/planning/phase-4-passport-social.md)
 - [ ] **4.6:** html-to-image fallback for complex certificates → [plan](docs/planning/phase-4-passport-social.md)
-- [ ] **4.7:** One-tap social sharing (Web Share API + react-share) → [plan](docs/planning/phase-4-passport-social.md)
-- [ ] **4.8:** @vercel/og Open Graph preview images → [plan](docs/planning/phase-4-passport-social.md)
-- [ ] **4.9:** Referral tracking system with UTM + bonus stamp → [plan](docs/planning/phase-4-passport-social.md)
-- [ ] **4.10:** Share analytics tracking → [plan](docs/planning/phase-4-passport-social.md)
+- [x] **4.7:** One-tap social sharing (Web Share API + react-share) → [plan](docs/planning/phase-4-passport-social.md)
+- [x] **4.8:** @vercel/og Open Graph preview images → [plan](docs/planning/phase-4-passport-social.md)
+- [x] **4.9:** Referral tracking system with UTM + bonus stamp → [plan](docs/planning/phase-4-passport-social.md)
+- [x] **4.10:** Share analytics tracking → [plan](docs/planning/phase-4-passport-social.md)
 - [ ] **4.11:** Print-ready certificate with CSS @media print → [plan](docs/planning/phase-4-passport-social.md)
 - [ ] **4.12:** Certificate background picker (Haram, Mina, etc.) → [plan](docs/planning/phase-4-passport-social.md)
 - [ ] **4.13:** Certificate mini-map with visited place photos → [plan](docs/planning/phase-4-passport-social.md)
