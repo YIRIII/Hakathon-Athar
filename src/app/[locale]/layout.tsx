@@ -8,6 +8,7 @@ import { routing } from '@/i18n/routing';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { ConsentBanner } from '@/components/consent-banner';
+import Script from 'next/script';
 import "../globals.css";
 
 const geistSans = Geist({
@@ -50,6 +51,16 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale} dir={dir}>
+      <head>
+        {/* Umami Analytics — cookie-less, PDPL compliant */}
+        {process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID && (
+          <Script
+            src={process.env.NEXT_PUBLIC_UMAMI_URL || 'https://cloud.umami.is/script.js'}
+            data-website-id={process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID}
+            strategy="afterInteractive"
+          />
+        )}
+      </head>
       <body
         className={`${fontClass} ${geistMono.variable} antialiased ${locale === 'ar' ? 'font-[family-name:var(--font-ibm-plex-arabic)]' : 'font-[family-name:var(--font-geist-sans)]'}`}
       >

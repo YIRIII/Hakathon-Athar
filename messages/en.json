@@ -188,6 +188,22 @@
     "copied": "Copied!",
     "shareSuccess": "Shared successfully"
   },
+  "admin": {
+    "analyticsTitle": "Analytics Dashboard",
+    "analyticsDescription": "Platform performance overview",
+    "totalScans": "Total QR Scans",
+    "chatMessages": "Chat Messages",
+    "stampsEarned": "Stamps Earned",
+    "certificatesShared": "Certificates Shared",
+    "activeUsers": "Active Users",
+    "voiceChats": "Voice Chats",
+    "directionsOpened": "Directions Opened",
+    "avgEngagement": "Avg. Engagement",
+    "topSites": "Most Visited Sites",
+    "siteName": "Site",
+    "qrScans": "QR Scans",
+    "chatSessions": "Chat Sessions"
+  },
   "consent": {
     "title": "Privacy Notice",
     "message": "We use your location to show nearby sites. Your data is protected under the Saudi Personal Data Protection Law (PDPL).",

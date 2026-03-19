@@ -11,7 +11,9 @@ import { ImageGallery } from '@/components/home/image-gallery';
 import { NearbySites } from '@/components/home/nearby-sites';
 import { ShareButton } from '@/components/social/share-button';
 import { buildShareUrl } from '@/lib/referral';
-import { MapPinIcon, QrCodeIcon, ClockIcon, AccessibilityIcon } from 'lucide-react';
+import { MapPinIcon, QrCodeIcon, ClockIcon, AccessibilityIcon, NavigationIcon } from 'lucide-react';
+import { openDirections } from '@/lib/navigation';
+import { Link } from '@/i18n/routing';
 
 const typeColorMap: Record<string, string> = {
   religious: 'bg-accent text-accent-foreground',
@@ -63,8 +65,13 @@ export function SiteDetail({ site }: SiteDetailProps) {
 
   const bgGradient = typeBgGradientMap[site.type] ?? typeBgGradientMap.religious;
 
-  function handleComingSoon() {
-    alert(t('common.comingSoon'));
+  function handleGetDirections() {
+    openDirections({
+      lat: site.coordinates.lat,
+      lng: site.coordinates.lng,
+      name: isAr ? site.name_ar : site.name_en,
+      mode: 'walking',
+    });
   }
 
   return (
@@ -171,14 +178,16 @@ export function SiteDetail({ site }: SiteDetailProps) {
 
             {/* Action Buttons */}
             <div className="flex flex-wrap gap-3">
-              <Button size="lg" onClick={handleComingSoon} className="gap-2">
-                <MapPinIcon className="size-4" />
+              <Button size="lg" onClick={handleGetDirections} className="gap-2">
+                <NavigationIcon className="size-4" />
                 {t('common.getDirections')}
               </Button>
-              <Button size="lg" variant="outline" onClick={handleComingSoon} className="gap-2 bg-card/80 backdrop-blur-sm">
-                <QrCodeIcon className="size-4" />
-                {t('common.scanQR')}
-              </Button>
+              <Link href="/scan">
+                <Button size="lg" variant="outline" className="gap-2 bg-card/80 backdrop-blur-sm">
+                  <QrCodeIcon className="size-4" />
+                  {t('common.scanQR')}
+                </Button>
+              </Link>
               <ShareButton
                 title={name}
                 text={`${name} — ${brief}`}

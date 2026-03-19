@@ -188,6 +188,22 @@
     "copied": "تم النسخ!",
     "shareSuccess": "تمت المشاركة بنجاح"
   },
+  "admin": {
+    "analyticsTitle": "لوحة التحليلات",
+    "analyticsDescription": "نظرة عامة على أداء المنصة",
+    "totalScans": "إجمالي عمليات المسح",
+    "chatMessages": "رسائل المحادثة",
+    "stampsEarned": "طوابع مكتسبة",
+    "certificatesShared": "شهادات مُشاركة",
+    "activeUsers": "المستخدمون النشطون",
+    "voiceChats": "محادثات صوتية",
+    "directionsOpened": "طلبات الاتجاهات",
+    "avgEngagement": "متوسط التفاعل",
+    "topSites": "أكثر المواقع زيارة",
+    "siteName": "الموقع",
+    "qrScans": "مسح QR",
+    "chatSessions": "جلسات المحادثة"
+  },
   "consent": {
     "title": "إشعار الخصوصية",
     "message": "نستخدم موقعك الجغرافي لعرض المواقع القريبة منك. بياناتك محمية وفقاً لنظام حماية البيانات الشخصية.",

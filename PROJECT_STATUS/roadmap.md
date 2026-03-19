@@ -1,6 +1,6 @@
 # Roadmap — Athar (أثر) Interactive Heritage Discovery Platform
 **Generated from:** idea-forge/athar-heritage-platform | **Research Tier:** B (Partial)
-**Last Updated:** 2026-03-19 | **Next:** 5.6
+**Last Updated:** 2026-03-19 | **Next:** 6.6
 
 ## Phase 0: Project Foundation 🚧
 - [x] **0.1:** Initialize Next.js 14+ project with App Router, TypeScript, Tailwind CSS → [plan](docs/planning/phase-0-foundation.md)
@@ -102,12 +102,12 @@
 - [x] **5.7:** Graceful fallback to text chat → [plan](docs/planning/phase-5-voice-ai.md)
 - [ ] **5.8:** Cross-browser compatibility testing → [plan](docs/planning/phase-5-voice-ai.md)
 
-## Phase 6: Supporting Systems & Infrastructure
-- [ ] **6.1:** Sentry error tracking setup → [plan](docs/planning/phase-6-supporting-systems.md)
-- [ ] **6.2:** Langfuse LLM tracing configuration → [plan](docs/planning/phase-6-supporting-systems.md)
-- [ ] **6.3:** Umami analytics setup (cookie-less, PDPL compliant) → [plan](docs/planning/phase-6-supporting-systems.md)
-- [ ] **6.4:** Analytics dashboard page → [plan](docs/planning/phase-6-supporting-systems.md)
-- [ ] **6.5:** Navigation integration — platform-aware deep links → [plan](docs/planning/phase-6-supporting-systems.md)
+## Phase 6: Supporting Systems & Infrastructure 🚧
+- [x] **6.1:** Sentry error tracking setup → [plan](docs/planning/phase-6-supporting-systems.md)
+- [x] **6.2:** Langfuse LLM tracing configuration → [plan](docs/planning/phase-6-supporting-systems.md)
+- [x] **6.3:** Umami analytics setup (cookie-less, PDPL compliant) → [plan](docs/planning/phase-6-supporting-systems.md)
+- [x] **6.4:** Analytics dashboard page → [plan](docs/planning/phase-6-supporting-systems.md)
+- [x] **6.5:** Navigation integration — platform-aware deep links → [plan](docs/planning/phase-6-supporting-systems.md)
 - [ ] **6.6:** Firebase Cloud Messaging setup → [plan](docs/planning/phase-6-supporting-systems.md)
 - [ ] **6.7:** Notification types — nearby alerts, new content, challenges → [plan](docs/planning/phase-6-supporting-systems.md)
 - [ ] **6.8:** Notification preferences page (PDPL consent) → [plan](docs/planning/phase-6-supporting-systems.md)
