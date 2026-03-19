@@ -10,9 +10,12 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { ImageGallery } from '@/components/home/image-gallery';
 import { NearbySites } from '@/components/home/nearby-sites';
 import { ShareButton } from '@/components/social/share-button';
+import { SiteChatWidget } from '@/components/home/site-chat-widget';
+import { Storyteller } from '@/components/home/storyteller';
+import { AnimateOnScroll } from '@/components/ui/animate-on-scroll';
 import { buildShareUrl } from '@/lib/referral';
 import Image from 'next/image';
-import { MapPinIcon, QrCodeIcon, ClockIcon, AccessibilityIcon, NavigationIcon } from 'lucide-react';
+import { MapPinIcon, QrCodeIcon, ClockIcon, AccessibilityIcon, NavigationIcon, ExternalLinkIcon, ImageIcon } from 'lucide-react';
 import { openDirections } from '@/lib/navigation';
 import { Link } from '@/i18n/routing';
 
@@ -21,29 +24,6 @@ const typeColorMap: Record<string, string> = {
   archaeological: 'bg-primary text-primary-foreground',
   cultural: 'bg-secondary text-secondary-foreground',
   museum: 'bg-muted text-muted-foreground',
-};
-
-/**
- * Atmospheric CSS gradient backgrounds per site type.
- * Light mode uses warm, subtle tones; dark mode uses deeper versions.
- */
-const typeBgGradientMap: Record<string, { light: string; dark: string }> = {
-  religious: {
-    light: 'linear-gradient(135deg, #C8A45C 0%, #E8D5B7 40%, #F5EDE0 70%)',
-    dark: 'linear-gradient(135deg, #5C4A28 0%, #3D3020 40%, #1A1410 70%)',
-  },
-  archaeological: {
-    light: 'linear-gradient(135deg, #D4B896 0%, #E8D5B7 35%, #F0E6D4 65%)',
-    dark: 'linear-gradient(135deg, #4A3728 0%, #3D3020 35%, #1A1410 65%)',
-  },
-  cultural: {
-    light: 'linear-gradient(135deg, #2D6A4F 0%, #6FCF97 30%, #E6F4EA 60%)',
-    dark: 'linear-gradient(135deg, #1A3D2F 0%, #2D4A3F 30%, #1A1410 60%)',
-  },
-  museum: {
-    light: 'linear-gradient(135deg, #6B5744 0%, #B8956A 35%, #EDE3D3 65%)',
-    dark: 'linear-gradient(135deg, #2C2218 0%, #4A3728 35%, #1A1410 65%)',
-  },
 };
 
 // Gradient for hero
@@ -64,7 +44,7 @@ export function SiteDetail({ site }: SiteDetailProps) {
   const hours = isAr ? site.hours_ar : site.hours;
   const accessibility = isAr ? site.accessibility_ar : site.accessibility;
 
-  const bgGradient = typeBgGradientMap[site.type] ?? typeBgGradientMap.religious;
+  const imageCount = site.images.filter((img) => img.startsWith('http')).length;
 
   function handleGetDirections() {
     openDirections({
@@ -77,23 +57,26 @@ export function SiteDetail({ site }: SiteDetailProps) {
 
   return (
     <div className="relative min-h-screen">
-      {/* Atmospheric background — light mode */}
-      <div
-        className="pointer-events-none fixed inset-0 -z-10 opacity-30 dark:opacity-0"
-        style={{ background: bgGradient.light }}
-        aria-hidden="true"
-      />
-      {/* Atmospheric background — dark mode */}
-      <div
-        className="pointer-events-none fixed inset-0 -z-10 opacity-0 dark:opacity-40"
-        style={{ background: bgGradient.dark }}
-        aria-hidden="true"
-      />
-      {/* Fade-out overlay: transparent at top, solid background at bottom */}
-      <div
-        className="pointer-events-none fixed inset-0 -z-10 bg-gradient-to-b from-transparent via-transparent to-background"
-        aria-hidden="true"
-      />
+      {/* Blurred site image background — absolute inside the container so it's above body bg */}
+      {site.images[0]?.startsWith('http') && (
+        <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+          <div
+            style={{
+              position: 'absolute',
+              inset: '-40px',
+              backgroundImage: `url(${site.images[0]})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              filter: 'blur(70px) saturate(1.3)',
+              opacity: 0.35,
+            }}
+          />
+          {/* Dark mode dimming */}
+          <div className="absolute inset-0 bg-black opacity-0 dark:opacity-50" />
+          {/* Fade to background at bottom */}
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/40 to-background" />
+        </div>
+      )}
 
       <div className="mx-auto max-w-6xl px-4 pb-16 sm:px-6">
         {/* Hero Section */}
@@ -119,96 +102,152 @@ export function SiteDetail({ site }: SiteDetailProps) {
         </section>
 
         {/* Badges */}
-        <div className="mb-6 flex flex-wrap items-center gap-2">
-          <Badge className={typeColorMap[site.type]}>
-            {t(`sites.${site.type}`)}
-          </Badge>
-          <Badge variant="outline">
-            {t(`sites.${site.city}`)}
-          </Badge>
-        </div>
+        <AnimateOnScroll variant="fade-in">
+          <div className="mb-6 flex flex-wrap items-center gap-2">
+            <Badge className={typeColorMap[site.type]}>
+              {t(`sites.${site.type}`)}
+            </Badge>
+            <Badge variant="outline">
+              {t(`sites.${site.city}`)}
+            </Badge>
+          </div>
+        </AnimateOnScroll>
 
         {/* Main layout: content + sidebar */}
         <div className="grid gap-8 lg:grid-cols-[1fr_300px]">
           {/* Left column — main content */}
           <div className="min-w-0 space-y-8">
-            {/* Image Gallery */}
-            <ImageGallery siteName={name} images={site.images} />
-
-            {/* Narrative Tabs */}
-            <div className="rounded-lg bg-card/80 p-4 backdrop-blur-sm sm:p-6">
-              <Tabs defaultValue={0}>
-                <TabsList>
-                  <TabsTrigger value={0}>{t('sites.brief')}</TabsTrigger>
-                  <TabsTrigger value={1}>{t('sites.fullStory')}</TabsTrigger>
-                </TabsList>
-                <TabsContent value={0} className="mt-4">
-                  <p className="leading-relaxed text-foreground/90">
-                    {brief}
-                  </p>
-                </TabsContent>
-                <TabsContent value={1} className="mt-4">
-                  <div className="space-y-4">
-                    {full.split('\n\n').map((paragraph, idx) => (
-                      <p key={idx} className="leading-relaxed text-foreground/90">
-                        {paragraph}
-                      </p>
-                    ))}
+            {/* Image Gallery with count badge */}
+            <AnimateOnScroll variant="fade-up">
+              <div className="relative">
+                {imageCount > 0 && (
+                  <div className="mb-3 flex items-center gap-1.5 text-sm text-muted-foreground">
+                    <ImageIcon className="size-4" />
+                    <span>
+                      {imageCount} {isAr ? 'صور' : 'photos'}
+                    </span>
                   </div>
-                </TabsContent>
-              </Tabs>
-            </div>
+                )}
+                <ImageGallery siteName={name} images={site.images} />
+              </div>
+            </AnimateOnScroll>
+
+            {/* Narrative Tabs — with gradient border at top */}
+            <AnimateOnScroll variant="fade-up" delay={0.1}>
+              <div className="overflow-hidden rounded-lg border border-transparent bg-card/80 backdrop-blur-sm transition-all hover:border-primary/10">
+                {/* Gradient top border */}
+                <div className="h-0.5 w-full bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
+                <div className="p-4 sm:p-6">
+                  <Tabs defaultValue={0}>
+                    <TabsList>
+                      <TabsTrigger value={0}>{t('sites.brief')}</TabsTrigger>
+                      <TabsTrigger value={1}>{t('sites.fullStory')}</TabsTrigger>
+                    </TabsList>
+                    <TabsContent value={0} className="mt-4">
+                      <p className="leading-relaxed text-foreground/90">
+                        {brief}
+                      </p>
+                    </TabsContent>
+                    <TabsContent value={1} className="mt-4">
+                      <div className="space-y-4">
+                        {full.split('\n\n').map((paragraph, idx) => (
+                          <p key={idx} className="leading-relaxed text-foreground/90">
+                            {paragraph}
+                          </p>
+                        ))}
+                      </div>
+                    </TabsContent>
+                  </Tabs>
+                </div>
+              </div>
+            </AnimateOnScroll>
 
             {/* Visitor Info Card */}
-            <Card className="bg-card/80 backdrop-blur-sm">
-              <CardHeader>
-                <CardTitle>{t('sites.visitorInfo')}</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex items-start gap-3">
-                  <ClockIcon className="mt-0.5 size-5 shrink-0 text-primary" />
-                  <div>
-                    <p className="text-sm font-medium text-foreground">
-                      {t('sites.hours')}
-                    </p>
-                    <p className="text-sm text-muted-foreground">{hours}</p>
+            <AnimateOnScroll variant="fade-up" delay={0.2}>
+              <Card className="border border-transparent bg-card/80 backdrop-blur-sm transition-all hover:border-primary/10">
+                <CardHeader>
+                  <CardTitle>{t('sites.visitorInfo')}</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="flex items-start gap-3">
+                    <ClockIcon className="mt-0.5 size-5 shrink-0 text-primary" />
+                    <div>
+                      <p className="text-sm font-medium text-foreground">
+                        {t('sites.hours')}
+                      </p>
+                      <p className="text-sm text-muted-foreground">{hours}</p>
+                    </div>
                   </div>
-                </div>
-                <Separator />
-                <div className="flex items-start gap-3">
-                  <AccessibilityIcon className="mt-0.5 size-5 shrink-0 text-primary" />
-                  <div>
-                    <p className="text-sm font-medium text-foreground">
-                      {t('sites.accessibility')}
-                    </p>
-                    <p className="text-sm text-muted-foreground">{accessibility}</p>
+                  <Separator />
+                  <div className="flex items-start gap-3">
+                    <AccessibilityIcon className="mt-0.5 size-5 shrink-0 text-primary" />
+                    <div>
+                      <p className="text-sm font-medium text-foreground">
+                        {t('sites.accessibility')}
+                      </p>
+                      <p className="text-sm text-muted-foreground">{accessibility}</p>
+                    </div>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            </AnimateOnScroll>
+
+            {/* Official References */}
+            {site.externalLinks.length > 0 && (
+              <AnimateOnScroll variant="fade-up" delay={0.3}>
+                <Card className="border border-transparent bg-card/80 backdrop-blur-sm transition-all hover:border-primary/10">
+                  <CardHeader>
+                    <CardTitle>{t('sites.officialReferences')}</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    {site.externalLinks.map((link, idx) => (
+                      <a
+                        key={idx}
+                        href={link.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 rounded-lg border border-primary/10 bg-primary/5 px-4 py-3 text-sm font-medium text-foreground transition-all hover:border-primary/30 hover:bg-primary/10"
+                      >
+                        <ExternalLinkIcon className="size-4 shrink-0 text-primary" />
+                        {isAr ? link.label_ar : link.label_en}
+                      </a>
+                    ))}
+                  </CardContent>
+                </Card>
+              </AnimateOnScroll>
+            )}
+
+            {/* Divider above action buttons */}
+            <div className="mx-auto h-px w-full bg-gradient-to-r from-transparent via-border to-transparent" />
 
             {/* Action Buttons */}
-            <div className="flex flex-wrap gap-3">
-              <Button size="lg" onClick={handleGetDirections} className="gap-2">
-                <NavigationIcon className="size-4" />
-                {t('common.getDirections')}
-              </Button>
-              <Link href="/scan">
-                <Button size="lg" variant="outline" className="gap-2 bg-card/80 backdrop-blur-sm">
-                  <QrCodeIcon className="size-4" />
-                  {t('common.scanQR')}
+            <AnimateOnScroll variant="fade-up" delay={0.4}>
+              <div className="flex flex-wrap gap-3">
+                <Button size="lg" onClick={handleGetDirections} className="gap-2">
+                  <NavigationIcon className="size-4" />
+                  {t('common.getDirections')}
                 </Button>
-              </Link>
-              <ShareButton
-                title={name}
-                text={`${name} — ${brief}`}
-                url={buildShareUrl(`/${locale}/sites/${site.id}`, { medium: 'site' })}
-                siteId={site.id}
-                shareType="site"
-                size="lg"
-                className="gap-2 bg-card/80 backdrop-blur-sm"
-              />
-            </div>
+                <Link href="/scan">
+                  <Button size="lg" variant="outline" className="gap-2 bg-card/80 backdrop-blur-sm">
+                    <QrCodeIcon className="size-4" />
+                    {t('common.scanQR')}
+                  </Button>
+                </Link>
+                <Storyteller
+                  siteId={site.id}
+                  siteName={isAr ? site.name_ar : site.name_en}
+                />
+                <ShareButton
+                  title={name}
+                  text={`${name} — ${brief}`}
+                  url={buildShareUrl(`/${locale}/sites/${site.id}`, { medium: 'site' })}
+                  siteId={site.id}
+                  shareType="site"
+                  size="lg"
+                  className="gap-2 bg-card/80 backdrop-blur-sm"
+                />
+              </div>
+            </AnimateOnScroll>
           </div>
 
           {/* Right column — sidebar */}
@@ -217,6 +256,9 @@ export function SiteDetail({ site }: SiteDetailProps) {
           </aside>
         </div>
       </div>
+
+      {/* Floating Chat Widget */}
+      <SiteChatWidget siteId={site.id} />
     </div>
   );
 }

@@ -62,7 +62,11 @@
     "visitorInfo": "معلومات الزائر",
     "nearbySites": "مواقع قريبة",
     "hours": "ساعات العمل",
-    "accessibility": "إمكانية الوصول"
+    "accessibility": "إمكانية الوصول",
+    "officialReferences": "مراجع رسمية",
+    "storyteller": "اسمع القصة",
+    "storytellerTitle": "قصة الموقع",
+    "listenToStory": "استمع للقصة"
   },
   "passport": {
     "title": "جواز التراث",
@@ -81,7 +85,13 @@
     "comingSoon": "قريبًا!",
     "stampCollection": "مجموعة الطوابع",
     "certificatePreview": "معاينة الشهادة",
-    "downloadCertificate": "تحميل الشهادة"
+    "downloadCertificate": "تحميل الشهادة",
+    "chooseTemplate": "اختر قالب الشهادة",
+    "templateClassic": "كلاسيكي",
+    "templateMakkah": "مكة المكرمة",
+    "templateMadinah": "المدينة المنورة",
+    "templateModern": "عصري",
+    "enterName": "أدخل اسمك"
   },
   "chat": {
     "title": "المساعد التراثي",
@@ -96,7 +106,8 @@
     "voiceProcessing": "جارٍ التحويل...",
     "voiceNotAvailable": "التحدث غير متاح في هذا المتصفح",
     "listenToResponse": "استمع",
-    "stopListening": "أوقف الاستماع"
+    "stopListening": "أوقف الاستماع",
+    "askAboutSite": "اسأل عن هذا الموقع"
   },
   "scan": {
     "title": "مسح رمز QR",

@@ -125,7 +125,50 @@
   }
   html {
     @apply font-sans;
+    scroll-behavior: smooth;
   }
+  ::selection {
+    background: oklch(0.72 0.1 75 / 0.2);
+  }
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-ring;
+  }
+}
+
+/* ── Gold shimmer text animation ── */
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.text-shimmer {
+  background-image: linear-gradient(
+    110deg,
+    rgba(255,255,255,0) 0%,
+    rgba(255,255,255,0) 35%,
+    rgba(200,164,92,0.4) 50%,
+    rgba(255,255,255,0) 65%,
+    rgba(255,255,255,0) 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: shimmer 4s linear infinite;
+}
+
+/* ── Glass card utility ── */
+.glass-card {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+}
+
+.dark .glass-card {
+  background: rgba(0, 0, 0, 0.2);
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
 }
 
 /* ── QR Scanner animations ── */
@@ -156,6 +199,17 @@
   animation: scan-ripple 1.8s ease-out 0.8s infinite;
 }
 
+/* ── Leaflet card markers ── */
+.heritage-card-marker {
+  background: none !important;
+  border: none !important;
+}
+
+.heritage-card-marker:hover > div > div:first-child {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3) !important;
+}
+
 /* ── Leaflet popup heritage theme ── */
 .leaflet-popup-content-wrapper {
   border-radius: 12px !important;
@@ -166,8 +220,10 @@
 }
 
 .leaflet-popup-content {
-  margin: 14px 16px !important;
+  margin: 0 !important;
+  padding: 0 !important;
   font-family: inherit !important;
+  min-width: 280px;
 }
 
 .leaflet-popup-tip {

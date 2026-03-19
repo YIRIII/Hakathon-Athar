@@ -19,15 +19,17 @@ const gradients = [
   'from-accent/50 to-primary/30',
   'from-secondary to-primary/40',
   'from-primary/40 to-secondary',
+  'from-accent/40 to-secondary',
+  'from-secondary/60 to-accent/30',
 ];
 
 export function ImageGallery({ siteName, images }: ImageGalleryProps) {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [failedImages, setFailedImages] = useState<Set<number>>(new Set());
 
-  // Ensure we have at least 4 slots
-  const slots = images.length >= 4 ? images : [...images, ...Array(4 - images.length).fill('')];
-  const displaySlots = slots.slice(0, 4);
+  // Ensure we have at least 6 slots
+  const slots = images.length >= 6 ? images : [...images, ...Array(6 - images.length).fill('')];
+  const displaySlots = slots.slice(0, 6);
 
   const isExternal = (url: string) => url.startsWith('http');
 
@@ -75,19 +77,19 @@ export function ImageGallery({ siteName, images }: ImageGalleryProps) {
 
   return (
     <>
-      {/* Grid: 1 large + 3 small */}
-      <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 sm:grid-rows-2">
+      {/* Grid: 1 large (2 cols x 2 rows) + 5 small */}
+      <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 sm:grid-rows-2">
         {/* Large image */}
         <button
           type="button"
           onClick={() => setSelectedIndex(0)}
-          className="col-span-2 row-span-2 group relative aspect-[4/3] overflow-hidden rounded-xl focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+          className="col-span-2 row-span-2 sm:col-span-1 group relative aspect-[4/3] overflow-hidden rounded-xl focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
         >
           {renderImage(displaySlots[0], 0)}
         </button>
 
         {/* Smaller images */}
-        {displaySlots.slice(1, 4).map((url, idx) => (
+        {displaySlots.slice(1, 6).map((url, idx) => (
           <button
             key={idx + 1}
             type="button"

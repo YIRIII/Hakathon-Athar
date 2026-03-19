@@ -62,7 +62,11 @@
     "visitorInfo": "Visitor Info",
     "nearbySites": "Nearby Sites",
     "hours": "Opening Hours",
-    "accessibility": "Accessibility"
+    "accessibility": "Accessibility",
+    "officialReferences": "Official References",
+    "storyteller": "Hear the Story",
+    "storytellerTitle": "Site Story",
+    "listenToStory": "Listen to Story"
   },
   "passport": {
     "title": "Heritage Passport",
@@ -81,7 +85,13 @@
     "comingSoon": "Coming soon!",
     "stampCollection": "Stamp Collection",
     "certificatePreview": "Certificate Preview",
-    "downloadCertificate": "Download"
+    "downloadCertificate": "Download",
+    "chooseTemplate": "Choose Certificate Template",
+    "templateClassic": "Classic",
+    "templateMakkah": "Makkah",
+    "templateMadinah": "Madinah",
+    "templateModern": "Modern",
+    "enterName": "Enter your name"
   },
   "chat": {
     "title": "Heritage Guide",
@@ -96,7 +106,8 @@
     "voiceProcessing": "Processing...",
     "voiceNotAvailable": "Voice input not available in this browser",
     "listenToResponse": "Listen",
-    "stopListening": "Stop listening"
+    "stopListening": "Stop listening",
+    "askAboutSite": "Ask about this site"
   },
   "scan": {
     "title": "Scan QR Code",

@@ -3,6 +3,8 @@
 import { useTranslations, useLocale } from 'next-intl';
 import Image from 'next/image';
 import { Link } from '@/i18n/routing';
+import { AnimateOnScroll } from '@/components/ui/animate-on-scroll';
+import { IslamicDivider } from '@/components/ui/islamic-divider';
 
 interface TimelineEvent {
   year_ar: string;
@@ -87,19 +89,17 @@ export function HeritageTimeline() {
     <section className="relative overflow-hidden bg-muted/30 py-16 md:py-24">
       <div className="mx-auto max-w-5xl px-6">
         {/* Section heading */}
-        <div className="mb-16 text-center">
-          <h2 className="text-3xl font-bold text-foreground md:text-4xl">
-            {t('timelineTitle')}
-          </h2>
-          <p className="mx-auto mt-3 max-w-lg text-muted-foreground">
-            {t('timelineSubtitle')}
-          </p>
-          <div className="mx-auto mt-4 flex items-center justify-center gap-3" aria-hidden="true">
-            <span className="h-px w-10 bg-primary/30" />
-            <span className="size-1.5 rotate-45 bg-primary/50" />
-            <span className="h-px w-10 bg-primary/30" />
+        <AnimateOnScroll variant="fade-up">
+          <div className="mb-16 text-center">
+            <h2 className="text-3xl font-bold text-foreground md:text-4xl">
+              {t('timelineTitle')}
+            </h2>
+            <p className="mx-auto mt-3 max-w-lg text-muted-foreground">
+              {t('timelineSubtitle')}
+            </p>
+            <IslamicDivider className="mt-4" />
           </div>
-        </div>
+        </AnimateOnScroll>
 
         {/* Timeline */}
         <div className="relative">
@@ -123,41 +123,45 @@ export function HeritageTimeline() {
 
                   {/* Content */}
                   <div className={`ms-10 w-full md:ms-0 md:w-[calc(50%-2rem)] ${isEven ? 'md:me-auto md:pe-8' : 'md:ms-auto md:ps-8'}`}>
-                    <div className="group rounded-xl bg-card p-4 shadow-sm ring-1 ring-foreground/5 transition-all duration-300 hover:shadow-md hover:ring-primary/20">
-                      {/* Year badge */}
-                      <div className="mb-3 inline-block rounded-full bg-primary/10 px-3 py-1 text-xs font-bold text-primary">
-                        {isAr ? event.year_ar : event.year_en}
-                      </div>
+                    <AnimateOnScroll variant={isEven ? 'slide-left' : 'slide-right'} delay={idx * 0.1}>
+                      <div className="group rounded-xl border border-transparent bg-card/80 p-4 shadow-sm backdrop-blur-sm ring-1 ring-foreground/5 transition-all duration-300 hover:border-primary/20 hover:shadow-md hover:ring-primary/20">
+                        {/* Year badge */}
+                        <div className="mb-3 inline-block rounded-full bg-primary/10 px-3 py-1 text-xs font-bold text-primary">
+                          {isAr ? event.year_ar : event.year_en}
+                        </div>
 
-                      {/* Image */}
-                      <div className="relative mb-3 aspect-[16/9] overflow-hidden rounded-lg">
-                        <Image
-                          src={event.image}
-                          alt={isAr ? event.title_ar : event.title_en}
-                          fill
-                          className="object-cover transition-transform duration-500 group-hover:scale-105"
-                          sizes="(max-width: 768px) 100vw, 40vw"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-                      </div>
-
-                      <h3 className="mb-1.5 text-base font-bold text-foreground">
-                        {isAr ? event.title_ar : event.title_en}
-                      </h3>
-                      <p className="text-sm leading-relaxed text-muted-foreground">
-                        {isAr ? event.description_ar : event.description_en}
-                      </p>
-
-                      {event.siteId && (
-                        <Link
-                          href={`/sites/${event.siteId}`}
-                          className="mt-3 inline-flex items-center gap-1 text-xs font-medium text-primary transition-colors hover:text-primary/80"
-                        >
-                          {isAr ? 'اكتشف الموقع' : 'Explore site'}
-                          <span aria-hidden="true">&rarr;</span>
+                        {/* Clickable Image */}
+                        <Link href={event.siteId ? `/sites/${event.siteId}` : '#'} className="block">
+                          <div className="relative mb-3 aspect-[16/9] overflow-hidden rounded-lg">
+                            <Image
+                              src={event.image}
+                              alt={isAr ? event.title_ar : event.title_en}
+                              fill
+                              className="object-cover transition-transform duration-500 group-hover:scale-105"
+                              sizes="(max-width: 768px) 100vw, 40vw"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+                          </div>
                         </Link>
-                      )}
-                    </div>
+
+                        <h3 className="mb-1.5 text-base font-bold text-foreground">
+                          {isAr ? event.title_ar : event.title_en}
+                        </h3>
+                        <p className="text-sm leading-relaxed text-muted-foreground">
+                          {isAr ? event.description_ar : event.description_en}
+                        </p>
+
+                        {event.siteId && (
+                          <Link
+                            href={`/sites/${event.siteId}`}
+                            className="mt-3 inline-flex items-center gap-1 text-xs font-medium text-primary transition-colors hover:text-primary/80"
+                          >
+                            {isAr ? 'اكتشف الموقع' : 'Explore site'}
+                            <span aria-hidden="true">&rarr;</span>
+                          </Link>
+                        )}
+                      </div>
+                    </AnimateOnScroll>
                   </div>
                 </div>
               );

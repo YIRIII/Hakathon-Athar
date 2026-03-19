@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import {
   Dialog,
@@ -13,7 +14,46 @@ import {
   DialogDescription,
 } from '@/components/ui/dialog';
 import { sites } from '@/data/sites';
+import { stamps as demoStampsData } from '@/data/stamps';
 import type { StampRecord } from '@/lib/stamp-db';
+import type { CertificateTemplate } from '@/lib/certificate-generator';
+
+const TEMPLATES: {
+  key: CertificateTemplate;
+  bg: string;
+  accent: string;
+  textColor: string;
+  label_ar: string;
+}[] = [
+  {
+    key: 'classic',
+    bg: 'linear-gradient(135deg, #1a3a2a 0%, #0f2b1e 50%, #1a3a2a 100%)',
+    accent: '#C8A45C',
+    textColor: '#FFFFFF',
+    label_ar: 'كلاسيكي',
+  },
+  {
+    key: 'makkah',
+    bg: 'linear-gradient(135deg, #3D2B1A 0%, #2A1D10 50%, #3D2B1A 100%)',
+    accent: '#DAA520',
+    textColor: '#FFF8E7',
+    label_ar: 'مكة المكرمة',
+  },
+  {
+    key: 'madinah',
+    bg: 'linear-gradient(135deg, #0D1B2A 0%, #091420 50%, #0D1B2A 100%)',
+    accent: '#C0C0C0',
+    textColor: '#E8E8E8',
+    label_ar: 'المدينة المنورة',
+  },
+  {
+    key: 'modern',
+    bg: 'linear-gradient(135deg, #FAFAFA 0%, #F5F0E8 50%, #FAFAFA 100%)',
+    accent: '#C8A45C',
+    textColor: '#1A1410',
+    label_ar: 'عصري',
+  },
+];
 
 export default function PassportPage() {
   const t = useTranslations('passport');
@@ -22,20 +62,39 @@ export default function PassportPage() {
   const [earnedStamps, setEarnedStamps] = useState<StampRecord[]>([]);
   const [loading, setLoading] = useState(true);
   const [certificateDialogOpen, setCertificateDialogOpen] = useState(false);
-  const [certificateSiteId, setCertificateSiteId] = useState<string | null>(
-    null
-  );
+  const [certificateSiteId, setCertificateSiteId] = useState<string | null>(null);
   const [certificateBlob, setCertificateBlob] = useState<Blob | null>(null);
   const [certificateUrl, setCertificateUrl] = useState<string | null>(null);
   const [generating, setGenerating] = useState(false);
 
-  // Load stamps from Dexie
+  // Template picker state
+  const [showTemplatePicker, setShowTemplatePicker] = useState(false);
+  const [selectedTemplate, setSelectedTemplate] = useState<CertificateTemplate>('classic');
+  const [visitorName, setVisitorName] = useState('');
+  const [pendingSiteId, setPendingSiteId] = useState<string | null>(null);
+
+  // Load stamps from Dexie, pre-seeding demo stamps if DB is empty
   useEffect(() => {
     if (typeof window === 'undefined') return;
     let cancelled = false;
     async function load() {
-      const { getEarnedStamps } = await import('@/lib/stamp-db');
-      const stamps = await getEarnedStamps();
+      const { getEarnedStamps, stampDb } = await import('@/lib/stamp-db');
+      let stamps = await getEarnedStamps();
+
+      // Pre-seed demo stamps on first visit so the certificate feature is discoverable
+      if (stamps.length === 0) {
+        const demoSeeds = demoStampsData.filter((s) => s.earned && s.earnedAt);
+        for (const seed of demoSeeds) {
+          await stampDb.stamps.put({
+            siteId: seed.siteId,
+            earnedAt: seed.earnedAt!,
+            qrScanned: true,
+            synced: false,
+          });
+        }
+        stamps = await getEarnedStamps();
+      }
+
       if (!cancelled) {
         setEarnedStamps(stamps);
         setLoading(false);
@@ -76,9 +135,19 @@ export default function PassportPage() {
     };
   }, [certificateUrl]);
 
+  // Show template picker first
+  const handleRequestCertificate = (siteId: string) => {
+    setPendingSiteId(siteId);
+    setSelectedTemplate('classic');
+    setVisitorName('');
+    setShowTemplatePicker(true);
+  };
+
   const handleGenerateCertificate = useCallback(
-    async (siteId: string) => {
-      setCertificateSiteId(siteId);
+    async () => {
+      if (!pendingSiteId) return;
+      setShowTemplatePicker(false);
+      setCertificateSiteId(pendingSiteId);
       setCertificateDialogOpen(true);
       setGenerating(true);
       setCertificateBlob(null);
@@ -86,19 +155,20 @@ export default function PassportPage() {
       setCertificateUrl(null);
 
       try {
-        const site = sites.find((s) => s.id === siteId);
-        const stamp = earnedStamps.find((s) => s.siteId === siteId);
+        const site = sites.find((s) => s.id === pendingSiteId);
+        const stamp = earnedStamps.find((s) => s.siteId === pendingSiteId);
         if (!site || !stamp) return;
 
         const { generateCertificate } = await import(
           '@/lib/certificate-generator'
         );
+        const name = visitorName.trim() || (locale === 'ar' ? 'مستكشف التراث' : 'Heritage Explorer');
         const blob = await generateCertificate({
-          visitorName:
-            locale === 'ar' ? 'مستكشف التراث' : 'Heritage Explorer',
+          visitorName: name,
           siteName: locale === 'ar' ? site.name_ar : site.name_en,
           date: formatDate(stamp.earnedAt),
           locale: locale as 'ar' | 'en',
+          template: selectedTemplate,
         });
 
         setCertificateBlob(blob);
@@ -109,7 +179,7 @@ export default function PassportPage() {
         setGenerating(false);
       }
     },
-    [earnedStamps, locale, certificateUrl, formatDate]
+    [earnedStamps, locale, certificateUrl, formatDate, pendingSiteId, selectedTemplate, visitorName]
   );
 
   const handleDownloadCertificate = useCallback(() => {
@@ -244,7 +314,7 @@ export default function PassportPage() {
                         variant="outline"
                         size="sm"
                         className="mt-1 h-7 text-[10px]"
-                        onClick={() => handleGenerateCertificate(site.id)}
+                        onClick={() => handleRequestCertificate(site.id)}
                       >
                         {t('viewCertificate')}
                       </Button>
@@ -261,7 +331,108 @@ export default function PassportPage() {
         </div>
       )}
 
-      {/* Certificate Dialog */}
+      {/* Template Picker Dialog */}
+      <Dialog open={showTemplatePicker} onOpenChange={setShowTemplatePicker}>
+        <DialogContent className="sm:max-w-lg">
+          <DialogHeader>
+            <DialogTitle>{t('chooseTemplate')}</DialogTitle>
+            <DialogDescription>
+              {pendingSiteId && (() => {
+                const s = sites.find((x) => x.id === pendingSiteId);
+                return s ? (locale === 'ar' ? s.name_ar : s.name_en) : '';
+              })()}
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="space-y-4">
+            {/* Name input */}
+            <div>
+              <label className="mb-1.5 block text-sm font-medium text-foreground">
+                {t('enterName')}
+              </label>
+              <Input
+                value={visitorName}
+                onChange={(e) => setVisitorName(e.target.value)}
+                placeholder={locale === 'ar' ? 'مستكشف التراث' : 'Heritage Explorer'}
+              />
+            </div>
+
+            {/* Template grid */}
+            <div className="grid grid-cols-2 gap-3">
+              {TEMPLATES.map((tmpl) => {
+                const isSelected = selectedTemplate === tmpl.key;
+                return (
+                  <button
+                    key={tmpl.key}
+                    type="button"
+                    onClick={() => setSelectedTemplate(tmpl.key)}
+                    className={`group relative overflow-hidden rounded-xl border-2 p-3 text-center transition-all ${
+                      isSelected
+                        ? 'border-transparent shadow-lg scale-[1.02]'
+                        : 'border-border hover:border-primary/30 hover:shadow-md'
+                    }`}
+                    style={isSelected ? { boxShadow: `0 0 0 3px ${tmpl.accent}40, 0 4px 20px ${tmpl.accent}30` } : undefined}
+                  >
+                    {/* Mini certificate preview */}
+                    <div
+                      className="relative mx-auto mb-2.5 flex h-24 w-[4.5rem] flex-col items-center justify-between overflow-hidden rounded-lg p-2 shadow-sm transition-transform group-hover:scale-105"
+                      style={{ background: tmpl.bg }}
+                    >
+                      {/* Top ornament line */}
+                      <div
+                        className="h-px w-8 rounded-full opacity-60"
+                        style={{ backgroundColor: tmpl.accent }}
+                      />
+                      {/* Star icon */}
+                      <svg
+                        className="size-5 opacity-80"
+                        viewBox="0 0 24 24"
+                        fill={tmpl.accent}
+                      >
+                        <path d="M12 2l2.09 4.26L19 7.27l-3.5 3.41.82 4.82L12 13.4l-4.32 2.1.82-4.82L5 7.27l4.91-.71L12 2z" />
+                      </svg>
+                      {/* Fake text lines */}
+                      <div className="flex w-full flex-col items-center gap-0.5">
+                        <div className="h-[2px] w-8 rounded-full" style={{ backgroundColor: tmpl.accent, opacity: 0.7 }} />
+                        <div className="h-[2px] w-6 rounded-full" style={{ backgroundColor: tmpl.textColor, opacity: 0.5 }} />
+                        <div className="h-[2px] w-10 rounded-full" style={{ backgroundColor: tmpl.textColor, opacity: 0.4 }} />
+                      </div>
+                      {/* Bottom ornament line */}
+                      <div
+                        className="h-px w-6 rounded-full opacity-40"
+                        style={{ backgroundColor: tmpl.accent }}
+                      />
+                    </div>
+
+                    {/* Template name */}
+                    <p className={`text-xs font-semibold transition-colors ${isSelected ? 'text-foreground' : 'text-muted-foreground group-hover:text-foreground'}`}>
+                      {t(`template${tmpl.key.charAt(0).toUpperCase() + tmpl.key.slice(1)}` as any)}
+                    </p>
+
+                    {/* Selected check badge */}
+                    {isSelected && (
+                      <div
+                        className="absolute end-1.5 top-1.5 flex size-5 items-center justify-center rounded-full"
+                        style={{ backgroundColor: tmpl.accent }}
+                      >
+                        <svg className="size-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                        </svg>
+                      </div>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+
+            <Button className="w-full" onClick={handleGenerateCertificate}>
+              {t('downloadCertificate')}
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Certificate Preview Dialog */}
       <Dialog
         open={certificateDialogOpen}
         onOpenChange={setCertificateDialogOpen}
