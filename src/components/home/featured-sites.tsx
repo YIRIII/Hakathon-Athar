@@ -1,6 +1,7 @@
 'use client';
 
 import { useTranslations, useLocale } from 'next-intl';
+import Image from 'next/image';
 import { Link } from '@/i18n/routing';
 import { sites } from '@/data/sites';
 import {
@@ -56,19 +57,33 @@ export function FeaturedSites() {
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {featured.map((site) => (
             <Link key={site.id} href={`/sites/${site.id}`} className="group block">
-              <Card className="h-full transition-shadow duration-200 group-hover:ring-primary/30 group-hover:shadow-md">
-                <CardHeader>
-                  <div className="flex flex-wrap items-center gap-2">
-                    <Badge
-                      className={typeColorMap[site.type]}
-                    >
+              <Card className="h-full overflow-hidden transition-all duration-300 group-hover:ring-1 group-hover:ring-primary/30 group-hover:shadow-lg">
+                {/* Image */}
+                <div className="relative aspect-[16/9] overflow-hidden">
+                  {site.images[0]?.startsWith('http') ? (
+                    <Image
+                      src={site.images[0]}
+                      alt={isAr ? site.name_ar : site.name_en}
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-110"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    />
+                  ) : (
+                    <div className="absolute inset-0 bg-gradient-to-br from-primary/60 to-accent/40" />
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                  <div className="absolute bottom-3 start-3 flex flex-wrap gap-1.5">
+                    <Badge className={`${typeColorMap[site.type]} text-[10px] shadow-sm`}>
                       {t(`sites.${site.type}`)}
                     </Badge>
-                    <Badge variant="outline">
+                    <Badge variant="outline" className="border-white/30 bg-black/30 text-[10px] text-white backdrop-blur-sm">
                       {t(`sites.${site.city}`)}
                     </Badge>
                   </div>
-                  <CardTitle className="mt-2 text-lg leading-snug">
+                </div>
+
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-lg leading-snug">
                     {isAr ? site.name_ar : site.name_en}
                   </CardTitle>
                 </CardHeader>

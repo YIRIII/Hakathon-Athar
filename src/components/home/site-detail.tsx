@@ -11,6 +11,7 @@ import { ImageGallery } from '@/components/home/image-gallery';
 import { NearbySites } from '@/components/home/nearby-sites';
 import { ShareButton } from '@/components/social/share-button';
 import { buildShareUrl } from '@/lib/referral';
+import Image from 'next/image';
 import { MapPinIcon, QrCodeIcon, ClockIcon, AccessibilityIcon, NavigationIcon } from 'lucide-react';
 import { openDirections } from '@/lib/navigation';
 import { Link } from '@/i18n/routing';
@@ -97,7 +98,17 @@ export function SiteDetail({ site }: SiteDetailProps) {
       <div className="mx-auto max-w-6xl px-4 pb-16 sm:px-6">
         {/* Hero Section */}
         <section className="relative -mx-4 mb-8 overflow-hidden sm:-mx-6 md:mx-0 md:rounded-2xl">
-          <div className={`aspect-[21/9] w-full bg-gradient-to-br ${heroGradient}`}>
+          <div className={`relative aspect-[21/9] w-full bg-gradient-to-br ${heroGradient}`}>
+            {site.images[0]?.startsWith('http') && (
+              <Image
+                src={site.images[0]}
+                alt={name}
+                fill
+                className="object-cover"
+                sizes="100vw"
+                priority
+              />
+            )}
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
             <div className="absolute inset-x-0 bottom-0 p-6 sm:p-8">
               <h1 className="text-2xl font-bold text-white sm:text-3xl md:text-4xl">
