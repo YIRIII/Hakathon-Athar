@@ -11,6 +11,7 @@ import {
   SheetTitle,
 } from '@/components/ui/sheet';
 import { MenuIcon } from 'lucide-react';
+import { useState } from 'react';
 import { LocaleToggle } from './locale-toggle';
 import { ThemeToggle } from './theme-toggle';
 import { cn } from '@/lib/utils';
@@ -25,13 +26,14 @@ const navItems = [
 export function Header() {
   const t = useTranslations('common');
   const pathname = usePathname();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
     <header className="fixed inset-x-0 top-0 z-[1000] w-full border-b border-border/50 bg-background/80 backdrop-blur-md supports-backdrop-filter:bg-background/60">
       <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 sm:px-6">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2">
-          <span className="text-xl font-bold text-primary">
+        <Link href="/" className="flex min-h-[44px] min-w-[44px] items-center justify-center gap-2 px-1">
+          <span className="text-2xl font-bold text-primary md:text-3xl">
             أثر
           </span>
         </Link>
@@ -64,7 +66,7 @@ export function Header() {
 
           {/* Mobile hamburger */}
           <div className="md:hidden">
-            <Sheet>
+            <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
               <SheetTrigger
                 className="inline-flex size-9 items-center justify-center rounded-md text-sm font-medium text-foreground hover:bg-muted"
                 aria-label={t('navigation')}
@@ -79,7 +81,7 @@ export function Header() {
                   {navItems.map((item) => {
                     const isActive = pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href));
                     return (
-                      <Link key={item.href} href={item.href}>
+                      <Link key={item.href} href={item.href} onClick={() => setMobileMenuOpen(false)}>
                         <Button
                           variant="ghost"
                           size="default"

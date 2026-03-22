@@ -118,9 +118,9 @@ export function ChatInterface({ siteId }: ChatInterfaceProps) {
   const showWelcome = messages.length === 0;
 
   return (
-    <div className="flex h-full flex-col">
+    <div className="flex h-full flex-col overflow-hidden" style={{ overscrollBehavior: 'contain' }}>
       {/* Messages area */}
-      <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-4">
+      <div ref={scrollRef} className="flex-1 overflow-y-auto overscroll-contain px-4 py-4">
         {showWelcome ? (
           <div className="flex h-full flex-col items-center justify-center gap-6 py-12">
             {/* Welcome icon */}
@@ -270,7 +270,7 @@ export function ChatInterface({ siteId }: ChatInterfaceProps) {
       )}
 
       {/* Input area */}
-      <div className="border-t bg-background p-4">
+      <div className="border-t bg-background p-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
         <form
           onSubmit={onSubmit}
           className="mx-auto flex max-w-2xl items-center gap-2"

@@ -7,7 +7,7 @@ export default function ChatPage() {
   const t = useTranslations('chat');
 
   return (
-    <div className="flex h-[calc(100vh-8rem)] flex-col">
+    <div className="flex h-[calc(100dvh-3.5rem)] flex-col overflow-hidden">
       {/* Header */}
       <div className="border-b px-4 py-3">
         <div className="mx-auto flex max-w-2xl items-center gap-3">

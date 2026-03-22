@@ -17,7 +17,7 @@ import { Filter } from 'lucide-react';
 import { haversineKm } from '@/lib/geo';
 import type { MapViewHandle } from './map-view';
 
-const NEAR_ME_RADIUS_KM = 2;
+const NEAR_ME_RADIUS_KM = 15;
 
 const MapView = dynamic(() => import('./map-view'), {
   ssr: false,
@@ -63,6 +63,7 @@ export function HeritageMap({ focusSiteId }: HeritageMapProps = {}) {
   // Map ref for flyTo
   const mapRef = useRef<MapViewHandle | null>(null);
   const [selectedSiteId, setSelectedSiteId] = useState<string | null>(null);
+  const [filterSheetOpen, setFilterSheetOpen] = useState(false);
 
   const filteredSites = useMemo(() => {
     return allSites.filter((site) => {
@@ -146,6 +147,7 @@ export function HeritageMap({ focusSiteId }: HeritageMapProps = {}) {
   const handleSiteClick = useCallback((site: HeritageSite) => {
     mapRef.current?.flyToSite(site.coordinates);
     setSelectedSiteId(site.id);
+    setFilterSheetOpen(false);
   }, []);
 
   // Auto-focus on a site when arriving from featured sites link
@@ -198,7 +200,7 @@ export function HeritageMap({ focusSiteId }: HeritageMapProps = {}) {
 
         {/* Mobile floating filter button */}
         <div className="absolute start-4 top-4 z-[999] md:hidden">
-          <Sheet>
+          <Sheet open={filterSheetOpen} onOpenChange={setFilterSheetOpen}>
             <SheetTrigger className="inline-flex items-center justify-center gap-1.5 rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground shadow-lg hover:bg-primary/90">
                 <Filter className="size-4" />
                 {tMap('filters')}

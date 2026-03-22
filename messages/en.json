@@ -17,6 +17,9 @@
     "settings": "Settings",
     "privacy": "Privacy Policy",
     "about": "About Athar",
+    "termsOfUse": "Terms of Use",
+    "contact": "Contact",
+    "features": "Features",
     "navigation": "Menu",
     "heritageCommission": "Heritage Commission",
     "copyright": "All rights reserved",
@@ -47,7 +50,13 @@
     "stats": {
       "sites": "Heritage Sites",
       "visitors": "Visitors",
-      "stories": "Heritage Stories"
+      "stories": "Heritage Stories",
+      "exploreTitle": "Explore",
+      "exploreDesc": "Discover heritage sites on an interactive map with smart filters and GPS navigation",
+      "collectTitle": "Collect",
+      "collectDesc": "Earn digital stamps and certificates for every heritage site you visit",
+      "learnTitle": "Learn",
+      "learnDesc": "Ask our AI heritage guide about the history and culture of sacred sites"
     }
   },
   "sites": {
@@ -171,7 +180,7 @@
     "gpsDenied": "Location access was denied. Please enable GPS in your browser settings to use the Near Me feature.",
     "gpsError": "Unable to determine your location. Please try again.",
     "nearMeOff": "Clear Near Me",
-    "noNearbySites": "No heritage sites within 2 km of your location",
+    "noNearbySites": "No heritage sites within 15 km of your location",
     "showAll": "Show All Sites",
     "youAreHere": "You are here"
   },
@@ -216,6 +225,22 @@
     "siteName": "Site",
     "qrScans": "QR Scans",
     "chatSessions": "Chat Sessions"
+  },
+  "about": {
+    "title": "About Athar",
+    "mission": "Our Mission",
+    "missionText": "Athar is an interactive digital platform that transforms the experience of exploring historical and heritage sites in Makkah and Madinah. We connect visitors with the rich history and culture of the two holy cities through smart maps, AI-powered guides, and digital heritage passports.",
+    "vision": "Our Vision",
+    "visionText": "To become the leading digital companion for heritage discovery in the Kingdom of Saudi Arabia, making cultural heritage accessible, engaging, and memorable for every visitor.",
+    "whatWeDo": "What We Do",
+    "feature1Title": "Interactive Heritage Maps",
+    "feature1Desc": "Explore heritage sites with smart filters, GPS navigation, and detailed site information at your fingertips.",
+    "feature2Title": "AI Heritage Guide",
+    "feature2Desc": "Ask our AI-powered guide about the history, stories, and significance of any heritage site in Makkah and Madinah.",
+    "feature3Title": "Digital Heritage Passport",
+    "feature3Desc": "Collect digital stamps, earn visit certificates, and build your personal heritage journey record.",
+    "feature4Title": "QR-Powered Discovery",
+    "feature4Desc": "Scan QR codes at heritage sites to instantly access rich stories, visitor information, and earn your digital stamp."
   },
   "consent": {
     "title": "Privacy Notice",

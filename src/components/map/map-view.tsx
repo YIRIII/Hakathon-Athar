@@ -140,6 +140,8 @@ const MapView = forwardRef<MapViewHandle, MapViewProps>(
         wheelDebounceTime={80}
         // Keep popup inside map viewport
         closePopupOnClick={true}
+        // Mobile: disable Leaflet's tap handler to prevent ghost clicks and touch conflicts
+        {...({ tap: false } as any)}
       >
         <MapController onMapReady={handleMapReady} />
 
