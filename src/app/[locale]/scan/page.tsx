@@ -1,8 +1,10 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import { useTranslations, useLocale } from 'next-intl';
+import { toast } from 'sonner';
+import confetti from 'canvas-confetti';
 import { Button } from '@/components/ui/button';
 import { sites } from '@/data/sites';
 import { parseAtharQR } from '@/lib/qr-parser';
@@ -36,6 +38,17 @@ export default function ScanPage() {
         if (site) {
           setScannedSite(site);
           setScanState('success');
+          // Celebration!
+          confetti({
+            particleCount: 100,
+            spread: 70,
+            origin: { y: 0.6 },
+            colors: ['#C8A45C', '#1a3a2a', '#DAA520', '#FFFFFF'],
+          });
+          toast.success(
+            locale === 'ar' ? `تم جمع طابع ${site.name_ar}!` : `Stamp collected: ${site.name_en}!`,
+            { duration: 4000 }
+          );
           return;
         }
       }
@@ -54,6 +67,16 @@ export default function ScanPage() {
     setTimeout(() => {
       setScannedSite(randomSite);
       setScanState('success');
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 },
+        colors: ['#C8A45C', '#1a3a2a', '#DAA520', '#FFFFFF'],
+      });
+      toast.success(
+        locale === 'ar' ? `تم جمع طابع ${randomSite.name_ar}!` : `Stamp collected: ${randomSite.name_en}!`,
+        { duration: 4000 }
+      );
     }, 1500);
   };
 

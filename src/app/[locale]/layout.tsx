@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { IBM_Plex_Sans_Arabic } from "next/font/google";
 import { NextIntlClientProvider } from 'next-intl';
@@ -8,6 +8,8 @@ import { routing } from '@/i18n/routing';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { ConsentBanner } from '@/components/consent-banner';
+import { ScrollToTop } from '@/components/ui/scroll-to-top';
+import { Toaster } from 'sonner';
 import Script from 'next/script';
 import "../globals.css";
 
@@ -26,6 +28,13 @@ const ibmPlexArabic = IBM_Plex_Sans_Arabic({
   subsets: ["arabic", "latin"],
   weight: ["400", "500", "600", "700"],
 });
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  viewportFit: 'cover',
+};
 
 export const metadata: Metadata = {
   title: "أثر — Athar Heritage Platform",
@@ -67,12 +76,21 @@ export default async function LocaleLayout({
         <NextIntlClientProvider messages={messages}>
           <div className="flex min-h-screen flex-col">
             <Header />
-            <main className="flex-1">
+            <main className="flex-1 pt-14">
               {children}
             </main>
             <Footer />
           </div>
           <ConsentBanner />
+          <ScrollToTop />
+          <Toaster
+            position={dir === 'rtl' ? 'top-left' : 'top-right'}
+            dir={dir}
+            richColors
+            toastOptions={{
+              className: locale === 'ar' ? 'font-[family-name:var(--font-ibm-plex-arabic)]' : '',
+            }}
+          />
         </NextIntlClientProvider>
       </body>
     </html>

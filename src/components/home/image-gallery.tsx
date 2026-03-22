@@ -57,7 +57,7 @@ export function ImageGallery({ siteName, images }: ImageGalleryProps) {
           alt={`${siteName} - ${index + 1}`}
           fill={fill ?? true}
           className="object-cover transition-transform duration-300 group-hover:scale-105"
-          sizes={index === 0 ? '(max-width: 640px) 100vw, 50vw' : '(max-width: 640px) 50vw, 25vw'}
+          sizes="(max-width: 640px) 50vw, 33vw"
           onError={() => handleImageError(index)}
         />
       );
@@ -77,26 +77,16 @@ export function ImageGallery({ siteName, images }: ImageGalleryProps) {
 
   return (
     <>
-      {/* Grid: 1 large (2 cols x 2 rows) + 5 small */}
-      <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 sm:grid-rows-2">
-        {/* Large image */}
-        <button
-          type="button"
-          onClick={() => setSelectedIndex(0)}
-          className="col-span-2 row-span-2 sm:col-span-1 group relative aspect-[4/3] overflow-hidden rounded-xl focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
-        >
-          {renderImage(displaySlots[0], 0)}
-        </button>
-
-        {/* Smaller images */}
-        {displaySlots.slice(1, 6).map((url, idx) => (
+      {/* Uniform 3x2 grid */}
+      <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+        {displaySlots.map((url, idx) => (
           <button
-            key={idx + 1}
+            key={idx}
             type="button"
-            onClick={() => setSelectedIndex(idx + 1)}
+            onClick={() => setSelectedIndex(idx)}
             className="group relative aspect-[4/3] overflow-hidden rounded-xl focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
           >
-            {renderImage(url, idx + 1)}
+            {renderImage(url, idx)}
           </button>
         ))}
       </div>
@@ -119,8 +109,13 @@ export function ImageGallery({ siteName, images }: ImageGalleryProps) {
                     onClick={() => setSelectedIndex(idx)}
                     className={`relative size-14 overflow-hidden rounded-md transition-opacity ${selectedIndex === idx ? 'ring-2 ring-primary opacity-100' : 'opacity-60 hover:opacity-80'}`}
                   >
-                    {url && isExternal(url) && !failedImages.has(idx) ? (
-                      <Image src={url} alt="" fill className="object-cover" sizes="56px" />
+                    {url && !failedImages.has(idx) ? (
+                      isExternal(url) ? (
+                        <Image src={url} alt="" fill className="object-cover" sizes="56px" />
+                      ) : (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img src={url} alt="" className="absolute inset-0 size-full object-cover" />
+                      )
                     ) : (
                       <div className={`absolute inset-0 bg-gradient-to-br ${gradients[idx % gradients.length]}`} />
                     )}

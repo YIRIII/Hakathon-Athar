@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Idea Forge — New Idea Intake</title>
+  <style>
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --surface-hover: #222632;
+      --border: #2e3344;
+      --border-focus: #6c63ff;
+      --text: #e4e4e7;
+      --text-muted: #9496a1;
+      --accent: #6c63ff;
+      --accent-hover: #7b73ff;
+      --danger: #ef4444;
+      --success: #22c55e;
+      --tag-bg: #2e3344;
+      --tag-text: #c4c6d0;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    header h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 0.375rem;
+      letter-spacing: -0.025em;
+    }
+
+    header h1 span { color: var(--accent); }
+
+    header p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    .pipeline {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 1rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .pipeline .step {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      font-weight: 500;
+    }
+
+    .pipeline .step.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    .pipeline .arrow { color: var(--border); }
+
+    .section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .section-title {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+
+    .section-subtitle {
+      font-size: 0.825rem;
+      color: var(--text-muted);
+      margin-bottom: 1.25rem;
+    }
+
+    label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 500;
+      margin-bottom: 0.375rem;
+      color: var(--text);
+    }
+
+    label .required {
+      color: var(--danger);
+      margin-left: 2px;
+    }
+
+    label .hint {
+      font-weight: 400;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+    }
+
+    .field {
+      margin-bottom: 1.25rem;
+    }
+
+    .field:last-child {
+      margin-bottom: 0;
+    }
+
+    input[type="text"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 0.625rem 0.875rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 0.9rem;
+      font-family: inherit;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    input[type="text"]:focus,
+    textarea:focus,
+    select:focus {
+      outline: none;
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.15);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    textarea.short { min-height: 64px; }
+
+    select {
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%239496a1' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0.75rem center;
+      padding-right: 2rem;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .tags-input {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      padding: 0.5rem 0.75rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      min-height: 42px;
+      cursor: text;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .tags-input:focus-within {
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.15);
+    }
+
+    .tags-input .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.375rem;
+      background: var(--tag-bg);
+      color: var(--tag-text);
+      padding: 0.2rem 0.6rem;
+      border-radius: 6px;
+      font-size: 0.825rem;
+    }
+
+    .tags-input .tag button {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 1rem;
+      line-height: 1;
+      padding: 0;
+    }
+
+    .tags-input .tag button:hover { color: var(--danger); }
+
+    .tags-input input {
+      flex: 1;
+      min-width: 100px;
+      border: none;
+      background: none;
+      color: var(--text);
+      font-size: 0.875rem;
+      outline: none;
+      padding: 0.125rem 0;
+    }
+
+    .char-count {
+      text-align: right;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+
+    .char-count.warn { color: var(--danger); }
+
+    .actions {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+    }
+
+    button {
+      padding: 0.7rem 1.5rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    button:active { transform: scale(0.98); }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      flex: 1;
+    }
+
+    .btn-primary:hover { background: var(--accent-hover); }
+    .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .btn-secondary {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+
+    .btn-secondary:hover { background: var(--surface-hover); }
+
+    .output-section {
+      display: none;
+      margin-top: 2rem;
+    }
+
+    .output-section.visible { display: block; }
+
+    .output-box {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      position: relative;
+    }
+
+    .output-box pre {
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      font-size: 0.85rem;
+      color: var(--text);
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      line-height: 1.5;
+      max-height: 500px;
+      overflow-y: auto;
+    }
+
+    .copy-btn {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      padding: 0.375rem 0.75rem;
+      font-size: 0.75rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      border-radius: 6px;
+    }
+
+    .copy-btn:hover { color: var(--text); background: var(--surface-hover); }
+    .copy-btn.copied { color: var(--success); border-color: var(--success); }
+
+    .instructions {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: rgba(108, 99, 255, 0.08);
+      border: 1px solid rgba(108, 99, 255, 0.2);
+      border-radius: 8px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .instructions strong { color: var(--text); }
+    .instructions code {
+      background: var(--bg);
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      font-size: 0.825rem;
+    }
+
+    @media (max-width: 600px) {
+      .container { padding: 1rem; }
+      .row { grid-template-columns: 1fr; }
+      .actions { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1><span>Idea Forge</span> — New Idea Intake</h1>
+      <p>Capture your project idea. Fill out what you can — the more detail, the better the BRD.</p>
+      <div class="pipeline">
+        <span class="step active">Intake</span>
+        <span class="arrow">→</span>
+        <span class="step">Research</span>
+        <span class="arrow">→</span>
+        <span class="step">BRD</span>
+        <span class="arrow">→</span>
+        <span class="step">PRD</span>
+      </div>
+    </header>
+
+    <form id="ideaForm" novalidate>
+      <!-- Section 1: Core Idea -->
+      <div class="section">
+        <div class="section-title">Core Idea</div>
+        <div class="section-subtitle">The basics — what is this idea?</div>
+
+        <div class="field">
+          <label for="ideaName">Idea Name <span class="required">*</span></label>
+          <input type="text" id="ideaName" name="ideaName" placeholder="e.g. Smart Meal Planner" maxlength="80" required>
+          <div class="char-count"><span id="nameCount">0</span>/80</div>
+        </div>
+
+        <div class="field">
+          <label for="oneLiner">One-Liner <span class="required">*</span> <span class="hint">— Summarize in one sentence</span></label>
+          <input type="text" id="oneLiner" name="oneLiner" placeholder="e.g. An AI-powered weekly meal planner that adapts to dietary needs and budget" maxlength="160" required>
+          <div class="char-count"><span id="linerCount">0</span>/160</div>
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label for="category">Category</label>
+            <select id="category" name="category">
+              <option value="">Select a category...</option>
+              <option value="SaaS">SaaS</option>
+              <option value="Mobile App">Mobile App</option>
+              <option value="Marketplace">Marketplace</option>
+              <option value="Developer Tool">Developer Tool</option>
+              <option value="AI/ML Product">AI/ML Product</option>
+              <option value="E-commerce">E-commerce</option>
+              <option value="FinTech">FinTech</option>
+              <option value="HealthTech">HealthTech</option>
+              <option value="EdTech">EdTech</option>
+              <option value="Hardware/IoT">Hardware/IoT</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="stage">Current Stage</label>
+            <select id="stage" name="stage">
+              <option value="Just an idea">Just an idea</option>
+              <option value="Some research done">Some research done</option>
+              <option value="Prototype exists">Prototype exists</option>
+              <option value="MVP built">MVP built</option>
+              <option value="Live with users">Live with users</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 2: Problem & Audience -->
+      <div class="section">
+        <div class="section-title">Problem & Audience</div>
+        <div class="section-subtitle">Who has this problem and why does it matter?</div>
+
+        <div class="field">
+          <label for="problem">Problem Statement <span class="required">*</span> <span class="hint">— What problem does this solve?</span></label>
+          <textarea id="problem" name="problem" placeholder="Describe the problem clearly. Who experiences it? What are they doing today to work around it? What happens if this problem isn't solved?" required></textarea>
+        </div>
+
+        <div class="field">
+          <label for="audience">Target Audience <span class="required">*</span> <span class="hint">— Who are the primary users or customers?</span></label>
+          <textarea id="audience" name="audience" class="short" placeholder="e.g. Busy professionals aged 25-45 who want to eat healthier but don't have time to plan meals" required></textarea>
+        </div>
+
+        <div class="field">
+          <label for="existing">Existing Solutions <span class="hint">— What do people use today?</span></label>
+          <textarea id="existing" name="existingSolutions" class="short" placeholder="e.g. Manual meal planning, generic recipe apps like Mealime, hiring a nutritionist, just winging it"></textarea>
+        </div>
+      </div>
+
+      <!-- Section 3: Vision & Approach -->
+      <div class="section">
+        <div class="section-title">Vision & Approach</div>
+        <div class="section-subtitle">How are you thinking about building this?</div>
+
+        <div class="field">
+          <label for="thoughts">Initial Thoughts <span class="hint">— Approach, technology, inspiration, differentiation</span></label>
+          <textarea id="thoughts" name="initialThoughts" placeholder="Share any early thinking: tech stack ideas, key features, what makes this different, inspiration from other products, business model ideas..."></textarea>
+        </div>
+
+        <div class="field">
+          <label for="monetization">Monetization Idea</label>
+          <select id="monetization" name="monetization">
+            <option value="">Not sure yet</option>
+            <option value="Freemium (free + paid tiers)">Freemium (free + paid tiers)</option>
+            <option value="Subscription">Subscription</option>
+            <option value="One-time purchase">One-time purchase</option>
+            <option value="Usage-based pricing">Usage-based pricing</option>
+            <option value="Marketplace commission">Marketplace commission</option>
+            <option value="Advertising">Advertising</option>
+            <option value="Enterprise licensing">Enterprise licensing</option>
+            <option value="Open source + services">Open source + services</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Tags <span class="hint">— Press Enter to add keywords</span></label>
+          <div class="tags-input" id="tagsInput">
+            <input type="text" id="tagField" placeholder="e.g. ai, health, mobile...">
+          </div>
+          <input type="hidden" id="tagsHidden" name="tags">
+        </div>
+      </div>
+
+      <!-- Section 4: Additional Context -->
+      <div class="section">
+        <div class="section-title">Additional Context</div>
+        <div class="section-subtitle">Optional — anything else that helps paint the picture</div>
+
+        <div class="field">
+          <label for="constraints">Known Constraints <span class="hint">— Budget, timeline, regulatory, technical</span></label>
+          <textarea id="constraints" name="constraints" class="short" placeholder="e.g. Must comply with HIPAA, budget under $50k for MVP, need to launch within 6 months"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="references">References & Inspiration <span class="hint">— Links, competitors, similar products</span></label>
+          <textarea id="references" name="references" class="short" placeholder="e.g. Similar to Notion but for meal planning. Competitors: Mealime, Eat This Much, PlateJoy"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="questions">Open Questions <span class="hint">— What do you need help figuring out?</span></label>
+          <textarea id="questions" name="openQuestions" class="short" placeholder="e.g. Is the market big enough? Should I build mobile-first or web-first? What's the right pricing?"></textarea>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="actions">
+        <button type="button" class="btn-secondary" onclick="resetForm()">Clear</button>
+        <button type="submit" class="btn-primary" id="generateBtn">Generate Output for Claude</button>
+      </div>
+    </form>
+
+    <!-- Output -->
+    <div class="output-section" id="outputSection">
+      <div class="section">
+        <div class="section-title">Paste This into Claude Code</div>
+        <div class="section-subtitle">Copy the formatted output below and paste it into your Claude Code session.</div>
+
+        <div class="output-box">
+          <button class="copy-btn" id="copyBtn" onclick="copyOutput()">Copy</button>
+          <pre id="outputText"></pre>
+        </div>
+
+        <div class="instructions">
+          <strong>Next steps:</strong><br>
+          1. Copy the output above<br>
+          2. Open Claude Code in the <code>idea-forge</code> project<br>
+          3. Paste it — the agent will automatically process your idea<br>
+          4. The agent may ask follow-up questions to fill gaps<br>
+          5. Once complete, run <code>/brd-generator</code> to research and build the BRD
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Tags functionality
+    const tags = [];
+    const tagsInput = document.getElementById('tagsInput');
+    const tagField = document.getElementById('tagField');
+    const tagsHidden = document.getElementById('tagsHidden');
+
+    tagsInput.addEventListener('click', () => tagField.focus());
+
+    tagField.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        const val = tagField.value.trim().toLowerCase();
+        if (val && !tags.includes(val)) {
+          tags.push(val);
+          renderTags();
+        }
+        tagField.value = '';
+      }
+      if (e.key === 'Backspace' && tagField.value === '' && tags.length > 0) {
+        tags.pop();
+        renderTags();
+      }
+    });
+
+    function renderTags() {
+      tagsInput.querySelectorAll('.tag').forEach(t => t.remove());
+      tags.forEach((tag, i) => {
+        const el = document.createElement('span');
+        el.className = 'tag';
+        el.innerHTML = `${tag}<button type="button" onclick="removeTag(${i})">&times;</button>`;
+        tagsInput.insertBefore(el, tagField);
+      });
+      tagsHidden.value = tags.join(', ');
+    }
+
+    function removeTag(i) {
+      tags.splice(i, 1);
+      renderTags();
+    }
+
+    // Character counts
+    document.getElementById('ideaName').addEventListener('input', function () {
+      const counter = document.getElementById('nameCount');
+      counter.textContent = this.value.length;
+      counter.parentElement.classList.toggle('warn', this.value.length > 70);
+    });
+
+    document.getElementById('oneLiner').addEventListener('input', function () {
+      const counter = document.getElementById('linerCount');
+      counter.textContent = this.value.length;
+      counter.parentElement.classList.toggle('warn', this.value.length > 140);
+    });
+
+    // Form submission
+    document.getElementById('ideaForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const name = document.getElementById('ideaName').value.trim();
+      const oneLiner = document.getElementById('oneLiner').value.trim();
+      const problem = document.getElementById('problem').value.trim();
+      const audience = document.getElementById('audience').value.trim();
+
+      if (!name || !oneLiner || !problem || !audience) {
+        alert('Please fill in all required fields (marked with *).');
+        return;
+      }
+
+      const data = new FormData(this);
+      let output = `IDEA FORGE — NEW IDEA INTAKE FORM RESPONSE\n`;
+      output += `${'='.repeat(50)}\n\n`;
+
+      output += `## Idea Name\n${name}\n\n`;
+      output += `## One-Liner\n${oneLiner}\n\n`;
+
+      const category = data.get('category');
+      if (category) output += `## Category\n${category}\n\n`;
+
+      output += `## Current Stage\n${data.get('stage')}\n\n`;
+      output += `## Problem Statement\n${problem}\n\n`;
+      output += `## Target Audience\n${audience}\n\n`;
+
+      const existing = data.get('existingSolutions');
+      if (existing) output += `## Existing Solutions\n${existing}\n\n`;
+
+      const thoughts = data.get('initialThoughts');
+      if (thoughts) output += `## Initial Thoughts\n${thoughts}\n\n`;
+
+      const monetization = data.get('monetization');
+      if (monetization) output += `## Monetization Idea\n${monetization}\n\n`;
+
+      const tagStr = data.get('tags');
+      if (tagStr) output += `## Tags\n${tagStr}\n\n`;
+
+      const constraints = data.get('constraints');
+      if (constraints) output += `## Known Constraints\n${constraints}\n\n`;
+
+      const references = data.get('references');
+      if (references) output += `## References & Inspiration\n${references}\n\n`;
+
+      const questions = data.get('openQuestions');
+      if (questions) output += `## Open Questions\n${questions}\n\n`;
+
+      output += `${'='.repeat(50)}\n`;
+      output += `Please process this idea intake form: create the idea folder, IDEA.md, and update the tracker. If any critical information is missing or unclear, research it or ask me follow-up questions before proceeding to the BRD.`;
+
+      document.getElementById('outputText').textContent = output;
+      document.getElementById('outputSection').classList.add('visible');
+      document.getElementById('outputSection').scrollIntoView({ behavior: 'smooth' });
+    });
+
+    function copyOutput() {
+      const text = document.getElementById('outputText').textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        const btn = document.getElementById('copyBtn');
+        btn.textContent = 'Copied!';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.textContent = 'Copy';
+          btn.classList.remove('copied');
+        }, 2000);
+      });
+    }
+
+    function resetForm() {
+      document.getElementById('ideaForm').reset();
+      tags.length = 0;
+      renderTags();
+      document.getElementById('nameCount').textContent = '0';
+      document.getElementById('linerCount').textContent = '0';
+      document.getElementById('outputSection').classList.remove('visible');
+    }
+  </script>
+</body>
+</html>

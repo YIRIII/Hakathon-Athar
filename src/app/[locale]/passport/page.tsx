@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
+import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -191,7 +192,10 @@ export default function PassportPage() {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(a.href);
-  }, [certificateBlob, certificateSiteId]);
+    toast.success(
+      locale === 'ar' ? 'تم تحميل الشهادة بنجاح' : 'Certificate downloaded successfully'
+    );
+  }, [certificateBlob, certificateSiteId, locale]);
 
   const certificateSite = certificateSiteId
     ? sites.find((s) => s.id === certificateSiteId)
@@ -307,20 +311,20 @@ export default function PassportPage() {
                   {/* Earned date or locked text */}
                   {earned && stamp ? (
                     <>
-                      <p className="text-[10px] text-muted-foreground">
+                      <p className="text-[11px] text-muted-foreground sm:text-xs">
                         {t('earnedOn')} {formatDate(stamp.earnedAt)}
                       </p>
                       <Button
                         variant="outline"
                         size="sm"
-                        className="mt-1 h-7 text-[10px]"
+                        className="mt-1 h-8 text-[11px] sm:text-xs"
                         onClick={() => handleRequestCertificate(site.id)}
                       >
                         {t('viewCertificate')}
                       </Button>
                     </>
                   ) : (
-                    <p className="text-[10px] text-muted-foreground">
+                    <p className="text-[11px] text-muted-foreground sm:text-xs">
                       {t('locked')}
                     </p>
                   )}

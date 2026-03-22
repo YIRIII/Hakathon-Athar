@@ -25,7 +25,7 @@ const TIMELINE_EVENTS: TimelineEvent[] = [
     title_en: 'First Revelation at Cave Hira',
     description_ar: 'نزلت أولى آيات القرآن الكريم على النبي محمد ﷺ في غار حراء بجبل النور، لتبدأ رسالة الإسلام التي غيّرت مجرى التاريخ.',
     description_en: 'The first verses of the Quran were revealed to Prophet Muhammad ﷺ in Cave Hira atop Jabal al-Nour, marking the dawn of Islam.',
-    image: 'https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?w=600&q=80',
+    image: '/images/sites/cave-hira.jpg',
     siteId: 'cave-hira',
   },
   {
@@ -35,7 +35,7 @@ const TIMELINE_EVENTS: TimelineEvent[] = [
     title_en: 'The Hijra & Cave Thawr',
     description_ar: 'لجأ النبي ﷺ وصاحبه أبو بكر رضي الله عنه إلى غار ثور ثلاث ليالٍ أثناء الهجرة من مكة إلى المدينة.',
     description_en: 'The Prophet ﷺ and Abu Bakr took refuge in Cave Thawr for three nights during the momentous migration from Makkah to Madinah.',
-    image: 'https://images.unsplash.com/photo-1542816417-0983c9c9ad53?w=600&q=80',
+    image: '/images/sites/cave-thawr.jpg',
     siteId: 'cave-thawr',
   },
   {
@@ -45,7 +45,7 @@ const TIMELINE_EVENTS: TimelineEvent[] = [
     title_en: 'Quba Mosque — The First Mosque in Islam',
     description_ar: 'عند وصوله إلى المدينة، أسّس النبي ﷺ مسجد قباء ليكون أول مسجد يُبنى في الإسلام.',
     description_en: 'Upon arriving in Madinah, the Prophet ﷺ established Quba Mosque — the very first mosque built in Islamic history.',
-    image: 'https://images.unsplash.com/photo-1545167496-5a4f5a3f0e72?w=600&q=80',
+    image: '/images/sites/quba-mosque.jpg',
     siteId: 'quba-mosque',
   },
   {
@@ -55,7 +55,7 @@ const TIMELINE_EVENTS: TimelineEvent[] = [
     title_en: 'The Qibla Changed at Qiblatain Mosque',
     description_ar: 'نزل الأمر الإلهي بتحويل القبلة من بيت المقدس إلى المسجد الحرام أثناء الصلاة، في لحظة فارقة بتاريخ الإسلام.',
     description_en: 'The divine command changed the prayer direction from Jerusalem to Makkah mid-prayer — a defining moment in Islamic history.',
-    image: 'https://images.unsplash.com/photo-1585036156171-384164a8c159?w=600&q=80',
+    image: '/images/sites/qiblatain-mosque.jpg',
     siteId: 'qiblatain-mosque',
   },
   {
@@ -65,7 +65,7 @@ const TIMELINE_EVENTS: TimelineEvent[] = [
     title_en: 'Battle of Uhud at Mount Uhud',
     description_ar: 'عند سفح جبل أحد، وقعت ثاني المعارك الكبرى في الإسلام واستُشهد سبعون صحابيًا، في مقدمتهم حمزة بن عبد المطلب.',
     description_en: 'At the foot of Mount Uhud, seventy companions were martyred in the second major battle, including Hamzah, the Lion of God.',
-    image: 'https://images.unsplash.com/photo-1565018054866-968e244671af?w=600&q=80',
+    image: '/images/sites/uhud-mountain.jpg',
     siteId: 'uhud-mountain',
   },
   {
@@ -75,7 +75,7 @@ const TIMELINE_EVENTS: TimelineEvent[] = [
     title_en: 'Battle of the Trench — Innovation in Defense',
     description_ar: 'بفكرة من سلمان الفارسي، حُفر خندق دفاعي أحبط حصار عشرة آلاف مقاتل من الأحزاب المتحالفة.',
     description_en: 'On Salman al-Farisi\'s suggestion, a defensive trench was dug that thwarted the siege of 10,000 Confederate fighters.',
-    image: 'https://images.unsplash.com/photo-1564769625905-50e93615e769?w=600&q=80',
+    image: '/images/sites/al-khandaq.jpg',
     siteId: 'al-khandaq',
   },
 ];

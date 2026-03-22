@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
 
 type Variant = 'fade-up' | 'fade-in' | 'slide-left' | 'slide-right' | 'scale-up';
@@ -44,6 +44,15 @@ export function AnimateOnScroll({
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-50px' });
   const v = variants[variant];
+  const [prefersReduced, setPrefersReduced] = useState(false);
+
+  useEffect(() => {
+    setPrefersReduced(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  }, []);
+
+  if (prefersReduced) {
+    return <div className={className}>{children}</div>;
+  }
 
   return (
     <motion.div

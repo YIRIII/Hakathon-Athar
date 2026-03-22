@@ -4,7 +4,7 @@ import 'leaflet/dist/leaflet.css';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import MarkerClusterGroup from 'react-leaflet-cluster';
 import L from 'leaflet';
-import { useEffect, useCallback, useImperativeHandle, forwardRef } from 'react';
+import { useEffect, useCallback, useImperativeHandle, forwardRef, useRef } from 'react';
 import type { HeritageSite } from '@/data/sites';
 import type { UserLocation } from './heritage-map';
 import { SiteMarker } from './site-marker';
@@ -17,6 +17,7 @@ interface MapViewProps {
   sites: HeritageSite[];
   onSelectSite?: (site: HeritageSite) => void;
   userLocation?: UserLocation | null;
+  selectedSiteId?: string | null;
 }
 
 // Blue pulsing dot icon for user location
@@ -107,8 +108,8 @@ function MapController({ onMapReady }: { onMapReady: (map: L.Map) => void }) {
 }
 
 const MapView = forwardRef<MapViewHandle, MapViewProps>(
-  function MapView({ sites, onSelectSite, userLocation }, ref) {
-    const mapRef = { current: null as L.Map | null };
+  function MapView({ sites, onSelectSite, userLocation, selectedSiteId }, ref) {
+    const mapRef = useRef<L.Map | null>(null);
 
     const handleMapReady = useCallback((map: L.Map) => {
       mapRef.current = map;
@@ -158,7 +159,7 @@ const MapView = forwardRef<MapViewHandle, MapViewProps>(
           disableClusteringAtZoom={16}
         >
           {sites.map((site) => (
-            <SiteMarker key={site.id} site={site} onSelect={onSelectSite} />
+            <SiteMarker key={site.id} site={site} onSelect={onSelectSite} selected={site.id === selectedSiteId} />
           ))}
         </MarkerClusterGroup>
 

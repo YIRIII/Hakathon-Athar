@@ -1,5 +1,6 @@
 'use client';
 
+import { useRef, useEffect } from 'react';
 import { Marker, Tooltip, Popup } from 'react-leaflet';
 import L from 'leaflet';
 import type { HeritageSite } from '@/data/sites';
@@ -87,19 +88,26 @@ function createCardIcon(site: HeritageSite) {
 export function SiteMarker({
   site,
   onSelect,
+  selected,
 }: {
   site: HeritageSite;
   onSelect?: (site: HeritageSite) => void;
+  selected?: boolean;
 }) {
   const icon = createCardIcon(site);
+  const markerRef = useRef<L.Marker | null>(null);
+
+  useEffect(() => {
+    if (selected && markerRef.current) {
+      markerRef.current.openPopup();
+    }
+  }, [selected]);
 
   return (
     <Marker
+      ref={markerRef}
       position={[site.coordinates.lat, site.coordinates.lng]}
       icon={icon}
-      eventHandlers={{
-        click: () => onSelect?.(site),
-      }}
     >
       <Popup maxWidth={320} minWidth={240}>
         <SitePopupContent site={site} />

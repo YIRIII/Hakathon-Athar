@@ -3,9 +3,7 @@ import { notFound } from 'next/navigation';
 import { sites } from '@/data/sites';
 import { SiteDetail } from '@/components/home/site-detail';
 
-export function generateStaticParams() {
-  return sites.map((site) => ({ id: site.id }));
-}
+export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({
   params,

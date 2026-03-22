@@ -13,9 +13,10 @@ import { ShareButton } from '@/components/social/share-button';
 import { SiteChatWidget } from '@/components/home/site-chat-widget';
 import { Storyteller } from '@/components/home/storyteller';
 import { AnimateOnScroll } from '@/components/ui/animate-on-scroll';
+import { FavoriteButton } from '@/components/ui/favorite-button';
 import { buildShareUrl } from '@/lib/referral';
 import Image from 'next/image';
-import { MapPinIcon, QrCodeIcon, ClockIcon, AccessibilityIcon, NavigationIcon, ExternalLinkIcon, ImageIcon } from 'lucide-react';
+import { MapPinIcon, QrCodeIcon, ClockIcon, AccessibilityIcon, NavigationIcon, ExternalLinkIcon, ImageIcon, ShieldCheckIcon, GlobeIcon, BookOpenIcon, BuildingIcon } from 'lucide-react';
 import { openDirections } from '@/lib/navigation';
 import { Link } from '@/i18n/routing';
 
@@ -44,7 +45,7 @@ export function SiteDetail({ site }: SiteDetailProps) {
   const hours = isAr ? site.hours_ar : site.hours;
   const accessibility = isAr ? site.accessibility_ar : site.accessibility;
 
-  const imageCount = site.images.filter((img) => img.startsWith('http')).length;
+  const imageCount = site.images.length;
 
   function handleGetDirections() {
     openDirections({
@@ -57,42 +58,48 @@ export function SiteDetail({ site }: SiteDetailProps) {
 
   return (
     <div className="relative min-h-screen">
-      {/* Blurred site image background — absolute inside the container so it's above body bg */}
-      {site.images[0]?.startsWith('http') && (
-        <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+      {/* Full-page site image background — like homepage mosque pattern */}
+      {site.images[0] && (
+        <div className="pointer-events-none fixed inset-0 -z-10" aria-hidden="true">
+          {/* Actual site image covering the full viewport */}
           <div
-            style={{
-              position: 'absolute',
-              inset: '-40px',
-              backgroundImage: `url(${site.images[0]})`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              filter: 'blur(70px) saturate(1.3)',
-              opacity: 0.35,
-            }}
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+            style={{ backgroundImage: `url(${site.images[0]})` }}
           />
-          {/* Dark mode dimming */}
-          <div className="absolute inset-0 bg-black opacity-0 dark:opacity-50" />
-          {/* Fade to background at bottom */}
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/40 to-background" />
+          {/* Overlay: let image show through subtly — darker tint like homepage */}
+          <div className="absolute inset-0 bg-background/70 dark:bg-background/80" />
+          {/* Soft gradient fade: top is more transparent (image shows behind hero), bottom is more opaque (text readable) */}
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/20 to-background/60" />
         </div>
       )}
 
       <div className="mx-auto max-w-6xl px-4 pb-16 sm:px-6">
         {/* Hero Section */}
         <section className="relative -mx-4 mb-8 overflow-hidden sm:-mx-6 md:mx-0 md:rounded-2xl">
-          <div className={`relative aspect-[21/9] w-full bg-gradient-to-br ${heroGradient}`}>
-            {site.images[0]?.startsWith('http') && (
-              <Image
-                src={site.images[0]}
-                alt={name}
-                fill
-                className="object-cover"
-                sizes="100vw"
-                priority
-              />
+          <div className={`relative aspect-[16/9] w-full bg-gradient-to-br sm:aspect-[21/9] ${heroGradient}`}>
+            {site.images[0] && (
+              site.images[0].startsWith('http') ? (
+                <Image
+                  src={site.images[0]}
+                  alt={name}
+                  fill
+                  className="object-cover"
+                  sizes="100vw"
+                  priority
+                />
+              ) : (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={site.images[0]}
+                  alt={name}
+                  className="absolute inset-0 size-full object-cover"
+                />
+              )
             )}
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+            <div className="absolute end-4 top-4 z-10">
+              <FavoriteButton siteId={site.id} className="border border-white/20 shadow-lg" />
+            </div>
             <div className="absolute inset-x-0 bottom-0 p-6 sm:p-8">
               <h1 className="text-2xl font-bold text-white sm:text-3xl md:text-4xl">
                 {name}
@@ -200,18 +207,28 @@ export function SiteDetail({ site }: SiteDetailProps) {
                     <CardTitle>{t('sites.officialReferences')}</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-3">
-                    {site.externalLinks.map((link, idx) => (
-                      <a
-                        key={idx}
-                        href={link.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-2 rounded-lg border border-primary/10 bg-primary/5 px-4 py-3 text-sm font-medium text-foreground transition-all hover:border-primary/30 hover:bg-primary/10"
-                      >
-                        <ExternalLinkIcon className="size-4 shrink-0 text-primary" />
-                        {isAr ? link.label_ar : link.label_en}
-                      </a>
-                    ))}
+                    {site.externalLinks.map((link, idx) => {
+                      const LinkIcon = link.type === 'government' ? ShieldCheckIcon
+                        : link.type === 'tourism' ? GlobeIcon
+                        : link.type === 'official' ? BuildingIcon
+                        : BookOpenIcon;
+                      const iconColor = link.type === 'government' ? 'text-green-600 dark:text-green-400'
+                        : link.type === 'tourism' ? 'text-blue-600 dark:text-blue-400'
+                        : 'text-amber-600 dark:text-amber-400';
+                      return (
+                        <a
+                          key={idx}
+                          href={link.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-3 rounded-lg border border-primary/10 bg-primary/5 px-4 py-3 text-sm font-medium text-foreground transition-all hover:border-primary/30 hover:bg-primary/10"
+                        >
+                          <LinkIcon className={`size-4 shrink-0 ${iconColor}`} />
+                          <span className="flex-1">{isAr ? link.label_ar : link.label_en}</span>
+                          <ExternalLinkIcon className="size-3 shrink-0 text-muted-foreground" />
+                        </a>
+                      );
+                    })}
                   </CardContent>
                 </Card>
               </AnimateOnScroll>
@@ -236,6 +253,7 @@ export function SiteDetail({ site }: SiteDetailProps) {
                 <Storyteller
                   siteId={site.id}
                   siteName={isAr ? site.name_ar : site.name_en}
+                  fallbackText={isAr ? site.full_ar : site.full_en}
                 />
                 <ShareButton
                   title={name}

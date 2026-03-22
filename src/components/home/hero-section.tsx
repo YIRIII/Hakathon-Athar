@@ -50,7 +50,7 @@ export function HeroSection() {
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage: 'url(https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?w=1920&q=80)',
+            backgroundImage: 'url(/images/sites/cave-hira.jpg)',
           }}
         />
         <div className="absolute inset-0 bg-black/55 dark:bg-black/70" />
@@ -115,7 +115,7 @@ export function HeroSection() {
           className="mb-6 flex justify-center"
           aria-hidden="true"
         >
-          <svg width="160" height="80" viewBox="0 0 160 80" fill="none" className="text-primary/40">
+          <svg width="160" height="80" viewBox="0 0 160 80" fill="none" className="w-28 text-primary/40 sm:w-40">
             {/* Outer arch */}
             <path d="M5 78 Q80 0 155 78" stroke="currentColor" strokeWidth="2" fill="none" />
             {/* Inner arch */}

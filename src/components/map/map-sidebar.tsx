@@ -95,7 +95,7 @@ export function MapSidebar({
           return (
             <button
               key={type}
-              className="inline-flex h-5 items-center gap-1 rounded-full border px-2 text-[11px] font-medium transition-colors"
+              className="inline-flex h-7 items-center gap-1 rounded-full border px-2.5 text-xs font-medium transition-colors"
               style={{
                 backgroundColor: isActive ? typeColors[type] : 'transparent',
                 color: isActive ? 'white' : typeColors[type],

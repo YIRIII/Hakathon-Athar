@@ -5,7 +5,18 @@
       "Write",
       "Read",
       "WebSearch",
-      "Webfetch"
+      "Webfetch",
+      "Bash(git branch:*)",
+      "WebFetch(domain:www.visitsaudi.com)",
+      "WebFetch(domain:commons.wikimedia.org)",
+      "WebFetch(domain:en.wikipedia.org)",
+      "WebFetch(domain:www.islamiclandmarks.com)",
+      "WebFetch(domain:saudipedia.com)",
+      "WebFetch(domain:madainproject.com)",
+      "WebFetch(domain:dar-almadinah.com)",
+      "WebFetch(domain:www.rcmc.gov.sa)",
+      "WebFetch(domain:upload.wikimedia.org)",
+      "WebFetch(domain:athar-heritage.vercel.app)"
     ]
   }
 }

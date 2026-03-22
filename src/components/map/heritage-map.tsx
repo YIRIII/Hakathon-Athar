@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo, useCallback, useRef } from 'react';
+import { useState, useMemo, useCallback, useRef, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import { useLocale, useTranslations } from 'next-intl';
 import { sites as allSites, type HeritageSite } from '@/data/sites';
@@ -42,7 +42,11 @@ export interface SiteWithDistance extends HeritageSite {
   distance?: number;
 }
 
-export function HeritageMap() {
+interface HeritageMapProps {
+  focusSiteId?: string;
+}
+
+export function HeritageMap({ focusSiteId }: HeritageMapProps = {}) {
   const locale = useLocale();
   const tMap = useTranslations('map');
   const isAr = locale === 'ar';
@@ -58,6 +62,7 @@ export function HeritageMap() {
 
   // Map ref for flyTo
   const mapRef = useRef<MapViewHandle | null>(null);
+  const [selectedSiteId, setSelectedSiteId] = useState<string | null>(null);
 
   const filteredSites = useMemo(() => {
     return allSites.filter((site) => {
@@ -137,10 +142,23 @@ export function HeritageMap() {
     setNearMeActive(false);
   }, []);
 
-  /** Fly to the selected site on the map */
+  /** Fly to the selected site on the map and open its popup */
   const handleSiteClick = useCallback((site: HeritageSite) => {
     mapRef.current?.flyToSite(site.coordinates);
+    setSelectedSiteId(site.id);
   }, []);
+
+  // Auto-focus on a site when arriving from featured sites link
+  useEffect(() => {
+    if (!focusSiteId) return;
+    const site = allSites.find((s) => s.id === focusSiteId);
+    if (!site) return;
+    // Small delay to ensure map is loaded
+    const timer = setTimeout(() => {
+      mapRef.current?.flyToSite(site.coordinates);
+    }, 800);
+    return () => clearTimeout(timer);
+  }, [focusSiteId]);
 
   const sidebarContent = (
     <MapSidebar
@@ -163,7 +181,7 @@ export function HeritageMap() {
     <div className="relative flex h-[calc(100dvh-3.5rem)] w-full">
       {/* Desktop sidebar */}
       <aside
-        className="hidden w-80 shrink-0 border-e border-border md:block"
+        className="relative z-10 hidden w-80 shrink-0 border-e border-border md:block"
       >
         {sidebarContent}
       </aside>
@@ -175,10 +193,11 @@ export function HeritageMap() {
           sites={displaySites}
           onSelectSite={handleSiteClick}
           userLocation={userLocation}
+          selectedSiteId={selectedSiteId}
         />
 
         {/* Mobile floating filter button */}
-        <div className="absolute start-4 top-4 z-[1000] md:hidden">
+        <div className="absolute start-4 top-4 z-[999] md:hidden">
           <Sheet>
             <SheetTrigger className="inline-flex items-center justify-center gap-1.5 rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground shadow-lg hover:bg-primary/90">
                 <Filter className="size-4" />

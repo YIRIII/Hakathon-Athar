@@ -15,7 +15,7 @@ export interface HeritageSite {
   accessibility: string;
   accessibility_ar: string;
   stamp_earned: boolean;
-  externalLinks: { label_ar: string; label_en: string; url: string }[];
+  externalLinks: { label_ar: string; label_en: string; url: string; type: 'government' | 'tourism' | 'academic' | 'official' }[];
 }
 
 export const sites: HeritageSite[] = [
@@ -36,12 +36,20 @@ export const sites: HeritageSite[] = [
     full_en:
       'Cave Hira holds a position of profound significance in Islamic history. Located at the summit of Jabal al-Nour (the Mountain of Light), approximately 634 meters above sea level, this modest cave served as a place of spiritual retreat for the Prophet Muhammad, peace be upon him, in the years preceding his prophethood. He would spend extended periods there in contemplation and devotion, seeking solitude from the society of Makkah.\n\nIt was within this cave, during the month of Ramadan in approximately 610 CE, that the first verses of the Quran were revealed through the Angel Jibreel (Gabriel): "Read in the name of your Lord who created" (Surah al-Alaq, 96:1). This momentous event marked the commencement of the prophetic mission and the dawn of Islam as a world-transforming faith.\n\nThe cave itself is relatively small, measuring roughly four meters in length and one and three-quarter meters in width. Reaching it requires a strenuous climb of approximately one to two hours along a steep, rocky path. Despite the physical challenge, millions of visitors ascend Jabal al-Nour each year, drawn by the desire to stand in the place where divine revelation first descended upon humanity.',
     images: [
-      'https://images.unsplash.com/photo-1682687220742-aba13b6e50ba?w=800&q=80',
-      'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?w=800&q=80',
-      'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80',
-      'https://images.unsplash.com/photo-1580418827493-f2b22c0a76cb?w=800&q=80',
-      'https://images.unsplash.com/photo-1565018054866-968e244671af?w=800&q=80',
-      'https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?w=800&q=80',
+      // Hero: local copy for reliable fast loading
+      '/images/sites/cave-hira.jpg',
+      // Wikimedia fallback: Jabal al-Nour mountain landscape (CC)
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Jabbal_An-Nour_%282024%29.jpg/400px-Jabbal_An-Nour_%282024%29.jpg',
+      // Detail: Cave Hira entrance close-up (Wikimedia Commons, CC)
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Hira_Cave.jpg/400px-Hira_Cave.jpg',
+      // Atmosphere: Pilgrims climbing Jabal al-Nour (Wikimedia Commons, CC)
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Jabl_e_Noor.jpg/400px-Jabl_e_Noor.jpg',
+      // Detail: Mountain path and summit (Wikimedia Commons, CC)
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/Jabl_e_Noor_2.jpg/400px-Jabl_e_Noor_2.jpg',
+      // Atmosphere: Mountain view (Wikimedia Commons, CC)
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Gable_Noor.JPG/400px-Gable_Noor.JPG',
+      // Interior/Detail: Inside Cave Hira (Wikimedia Commons, CC)
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Hira_ma%C4%9Faras%C4%B1.jpg/400px-Hira_ma%C4%9Faras%C4%B1.jpg',
     ],
     hours: 'Open 24 hours',
     hours_ar: 'مفتوح على مدار الساعة',
@@ -49,8 +57,9 @@ export const sites: HeritageSite[] = [
     accessibility_ar: 'غير مهيأ لذوي الاحتياجات الخاصة — يتطلب صعودًا وعرًا',
     stamp_earned: true,
     externalLinks: [
-      { label_ar: 'غار حراء — ويكيبيديا', label_en: 'Cave Hira — Wikipedia', url: 'https://ar.wikipedia.org/wiki/%D8%BA%D8%A7%D8%B1_%D8%AD%D8%B1%D8%A7%D8%A1' },
-      { label_ar: 'جبل النور — ويكيبيديا', label_en: 'Jabal al-Nour — Wikipedia', url: 'https://en.wikipedia.org/wiki/Jabal_al-Nour' },
+      { label_ar: 'حي حراء الثقافي — روح السعودية', label_en: 'Hira Cultural District — Visit Saudi', url: 'https://www.visitsaudi.com/en/makkah/attractions/hira-cultural-district-tour', type: 'tourism' },
+      { label_ar: 'غار حراء — سعوديبيديا', label_en: 'Ghar Hira — Saudipedia', url: 'https://saudipedia.com/en/article/745/history/landmarks-and-monuments/ghar-hira', type: 'government' },
+      { label_ar: 'جبل حراء — المعالم الإسلامية', label_en: 'Jabal al-Hira — IslamicLandmarks', url: 'https://www.islamiclandmarks.com/makkah-other/jabal-al-hira', type: 'academic' },
     ],
   },
   {
@@ -69,12 +78,15 @@ export const sites: HeritageSite[] = [
     full_en:
       'Cave Thawr occupies an esteemed place in the Prophetic biography (Sirah). Situated on Jabal Thawr at an elevation of approximately 748 meters south of Makkah, this cave served as a critical hiding place during one of the most pivotal events in Islamic history. In 622 CE, the Prophet Muhammad, peace be upon him, accompanied by his closest companion Abu Bakr al-Siddiq, may Allah be pleased with him, sought shelter here for three nights during the Hijra — the migration from Makkah to Madinah.\n\nHistorical sources recount that Qurayshi pursuers tracked the two companions to the very entrance of the cave, yet by divine providence they were not discovered. This event is commemorated in the Quran in Surah al-Tawbah (9:40): "when he said to his companion, Do not grieve; indeed Allah is with us."\n\nThe mountain rises to roughly 760 meters, and reaching the cave requires a demanding climb of approximately ninety minutes over steep, uneven terrain. The cave features two natural openings that allow air and light to enter. Today, Jabal Thawr stands as a living testament to the sacrifices made and the unwavering faith demonstrated at the dawn of the Islamic mission.',
     images: [
-      'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80',
-      'https://images.unsplash.com/photo-1682687220742-aba13b6e50ba?w=800&q=80',
-      'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?w=800&q=80',
-      'https://images.unsplash.com/photo-1545167496-5a4f5a3f0e72?w=800&q=80',
-      'https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?w=800&q=80',
-      'https://images.unsplash.com/photo-1609599006353-e629aaabfeae?w=800&q=80',
+      '/images/sites/cave-thawr.jpg',
+      // Wikimedia: Jabal Thawr mountain landscape (CC)
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Jabl_e_Thawr.jpg/400px-Jabl_e_Thawr.jpg',
+      // Atmosphere: Turkish pilgrims visiting Jabal Thawr (Wikimedia Commons, CC)
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Turkish_Pilgrims_at_Jabal_Thawr_in_Makkah%2C_Saudi_Arabia%2C_4_April_2015.jpg/400px-Turkish_Pilgrims_at_Jabal_Thawr_in_Makkah%2C_Saudi_Arabia%2C_4_April_2015.jpg',
+      // Detail: Mountain panoramic view (Wikimedia Commons, CC)
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Jabele_thor_-_panoramio.jpg/400px-Jabele_thor_-_panoramio.jpg',
+      // Detail: Mountain summit view (Wikimedia Commons, CC)
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Mount_sour1.jpg/400px-Mount_sour1.jpg',
     ],
     hours: 'Open 24 hours',
     hours_ar: 'مفتوح على مدار الساعة',
@@ -82,8 +94,8 @@ export const sites: HeritageSite[] = [
     accessibility_ar: 'غير مهيأ لذوي الاحتياجات الخاصة — تضاريس وعرة وشديدة الانحدار',
     stamp_earned: false,
     externalLinks: [
-      { label_ar: 'غار ثور — ويكيبيديا', label_en: 'Cave Thawr — Wikipedia', url: 'https://ar.wikipedia.org/wiki/%D8%BA%D8%A7%D8%B1_%D8%AB%D9%88%D8%B1' },
-      { label_ar: 'الهجرة النبوية — ويكيبيديا', label_en: 'Hijra — Wikipedia', url: 'https://en.wikipedia.org/wiki/Hijra_(Islam)' },
+      { label_ar: 'غار ثور — سعوديبيديا', label_en: 'Ghar Thawr — Saudipedia', url: 'https://saudipedia.com/en/article/833/history/landmarks-and-monuments/ghar-thawr', type: 'government' },
+      { label_ar: 'جبل الثور — المعالم الإسلامية', label_en: 'Jabal al-Thawr — IslamicLandmarks', url: 'https://www.islamiclandmarks.com/makkah-other/jabal-al-thawr', type: 'academic' },
     ],
   },
   {
@@ -102,12 +114,16 @@ export const sites: HeritageSite[] = [
     full_en:
       'Makkah Museum, situated in the heart of the city, ranks among the most prominent heritage museums in the Kingdom of Saudi Arabia. The museum presents a comprehensive collection of exhibits spanning multiple historical periods, from the pre-Islamic era through the dawn of the Prophetic mission to the modern age.\n\nThe collection includes rare archaeological artifacts, valuable Islamic manuscripts, and architectural models that illustrate the evolution of the Grand Mosque (al-Masjid al-Haram) throughout history. Dedicated sections on the rituals of Hajj and Umrah provide visitors with an immersive educational experience about these sacred rites and their spiritual significance.\n\nThe museum offers a fully accessible environment for all visitors, including those with special needs, and welcomes guests daily from 9:00 AM to 9:00 PM. It serves as an essential cultural destination for anyone seeking to understand the deep history of the holiest site on earth.',
     images: [
-      'https://images.unsplash.com/photo-1585036156171-384164a8c159?w=800&q=80',
-      'https://images.unsplash.com/photo-1548013146-72479768bada?w=800&q=80',
-      'https://images.unsplash.com/photo-1519817650390-64a93db51149?w=800&q=80',
-      'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=80',
-      'https://images.unsplash.com/photo-1564769625905-50e93615e769?w=800&q=80',
-      'https://images.unsplash.com/photo-1466442929976-97f336a657be?w=800&q=80',
+      // Hero: local copy for reliable fast loading
+      '/images/sites/makkah-museum.jpg',
+      // Exhibition of the Two Holy Mosques Architecture signboard (CC-BY-SA 3.0)
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/A_signboard_in_front_of_the_Exhibition_of_The_Two_Holy_Mosques_Architecture%2C_Makkah.jpg/400px-A_signboard_in_front_of_the_Exhibition_of_The_Two_Holy_Mosques_Architecture%2C_Makkah.jpg',
+      // Panel from the Sitarah of the Ka'bah door — museum exhibit (CC-BY-SA 3.0)
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Panel_from_the_Sitarah_of_the_Door_of_the_Ka%27bah.jpg/400px-Panel_from_the_Sitarah_of_the_Door_of_the_Ka%27bah.jpg',
+      // Artifact: Ottoman tile depicting the Great Mosque of Mecca — Walters Art Museum (Wikimedia Commons, Public Domain)
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Turkish_-_Tile_with_the_Great_Mosque_of_Mecca_-_Walters_481307_-_View_A.jpg/400px-Turkish_-_Tile_with_the_Great_Mosque_of_Mecca_-_Walters_481307_-_View_A.jpg',
+      // Historical: Panoramic view of Makkah, 1845, Khalili Collection (Wikimedia Commons, Public Domain)
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Khalili_Collection_Hajj_Mecca_panorama.jpg/400px-Khalili_Collection_Hajj_Mecca_panorama.jpg',
     ],
     hours: '9:00 AM – 9:00 PM',
     hours_ar: 'من 9 صباحًا حتى 9 مساءً',
@@ -115,8 +131,8 @@ export const sites: HeritageSite[] = [
     accessibility_ar: 'مهيأ بالكامل لذوي الاحتياجات الخاصة',
     stamp_earned: false,
     externalLinks: [
-      { label_ar: 'مكة المكرمة — ويكيبيديا', label_en: 'Makkah — Wikipedia', url: 'https://ar.wikipedia.org/wiki/%D9%85%D9%83%D8%A9_%D8%A7%D9%84%D9%85%D9%83%D8%B1%D9%85%D8%A9' },
-      { label_ar: 'المتاحف في مكة — Visit Saudi', label_en: 'Makkah Museums — Visit Saudi', url: 'https://www.visitsaudi.com/en/see-do/destinations/makkah' },
+      { label_ar: 'متحف مكة المكرمة — روح السعودية', label_en: 'Makkah Museum — Visit Saudi', url: 'https://www.visitsaudi.com/en/makkah/attractions/makkah-museum', type: 'tourism' },
+      { label_ar: 'السياحة في منطقة مكة — سعوديبيديا', label_en: 'Tourism in Makkah Province — Saudipedia', url: 'https://saudipedia.com/en/article/3599/economy-and-business/tourism/tourism-in-makkah-al-mukarramah-province', type: 'government' },
     ],
   },
   {
@@ -135,12 +151,19 @@ export const sites: HeritageSite[] = [
     full_en:
       'Jabal al-Rahmah, also known as the Mount of Arafat, is a granite hill rising approximately 70 meters above the expansive plain of Arafat. This site holds paramount importance in Islam, as standing at Arafat constitutes the most essential pillar of Hajj, as expressed in the Prophetic tradition: "Hajj is Arafah."\n\nIslamic tradition holds that this is the place where Adam and Hawwa (Eve), peace be upon them, were reunited after their descent to earth. Furthermore, it was in this blessed plain that the Prophet Muhammad, peace be upon him, delivered his renowned Farewell Sermon during his final pilgrimage in 632 CE — an address that established enduring principles of justice, equality, and human dignity.\n\nOn the ninth day of Dhul Hijjah each year, millions of pilgrims gather across the plain of Arafat from midday until sunset in a profoundly moving act of collective worship, constituting one of the largest human gatherings on earth. A white pillar known as the Arafat marker stands at the summit of the hill, identifying the location for pilgrims and visitors.',
     images: [
-      'https://images.unsplash.com/photo-1590076215667-875d4ef2d7de?w=800&q=80',
-      'https://images.unsplash.com/photo-1542816417-0983c9c9ad53?w=800&q=80',
-      'https://images.unsplash.com/photo-1537031934600-a570fcf26ffa?w=800&q=80',
-      'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80',
-      'https://images.unsplash.com/photo-1580418827493-f2b22c0a76cb?w=800&q=80',
-      'https://images.unsplash.com/photo-1565018054866-968e244671af?w=800&q=80',
+      '/images/sites/jabal-al-rahmah.jpg',
+      // Wikimedia: Jabal al-Rahmah wide landscape (CC)
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Jabal-e-Rehmat_%28Mount_of_Mercy%29_Mount_Arafat.jpg/400px-Jabal-e-Rehmat_%28Mount_of_Mercy%29_Mount_Arafat.jpg',
+      // Atmosphere: Panoramic view of Mount Arafat (Wikimedia Commons, CC)
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Jabal-e-Rehmat_%28Mount_of_Mercy_Mount_Arafat%29.jpg/400px-Jabal-e-Rehmat_%28Mount_of_Mercy_Mount_Arafat%29.jpg',
+      // Detail: Close-up of the Arafat marker pillar (Wikimedia Commons, CC)
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Jabal-e-Rehmat_%28Mount_of_Mercy%29.jpg/400px-Jabal-e-Rehmat_%28Mount_of_Mercy%29.jpg',
+      // Atmosphere: Pilgrims at Arafat (Wikimedia Commons, CC)
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Arafat_pilgrims.jpg/400px-Arafat_pilgrims.jpg',
+      // Detail: Jabal al-Rahmah from distance (Wikimedia Commons, CC)
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Jabal-e-Rehmat.jpg/400px-Jabal-e-Rehmat.jpg',
+      // Context: Masjid Namirah nearby (Wikimedia Commons, CC)
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Masjid_Namirah_-_panoramio.jpg/400px-Masjid_Namirah_-_panoramio.jpg',
     ],
     hours: 'Open 24 hours',
     hours_ar: 'مفتوح على مدار الساعة',
@@ -148,8 +171,8 @@ export const sites: HeritageSite[] = [
     accessibility_ar: 'متاح جزئيًا — ممرات معبّدة عند القاعدة، صعود شديد نحو القمة',
     stamp_earned: false,
     externalLinks: [
-      { label_ar: 'جبل عرفات — ويكيبيديا', label_en: 'Mount Arafat — Wikipedia', url: 'https://en.wikipedia.org/wiki/Mount_Arafat' },
-      { label_ar: 'يوم عرفة — ويكيبيديا', label_en: 'Day of Arafah — Wikipedia', url: 'https://en.wikipedia.org/wiki/Day_of_Arafah' },
+      { label_ar: 'جبل الرحمة — سعوديبيديا', label_en: 'Jabal al-Rahmah — Saudipedia', url: 'https://saudipedia.com/en/article/834/religion/hajj-and-umrah/jabal-al-rahmah', type: 'government' },
+      { label_ar: 'جبل عرفات — المعالم الإسلامية', label_en: 'Jabal Arafat — IslamicLandmarks', url: 'https://www.islamiclandmarks.com/makkah-hajj-places/jabal-arafat', type: 'academic' },
     ],
   },
   {
@@ -168,12 +191,15 @@ export const sites: HeritageSite[] = [
     full_en:
       'Al-Mualla Cemetery stands as one of the most venerable burial grounds in Islamic history, situated in the northern part of Makkah in proximity to the Grand Mosque. The cemetery predates Islam and gained heightened significance following the Prophetic mission, as it became the resting place of individuals closely connected to the Prophet Muhammad, peace be upon him.\n\nAmong the most notable figures interred here are Lady Khadijah bint Khuwaylid, may Allah be pleased with her — the Prophet\'s first wife and the first woman to embrace Islam — as well as Abd al-Muttalib, the Prophet\'s grandfather, and Abu Talib, his uncle. Over the centuries, the cemetery has also received the remains of numerous Companions, successors (Tabi\'in), and scholars of distinction.\n\nThe cemetery is open to visitors during daylight hours and is accessible at street level. It represents a unique historical site that connects visitors to the earliest generation of Muslims and serves as a poignant reminder of the sacrifices made by the pioneers of the Islamic faith.',
     images: [
-      'https://images.unsplash.com/photo-1548013146-72479768bada?w=800&q=80',
-      'https://images.unsplash.com/photo-1609599006353-e629aaabfeae?w=800&q=80',
-      'https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?w=800&q=80',
-      'https://images.unsplash.com/photo-1519817650390-64a93db51149?w=800&q=80',
-      'https://images.unsplash.com/photo-1466442929976-97f336a657be?w=800&q=80',
-      'https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?w=800&q=80',
+      '/images/sites/al-mualla-cemetery.jpg',
+      // Wikimedia: Jannat al-Mualla cemetery (CC)
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Jannat_ul_Mualla_Cemetery.jpg/400px-Jannat_ul_Mualla_Cemetery.jpg',
+      // Detail: Cemetery grounds (Wikimedia Commons, CC)
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Jannat_al_Mualla_Graveyard_Makkah.jpg/400px-Jannat_al_Mualla_Graveyard_Makkah.jpg',
+      // Historical: Pre-1926 cemetery with tomb structures (Madain Project)
+      'https://madainproject.com/content/media/collect/jannat_mualla_37267.jpg',
+      // Historical: Before demolitions (Madain Project)
+      'https://madainproject.com/content/media/collect/jannat_mualla_00128.jpg',
     ],
     hours: 'Daylight hours',
     hours_ar: 'ساعات النهار',
@@ -181,8 +207,8 @@ export const sites: HeritageSite[] = [
     accessibility_ar: 'متاح من مستوى الشارع',
     stamp_earned: false,
     externalLinks: [
-      { label_ar: 'مقبرة المعلاة — ويكيبيديا', label_en: 'Al-Mualla Cemetery — Wikipedia', url: 'https://en.wikipedia.org/wiki/Jannat_al-Mu%27alla' },
-      { label_ar: 'السيدة خديجة — ويكيبيديا', label_en: 'Khadijah bint Khuwaylid — Wikipedia', url: 'https://en.wikipedia.org/wiki/Khadija_bint_Khuwaylid' },
+      { label_ar: 'مقبرة المعلاة — سعوديبيديا', label_en: "Al-Ma'alah Cemetery — Saudipedia", url: 'https://saudipedia.com/en/al-ma%E2%80%99alah-cemetery', type: 'government' },
+      { label_ar: 'جنة المعلا — المعالم الإسلامية', label_en: "Jannatul Mu'alla — IslamicLandmarks", url: 'https://www.islamiclandmarks.com/makkah-other/jannatul-mala', type: 'academic' },
     ],
   },
   {
@@ -201,12 +227,19 @@ export const sites: HeritageSite[] = [
     full_en:
       'Mina occupies a narrow valley situated between Makkah and Muzdalifah and constitutes one of the most significant sacred sites associated with the rites of Hajj. The valley of Mina extends over an area of approximately 20 square kilometers and annually hosts millions of pilgrims during the three Days of Tashreeq (the 11th, 12th, and 13th of Dhul Hijjah).\n\nThe most prominent landmark in Mina is the Jamarat Bridge, which has been reconstructed with a modern multi-level engineering design to safely accommodate the vast numbers of pilgrims. Pilgrims cast pebbles at three pillars — al-Jamrah al-Sughra (the smallest), al-Jamrah al-Wusta (the middle), and al-Jamrah al-Kubra (the largest) — reenacting the tradition of the Prophet Ibrahim (Abraham), peace be upon him, who stoned the devil at this location according to Islamic tradition.\n\nMina is characterized by its expansive city of white tents erected to shelter pilgrims, equipped with fire-resistant systems and comprehensive service facilities. The site embodies the Islamic principles of brotherhood and equality, as Muslims from every corner of the globe converge in one place to perform the same sacred rites.',
     images: [
-      'https://images.unsplash.com/photo-1542816417-0983c9c9ad53?w=800&q=80',
-      'https://images.unsplash.com/photo-1590076215667-875d4ef2d7de?w=800&q=80',
-      'https://images.unsplash.com/photo-1537031934600-a570fcf26ffa?w=800&q=80',
-      'https://images.unsplash.com/photo-1545167496-5a4f5a3f0e72?w=800&q=80',
-      'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=80',
-      'https://images.unsplash.com/photo-1585036156171-384164a8c159?w=800&q=80',
+      '/images/sites/mina-landmarks.jpg',
+      // Wikimedia: Mina tent city (CC)
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Mina_-_panoramio_%283%29.jpg/400px-Mina_-_panoramio_%283%29.jpg',
+      // Atmosphere: Mina valley with tents (Wikimedia Commons, CC)
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Mina_2.JPG/400px-Mina_2.JPG',
+      // Detail: Crowds heading to Jamarat Bridge (Wikimedia Commons, CC-BY-SA, Al Jazeera English)
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Crowds_in_Mina_head_to_the_Jamarat_Bridge_-_Flickr_-_Al_Jazeera_English.jpg/400px-Crowds_in_Mina_head_to_the_Jamarat_Bridge_-_Flickr_-_Al_Jazeera_English.jpg',
+      // Detail: Jamarat Bridge structure (Wikimedia Commons, CC)
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Jamarat_Bridge_23.JPG/400px-Jamarat_Bridge_23.JPG',
+      // Detail: Jamarat Bridge from another angle (Wikimedia Commons, CC)
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Jamarat_Bridge_24.JPG/400px-Jamarat_Bridge_24.JPG',
+      // Atmosphere: Pilgrims performing stoning ritual (Wikimedia Commons, CC-BY-SA, Al Jazeera English)
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/While_tossing_their_pebbles%2C_pilgrims_recall_a_story_of_the_Prophet_Abraham._-_Flickr_-_Al_Jazeera_English.jpg/400px-While_tossing_their_pebbles%2C_pilgrims_recall_a_story_of_the_Prophet_Abraham._-_Flickr_-_Al_Jazeera_English.jpg',
     ],
     hours: 'Open during Hajj season',
     hours_ar: 'مفتوح خلال موسم الحج',
@@ -214,8 +247,8 @@ export const sites: HeritageSite[] = [
     accessibility_ar: 'مهيأ للوصول — بنية تحتية حديثة مع منحدرات ومصاعد',
     stamp_earned: false,
     externalLinks: [
-      { label_ar: 'منى — ويكيبيديا', label_en: 'Mina — Wikipedia', url: 'https://en.wikipedia.org/wiki/Mina,_Saudi_Arabia' },
-      { label_ar: 'رمي الجمرات — ويكيبيديا', label_en: 'Stoning of the Devil — Wikipedia', url: 'https://en.wikipedia.org/wiki/Stoning_of_the_Devil' },
+      { label_ar: 'مشعر منى — سعوديبيديا', label_en: 'Holy Site of Mina — Saudipedia', url: 'https://saudipedia.com/en/holy-site-of-mina', type: 'government' },
+      { label_ar: 'منى — المعالم الإسلامية', label_en: 'Mina — IslamicLandmarks', url: 'https://www.islamiclandmarks.com/makkah-hajj-places/mina', type: 'academic' },
     ],
   },
 
@@ -236,12 +269,19 @@ export const sites: HeritageSite[] = [
     full_en:
       'Quba Mosque holds a singular distinction in Islamic history as the first mosque ever constructed in Islam. It was founded by the Prophet Muhammad, peace be upon him, upon his arrival at the suburb of Quba, south of Madinah, in the month of Rabi al-Awwal of the first year of the Hijra (622 CE), before he continued his journey to the center of the city.\n\nThe virtues of this mosque are established in both the Quran and the Prophetic traditions. It is widely identified as the mosque "founded on piety from the first day," as referenced in Surah al-Tawbah (9:108). The Prophet, peace be upon him, would visit Quba Mosque every Saturday, whether riding or on foot, and stated that praying therein is equivalent in reward to performing an Umrah.\n\nThe mosque has undergone numerous expansions throughout Islamic history, including a major expansion project under the Custodian of the Two Holy Mosques. Distinguished by its elegant architectural design featuring white domes and soaring minarets, the mosque welcomes worshippers and visitors around the clock. It stands as one of the most frequently visited sites in Madinah after the Prophet\'s Mosque itself.',
     images: [
-      'https://images.unsplash.com/photo-1564769625905-50e93615e769?w=800&q=80',
-      'https://images.unsplash.com/photo-1466442929976-97f336a657be?w=800&q=80',
-      'https://images.unsplash.com/photo-1585036156171-384164a8c159?w=800&q=80',
-      'https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?w=800&q=80',
-      'https://images.unsplash.com/photo-1548013146-72479768bada?w=800&q=80',
-      'https://images.unsplash.com/photo-1609599006353-e629aaabfeae?w=800&q=80',
+      '/images/sites/quba-mosque.jpg',
+      // Wikimedia: Quba Mosque exterior (CC)
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Masjid_Quba_%28Umroh_Ramadhan_2023%29-4.jpg/400px-Masjid_Quba_%28Umroh_Ramadhan_2023%29-4.jpg',
+      // Detail: Quba Mosque entrance gate (Wikimedia Commons, CC)
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Quba_Mosque_Entrance_Gate_1.jpg/600px-Quba_Mosque_Entrance_Gate_1.jpg',
+      // Atmosphere: Mosque wall walkway (Wikimedia Commons, CC)
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Quba_Mosque_Wall_Walkway.jpg/400px-Quba_Mosque_Wall_Walkway.jpg',
+      // Detail: Mosque foyer/courtyard (Wikimedia Commons, CC)
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/Quba_Mosque_Foyer.jpg/400px-Quba_Mosque_Foyer.jpg',
+      // Historical: Original Quba Mosque historic photo (Wikimedia Commons, Public Domain)
+      'https://upload.wikimedia.org/wikipedia/commons/9/95/Origquba.jpg',
+      // Historical: Early Quba Mosque (Wikimedia Commons, Public Domain)
+      'https://upload.wikimedia.org/wikipedia/commons/7/70/Qubaorig.jpg',
     ],
     hours: 'Open 24 hours',
     hours_ar: 'مفتوح على مدار الساعة',
@@ -249,8 +289,9 @@ export const sites: HeritageSite[] = [
     accessibility_ar: 'مهيأ بالكامل لذوي الاحتياجات الخاصة',
     stamp_earned: true,
     externalLinks: [
-      { label_ar: 'مسجد قباء — ويكيبيديا', label_en: 'Quba Mosque — Wikipedia', url: 'https://en.wikipedia.org/wiki/Quba_Mosque' },
-      { label_ar: 'مسجد قباء — Visit Saudi', label_en: 'Quba Mosque — Visit Saudi', url: 'https://www.visitsaudi.com/en/see-do/destinations/madinah' },
+      { label_ar: 'مسجد قباء — روح السعودية', label_en: 'Quba Mosque — Visit Saudi', url: 'https://www.visitsaudi.com/en/madinah/attractions/masjid-quba-in-madinah', type: 'tourism' },
+      { label_ar: 'مسجد قباء — سعوديبيديا', label_en: 'Quba Mosque — Saudipedia', url: 'https://saudipedia.com/en/article/436/religion/mosques/quba-mosque', type: 'government' },
+      { label_ar: 'مسجد قباء — المعالم الإسلامية', label_en: 'Masjid Quba — IslamicLandmarks', url: 'https://www.islamiclandmarks.com/madinah-other/masjid-quba', type: 'academic' },
     ],
   },
   {
@@ -269,12 +310,17 @@ export const sites: HeritageSite[] = [
     full_en:
       'Al-Baqi Cemetery, also known as Baqi al-Gharqad, ranks among the most sacred burial grounds in the Islamic world. Located to the southeast of the Prophet\'s Mosque in Madinah, it extends over a substantial area containing the remains of an estimated tens of thousands of early Muslims.\n\nAmong the most notable figures resting in al-Baqi are Uthman ibn Affan, may Allah be pleased with him, the third Rightly Guided Caliph; al-Abbas ibn Abd al-Muttalib, the Prophet\'s uncle; al-Hasan ibn Ali, may Allah be pleased with them; and several of the Mothers of the Believers and daughters of the Prophet, peace be upon him.\n\nHistorically, the cemetery featured numerous structures and domes over the graves, which were later removed. Al-Baqi is open to visitors after prayer times and is accessible at street level. Visitors to Madinah customarily include al-Baqi in their itinerary, following the practice of the Prophet, peace be upon him, who would visit the people of al-Baqi and supplicate for them.',
     images: [
-      'https://images.unsplash.com/photo-1545167496-5a4f5a3f0e72?w=800&q=80',
-      'https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?w=800&q=80',
-      'https://images.unsplash.com/photo-1565018054866-968e244671af?w=800&q=80',
-      'https://images.unsplash.com/photo-1580418827493-f2b22c0a76cb?w=800&q=80',
-      'https://images.unsplash.com/photo-1519817650390-64a93db51149?w=800&q=80',
-      'https://images.unsplash.com/photo-1537031934600-a570fcf26ffa?w=800&q=80',
+      '/images/sites/al-baqi-cemetery.jpg',
+      // Wikimedia: Al-Baqi Cemetery (CC)
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Al-Baqi_Cemetery_2021.jpg/400px-Al-Baqi_Cemetery_2021.jpg',
+      // Atmosphere: Wide panorama of Baqi cemetery (Wikimedia Commons, CC)
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Panorama_Perkuburan_Baqi%27_%28Maqbaratu_al-Baqi%27%29.jpg/400px-Panorama_Perkuburan_Baqi%27_%28Maqbaratu_al-Baqi%27%29.jpg',
+      // Detail: Graves at Baqi (Wikimedia Commons, CC)
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Medine_cennet-%C3%BCl_baki.jpg/400px-Medine_cennet-%C3%BCl_baki.jpg',
+      // Detail: Grave of Ibrahim (Wikimedia Commons, CC)
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Grave_of_Ibrahim_at_Jannat-ul-Baqi%2C_Medina.JPG/400px-Grave_of_Ibrahim_at_Jannat-ul-Baqi%2C_Medina.JPG',
+      // Historical: Jannatul-Baqi before demolition (Wikimedia Commons, Public Domain)
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Jannatul-Baqi_before_Demolition.jpg/400px-Jannatul-Baqi_before_Demolition.jpg',
     ],
     hours: 'After prayer times',
     hours_ar: 'بعد أوقات الصلاة',
@@ -282,8 +328,8 @@ export const sites: HeritageSite[] = [
     accessibility_ar: 'متاح من مستوى الشارع',
     stamp_earned: false,
     externalLinks: [
-      { label_ar: 'البقيع — ويكيبيديا', label_en: 'Al-Baqi Cemetery — Wikipedia', url: 'https://en.wikipedia.org/wiki/Al-Baqi%27' },
-      { label_ar: 'الصحابة المدفونون في البقيع', label_en: 'Companions buried at Al-Baqi', url: 'https://ar.wikipedia.org/wiki/%D8%A8%D9%82%D9%8A%D8%B9_%D8%A7%D9%84%D8%BA%D8%B1%D9%82%D8%AF' },
+      { label_ar: 'مقبرة البقيع — سعوديبيديا', label_en: 'Al-Baqi Cemetery — Saudipedia', url: 'https://saudipedia.com/en/article/3266/government-and-politics/municipal-affairs-and-housing/al-baqi-cemetery', type: 'government' },
+      { label_ar: 'جنة البقيع — المعالم الإسلامية', label_en: 'Jannatul Baqi — IslamicLandmarks', url: 'https://www.islamiclandmarks.com/madinah-other/jannatul-baqi', type: 'academic' },
     ],
   },
   {
@@ -302,12 +348,17 @@ export const sites: HeritageSite[] = [
     full_en:
       'Uhud Mountain stands as one of the most prominent natural and historical landmarks in Madinah, stretching approximately seven kilometers in length and rising to about 1,077 meters above sea level. The mountain holds a special place in the hearts of Muslims, as expressed in the Prophetic tradition: "Uhud is a mountain that loves us and that we love."\n\nIn the month of Shawwal of the third year of Hijra (625 CE), the Battle of Uhud took place at the foot of this mountain — the second major military engagement in Islamic history after the Battle of Badr. The Prophet Muhammad, peace be upon him, participated personally and was wounded during the battle. Seventy Companions were martyred, foremost among them Hamzah ibn Abd al-Muttalib, may Allah be pleased with him, the Prophet\'s uncle known as the Lion of God.\n\nAt the base of the mountain lies the Uhud Martyrs\' Cemetery, containing the remains of the seventy martyrs. The site attracts large numbers of Muslim visitors annually who come to reflect on the lessons of this battle and offer supplications for the martyrs. Paved pathways in the lower sections of the site provide partial accessibility for visitors.',
     images: [
-      'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?w=800&q=80',
-      'https://images.unsplash.com/photo-1682687220742-aba13b6e50ba?w=800&q=80',
-      'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80',
-      'https://images.unsplash.com/photo-1590076215667-875d4ef2d7de?w=800&q=80',
-      'https://images.unsplash.com/photo-1542816417-0983c9c9ad53?w=800&q=80',
-      'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=80',
+      '/images/sites/uhud-mountain.jpg',
+      // Wikimedia: Mount Uhud panoramic view (CC)
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Mount_Uhud_Panorama.jpg/400px-Mount_Uhud_Panorama.jpg',
+      // Atmosphere: Uhud mountain landscape (Wikimedia Commons, CC)
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Jabal-e-Uhud.jpg/400px-Jabal-e-Uhud.jpg',
+      // Detail: Mount Uhud from closer view (Wikimedia Commons, CC)
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Mount_Uhud.JPG/400px-Mount_Uhud.JPG',
+      // Atmosphere: Uhud during Ramadhan 2023 with visitors (Wikimedia Commons, CC BY 4.0)
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Gunung_Uhud_%28Umroh_Ramadhan_2023%29-1.jpg/400px-Gunung_Uhud_%28Umroh_Ramadhan_2023%29-1.jpg',
+      // Detail: Uhud Martyrs Cemetery entrance (Wikimedia Commons, CC BY-SA 4.0)
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/%D9%85%D9%82%D8%A8%D8%B1%D8%A9_%D8%B4%D9%87%D8%AF%D8%A7%D8%A1_%D8%A3%D8%AD%D8%AF.jpg/400px-%D9%85%D9%82%D8%A8%D8%B1%D8%A9_%D8%B4%D9%87%D8%AF%D8%A7%D8%A1_%D8%A3%D8%AD%D8%AF.jpg',
     ],
     hours: 'Open 24 hours',
     hours_ar: 'مفتوح على مدار الساعة',
@@ -315,8 +366,9 @@ export const sites: HeritageSite[] = [
     accessibility_ar: 'متاح جزئيًا — ممرات معبّدة عند مستوى القاعدة',
     stamp_earned: true,
     externalLinks: [
-      { label_ar: 'غزوة أحد — ويكيبيديا', label_en: 'Battle of Uhud — Wikipedia', url: 'https://en.wikipedia.org/wiki/Battle_of_Uhud' },
-      { label_ar: 'جبل أحد — ويكيبيديا', label_en: 'Mount Uhud — Wikipedia', url: 'https://en.wikipedia.org/wiki/Mount_Uhud' },
+      { label_ar: 'جبل أحد — روح السعودية', label_en: 'Mount Uhud — Visit Saudi', url: 'https://www.visitsaudi.com/en/madinah/attractions/uhud-mountain-in-madinah', type: 'tourism' },
+      { label_ar: 'جبل أحد — سعوديبيديا', label_en: 'Mount Uhud — Saudipedia', url: 'https://saudipedia.com/en/article/1000/geography/mountains/mount-uhud', type: 'government' },
+      { label_ar: 'ساحة شهداء أحد — روح السعودية', label_en: 'Uhud Martyrs Square — Visit Saudi', url: 'https://www.visitsaudi.com/en/madinah/attractions/uhud-martyrs-square-madinah', type: 'tourism' },
     ],
   },
   {
@@ -335,12 +387,19 @@ export const sites: HeritageSite[] = [
     full_en:
       'Qiblatain Mosque possesses a uniquely distinguished place in Islamic history, having witnessed a pivotal event that permanently altered the direction of Islamic worship. Located in the northwestern part of Madinah, the mosque derives its name — meaning "the Mosque of the Two Qiblas" — from being the only mosque where Muslims prayed toward two different directions in a single prayer.\n\nIn the month of Rajab or Sha\'ban of the second year of Hijra (approximately 624 CE), during the Dhuhr (noon) prayer, the divine command was revealed to change the Qibla from Jerusalem (Bayt al-Maqdis) to the Sacred Mosque in Makkah, as stated in Surah al-Baqarah (2:144): "So turn your face toward al-Masjid al-Haram." The worshippers turned mid-prayer from facing Jerusalem to facing Makkah.\n\nThe mosque has undergone several restorations and expansions, most recently under the Custodian of the Two Holy Mosques, transforming it into an architectural masterpiece that blends tradition with modernity. The mosque is distinguished by its two adjacent domes, symbolizing the two Qiblas. It is fully accessible for visitors with special needs and welcomes worshippers during prayer times.',
     images: [
-      'https://images.unsplash.com/photo-1466442929976-97f336a657be?w=800&q=80',
-      'https://images.unsplash.com/photo-1564769625905-50e93615e769?w=800&q=80',
-      'https://images.unsplash.com/photo-1585036156171-384164a8c159?w=800&q=80',
-      'https://images.unsplash.com/photo-1548013146-72479768bada?w=800&q=80',
-      'https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?w=800&q=80',
-      'https://images.unsplash.com/photo-1545167496-5a4f5a3f0e72?w=800&q=80',
+      '/images/sites/qiblatain-mosque.jpg',
+      // Wikimedia: Qiblatain Mosque exterior (CC)
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Masjid_al-Qiblatain.jpg/400px-Masjid_al-Qiblatain.jpg',
+      // Detail: Main entrance of Masjid al-Qiblatayn (Wikimedia Commons, CC)
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Main_entrance_of_Masjid_al-Qiblatayn.jpg/400px-Main_entrance_of_Masjid_al-Qiblatayn.jpg',
+      // Atmosphere: Mosque wider view (Wikimedia Commons, CC)
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/MQiblat_091109-0115.jpg/400px-MQiblat_091109-0115.jpg',
+      // Detail: Mihrab interior (Wikimedia Commons, CC)
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Mihrab_of_Masjid_al-Qiblatayn_Interior.jpg/600px-Mihrab_of_Masjid_al-Qiblatayn_Interior.jpg',
+      // Atmosphere: Exterior from Madain Project
+      'https://madainproject.com/content/media/collect/qiblatain_masjid_7382.jpg',
+      // Detail: Mosque architectural details (Madain Project)
+      'https://madainproject.com/content/media/collect/qiblatain_masjid_9027.jpg',
     ],
     hours: 'Prayer times',
     hours_ar: 'أوقات الصلاة',
@@ -348,8 +407,9 @@ export const sites: HeritageSite[] = [
     accessibility_ar: 'مهيأ بالكامل لذوي الاحتياجات الخاصة',
     stamp_earned: false,
     externalLinks: [
-      { label_ar: 'مسجد القبلتين — ويكيبيديا', label_en: 'Qiblatain Mosque — Wikipedia', url: 'https://en.wikipedia.org/wiki/Masjid_al-Qiblatayn' },
-      { label_ar: 'تحويل القبلة — ويكيبيديا', label_en: 'Change of Qibla — Wikipedia', url: 'https://en.wikipedia.org/wiki/Qibla#Change_of_direction' },
+      { label_ar: 'مسجد القبلتين — روح السعودية', label_en: 'Masjid Al Qiblatayn — Visit Saudi', url: 'https://www.visitsaudi.com/en/madinah/attractions/masjid-al-qiblatain-in-madinah', type: 'tourism' },
+      { label_ar: 'مسجد القبلتين — سعوديبيديا', label_en: 'Al-Qiblatayn Mosque — Saudipedia', url: 'https://saudipedia.com/en/al-qiblatayn-mosque', type: 'government' },
+      { label_ar: 'مسجد القبلتين — المعالم الإسلامية', label_en: 'Masjid al-Qiblatain — IslamicLandmarks', url: 'https://www.islamiclandmarks.com/madinah-other/masjid-qiblatain', type: 'academic' },
     ],
   },
   {
@@ -368,12 +428,19 @@ export const sites: HeritageSite[] = [
     full_en:
       'Dar Al Madinah Museum stands as the first and largest museum dedicated to Madinah\'s heritage, located in the al-Anbariyyah district of the city. The museum was established with the mission of preserving and documenting the rich heritage of Madinah and presenting it to contemporary audiences through an interactive educational approach.\n\nThe museum houses a remarkable collection of exhibits, including miniature models of the Prophet\'s Mosque at various stages of its historical development, archaeological artifacts from multiple Islamic eras, rare historical photographs of Madinah, and everyday tools and implements used by the city\'s inhabitants in centuries past. A dedicated section showcases traditional Madinan crafts and industries.\n\nThe museum welcomes visitors in two sessions: mornings from 9:00 AM to 12:00 PM, and evenings from 5:00 PM to 9:00 PM. It is fully accessible for visitors with special needs and offers guided tours in multiple languages. The museum serves as an ideal destination for those wishing to understand the civilizational transformations Madinah has undergone from the Prophetic era to the modern age.',
     images: [
-      'https://images.unsplash.com/photo-1519817650390-64a93db51149?w=800&q=80',
-      'https://images.unsplash.com/photo-1548013146-72479768bada?w=800&q=80',
-      'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=80',
-      'https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?w=800&q=80',
-      'https://images.unsplash.com/photo-1609599006353-e629aaabfeae?w=800&q=80',
-      'https://images.unsplash.com/photo-1585036156171-384164a8c159?w=800&q=80',
+      '/images/sites/dar-al-madinah-museum.jpg',
+      // Wikimedia: Dar al-Madinah Museum facade (CC)
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Dar_al-Madinah_Museum_%28Medina%29_-_Facade.jpg/400px-Dar_al-Madinah_Museum_%28Medina%29_-_Facade.jpg',
+      // Detail: Museum building exterior (Wikimedia Commons, CC)
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Dar_al-Madinah_Museum.JPG/400px-Dar_al-Madinah_Museum.JPG',
+      // Atmosphere: Museum interior/exhibits (Madain Project)
+      'https://madainproject.com/content/media/collect/dar_almadinah_4782.jpg',
+      // Detail: Museum exhibit artifacts (Madain Project)
+      'https://madainproject.com/content/media/collect/dar_almadinah_5927.jpg',
+      // Detail: Museum collection display (Madain Project)
+      'https://madainproject.com/content/media/collect/dar_almadinah_8527.jpg',
+      // Atmosphere: Museum gallery view (Madain Project)
+      'https://madainproject.com/content/media/collect/dar_almadinah_3278.jpg',
     ],
     hours: '9:00 AM – 12:00 PM, 5:00 PM – 9:00 PM',
     hours_ar: 'من 9 صباحًا حتى 12 ظهرًا، ومن 5 مساءً حتى 9 مساءً',
@@ -381,8 +448,8 @@ export const sites: HeritageSite[] = [
     accessibility_ar: 'مهيأ بالكامل لذوي الاحتياجات الخاصة',
     stamp_earned: false,
     externalLinks: [
-      { label_ar: 'المدينة المنورة — Visit Saudi', label_en: 'Madinah — Visit Saudi', url: 'https://www.visitsaudi.com/en/see-do/destinations/madinah' },
-      { label_ar: 'المدينة المنورة — ويكيبيديا', label_en: 'Medina — Wikipedia', url: 'https://en.wikipedia.org/wiki/Medina' },
+      { label_ar: 'دار المدينة — المعالم الإسلامية', label_en: 'Dar Al Madinah Museum — IslamicLandmarks', url: 'https://www.islamiclandmarks.com/madinah-other/dar-al-madinah-museum', type: 'academic' },
+      { label_ar: 'متحف دار المدينة — مشروع مدائن', label_en: 'Dar al-Madinah Museum — Madain Project', url: 'https://madainproject.com/dar_al_madinah_museum', type: 'academic' },
     ],
   },
   {
@@ -401,12 +468,15 @@ export const sites: HeritageSite[] = [
     full_en:
       'The Al-Khandaq site is located in the northwestern part of Madinah, near Jabal Sal\'. It commemorates the Battle of the Trench — also known as the Battle of the Confederates (Ghazwat al-Ahzab) — which took place in Shawwal of the fifth year of Hijra (627 CE) and stands as one of the most critical military confrontations in early Islamic history.\n\nThe concept of digging the trench originated with the Companion Salman al-Farisi (the Persian), may Allah be pleased with him, who suggested this defensive technique — previously unknown among the Arabs — to the Prophet Muhammad, peace be upon him. A deep trench was excavated along the exposed northern approach to Madinah to prevent the allied Confederate forces, numbering approximately ten thousand fighters, from breaching the city\'s defenses.\n\nThis strategy proved successful in confounding the Confederates and thwarting their siege, which lasted nearly a month, ultimately forcing their withdrawal without achieving their objective. Today, the site is an open area accessible around the clock, with several small mosques nearby known as the Mosques of Victory (Masajid al-Fath). The site stands as a living historical lesson in innovation and strategic planning.',
     images: [
-      'https://images.unsplash.com/photo-1580418827493-f2b22c0a76cb?w=800&q=80',
-      'https://images.unsplash.com/photo-1565018054866-968e244671af?w=800&q=80',
-      'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?w=800&q=80',
-      'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80',
-      'https://images.unsplash.com/photo-1542816417-0983c9c9ad53?w=800&q=80',
-      'https://images.unsplash.com/photo-1590076215667-875d4ef2d7de?w=800&q=80',
+      '/images/sites/al-khandaq.jpg',
+      // Wikimedia: Battle of the Trench site (CC)
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Battle_of_trench_site.JPG/400px-Battle_of_trench_site.JPG',
+      // Historical: Battle of Trench map illustration (Wikimedia Commons, CC)
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Battle_of_Trench_627_CE.png/600px-Battle_of_Trench_627_CE.png',
+      // Atmosphere: Seven Mosques area - Khandaq vicinity (Wikimedia Commons, CC)
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Madina_trip_116.jpg/400px-Madina_trip_116.jpg',
+      // Detail: Seven Mosques area - trench site vicinity (Wikimedia Commons, CC)
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Madina_trip_117.jpg/400px-Madina_trip_117.jpg',
     ],
     hours: 'Open 24 hours',
     hours_ar: 'مفتوح على مدار الساعة',
@@ -414,8 +484,8 @@ export const sites: HeritageSite[] = [
     accessibility_ar: 'منطقة مفتوحة — متاحة بشكل عام',
     stamp_earned: false,
     externalLinks: [
-      { label_ar: 'غزوة الخندق — ويكيبيديا', label_en: 'Battle of the Trench — Wikipedia', url: 'https://en.wikipedia.org/wiki/Battle_of_the_Trench' },
-      { label_ar: 'سلمان الفارسي — ويكيبيديا', label_en: 'Salman al-Farisi — Wikipedia', url: 'https://en.wikipedia.org/wiki/Salman_the_Persian' },
+      { label_ar: 'المساجد السبعة — مشروع مدائن', label_en: 'Seven Mosques (Khandaq Site) — Madain Project', url: 'https://madainproject.com/seven_mosques', type: 'academic' },
+      { label_ar: 'موقع الخندق — المعالم الإسلامية', label_en: 'Battle of the Trench Site — IslamicLandmarks', url: 'https://www.islamiclandmarks.com/madinah-other/masjid-al-fath', type: 'academic' },
     ],
   },
 ];
