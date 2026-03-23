@@ -7,5 +7,9 @@ export default function MapPage() {
   const searchParams = useSearchParams();
   const focusSiteId = searchParams.get('site') || undefined;
 
-  return <HeritageMap focusSiteId={focusSiteId} />;
+  return (
+    <div className="pb-16 md:pb-0">
+      <HeritageMap focusSiteId={focusSiteId} />
+    </div>
+  );
 }

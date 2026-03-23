@@ -180,7 +180,7 @@ export function HeritageMap({ focusSiteId }: HeritageMapProps = {}) {
   );
 
   return (
-    <div className="relative flex h-[calc(100dvh-3.5rem)] w-full">
+    <div className="relative flex h-[calc(100dvh-3.5rem-4rem)] w-full rounded-b-xl md:h-[calc(100dvh-3.5rem)] md:rounded-none">
       {/* Desktop sidebar */}
       <aside
         className="relative z-10 hidden w-80 shrink-0 border-e border-border md:block"
