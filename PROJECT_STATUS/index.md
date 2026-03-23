@@ -14,6 +14,9 @@
 - [Phase 6: Supporting Systems & Infrastructure](docs/planning/phase-6-supporting-systems.md) — planned
 - [Phase 7: Admin CMS & Content Management](docs/planning/phase-7-admin-cms.md) — planned
 
+## Changelogs
+- [2026-03-23: Mobile UX Fixes & Enhancements](changelog-2026-03-23.md) — 10 bug fixes, 5 new features, test skill
+
 ## Phase Records
 - [Phase 0.1: Frontend Prototype](phases/phase-0.1.md) — COMPLETE
 - [Phase 2: QR Code System](phases/phase-2.md) — COMPLETE

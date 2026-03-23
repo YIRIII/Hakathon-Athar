@@ -1,6 +1,6 @@
 # Roadmap — Athar (أثر) Interactive Heritage Discovery Platform
 **Generated from:** idea-forge/athar-heritage-platform | **Research Tier:** B (Partial)
-**Last Updated:** 2026-03-19 | **Next:** 6.6
+**Last Updated:** 2026-03-23 | **Next:** 6.6
 
 ## Phase 0: Project Foundation 🚧
 - [x] **0.1:** Initialize Next.js 14+ project with App Router, TypeScript, Tailwind CSS → [plan](docs/planning/phase-0-foundation.md)
@@ -20,7 +20,7 @@
 - [x] **0.1.1:** Hero section — heritage-themed with bilingual tagline, CTA → [plan](docs/planning/phase-0.1-frontend-prototype.md)
 - [x] **0.1.2:** Featured sites carousel/grid (mock data) → [plan](docs/planning/phase-0.1-frontend-prototype.md)
 - [x] **0.1.3:** "How It Works" section — visual flow → [plan](docs/planning/phase-0.1-frontend-prototype.md)
-- [x] **0.1.4:** Stats/impact section with animated counters → [plan](docs/planning/phase-0.1-frontend-prototype.md)
+- [x] **0.1.4:** Feature highlights section (Explore, Collect, Learn) → [plan](docs/planning/phase-0.1-frontend-prototype.md)
 - [x] **0.1.5:** Full-page map view with Leaflet — 12 mock heritage sites → [plan](docs/planning/phase-0.1-frontend-prototype.md)
 - [x] **0.1.6:** Map sidebar — site list, filters, search, "Near Me" button → [plan](docs/planning/phase-0.1-frontend-prototype.md)
 - [x] **0.1.7:** Map popup/card on marker click → [plan](docs/planning/phase-0.1-frontend-prototype.md)
@@ -47,7 +47,7 @@
 ## Phase 1: Smart Map & Heritage Content 🚧
 - [x] **1.1:** Build base map component with Leaflet + OpenStreetMap Arabic tiles → [plan](docs/planning/phase-1-map-heritage-content.md)
 - [x] **1.2:** Heritage site markers — custom branded, classified by type, filterable by city → [plan](docs/planning/phase-1-map-heritage-content.md)
-- [x] **1.3:** GPS "Near Me" feature — 2km radius discovery → [plan](docs/planning/phase-1-map-heritage-content.md)
+- [x] **1.3:** GPS "Near Me" feature — 15km radius discovery → [plan](docs/planning/phase-1-map-heritage-content.md)
 - [x] **1.4:** Heritage site detail page template — layered bilingual narratives → [plan](docs/planning/phase-1-map-heritage-content.md)
 - [x] **1.5:** Image gallery with Next.js Image optimization → [plan](docs/planning/phase-1-map-heritage-content.md)
 - [x] **1.6:** Visitor info section — hours, location, accessibility → [plan](docs/planning/phase-1-map-heritage-content.md)
