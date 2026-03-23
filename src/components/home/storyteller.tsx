@@ -341,7 +341,7 @@ export function Storyteller({
       </SheetTrigger>
       <SheetContent
         side="bottom"
-        className="flex h-[80dvh] max-h-[85vh] flex-col rounded-t-2xl sm:h-[85vh]"
+        className="flex h-[90dvh] max-h-[92vh] flex-col rounded-t-2xl sm:h-[85vh]"
         showCloseButton={false}
       >
         {/* Drag handle — visual cue that sheet can be dismissed */}
@@ -383,7 +383,7 @@ export function Storyteller({
           </div>
         </SheetHeader>
 
-        <div className="flex-1 overflow-y-auto px-2 py-6">
+        <div className="flex-1 overflow-y-auto overscroll-contain px-2 py-6" style={{ WebkitOverflowScrolling: 'touch' }}>
           {isLoading && !displayText && (
             <div className="flex flex-col items-center justify-center gap-4 py-16">
               <Loader2 className="size-8 animate-spin text-primary" />
