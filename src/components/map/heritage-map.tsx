@@ -188,8 +188,8 @@ export function HeritageMap({ focusSiteId }: HeritageMapProps = {}) {
         {sidebarContent}
       </aside>
 
-      {/* Map */}
-      <div className="relative min-h-0 flex-1">
+      {/* Map — isolate creates a stacking context so Leaflet z-indexes don't escape */}
+      <div className="relative isolate min-h-0 flex-1">
         <MapView
           ref={mapRef}
           sites={displaySites}

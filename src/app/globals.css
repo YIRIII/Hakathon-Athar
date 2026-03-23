@@ -210,6 +210,12 @@
   box-shadow: 0 6px 20px rgba(0,0,0,0.3) !important;
 }
 
+/* ── Contain Leaflet z-indexes so they don't escape over Sheet/Dialog overlays ── */
+.leaflet-container {
+  z-index: 0;
+  isolation: isolate;
+}
+
 /* ── Leaflet popup heritage theme ── */
 .leaflet-popup-content-wrapper {
   border-radius: 12px !important;
