@@ -230,6 +230,21 @@ export function Storyteller({
     return nonDefault ?? langVoices[0];
   }, [isAr]);
 
+  /** Strip markdown formatting so TTS reads clean text (no "star star") */
+  const stripMarkdown = useCallback((text: string): string => {
+    return text
+      .replace(/\*\*\*(.+?)\*\*\*/g, '$1')   // ***bold italic***
+      .replace(/\*\*(.+?)\*\*/g, '$1')         // **bold**
+      .replace(/\*(.+?)\*/g, '$1')             // *italic*
+      .replace(/__(.+?)__/g, '$1')             // __underline__
+      .replace(/_(.+?)_/g, '$1')               // _italic_
+      .replace(/~~(.+?)~~/g, '$1')             // ~~strikethrough~~
+      .replace(/`(.+?)`/g, '$1')               // `code`
+      .replace(/^#{1,6}\s+/gm, '')             // # headings
+      .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1') // [links](url)
+      .replace(/[*_~`#]/g, '');                // any remaining stray markers
+  }, []);
+
   /** Split text into sentence-sized chunks to avoid the browser TTS bug
    *  where long utterances silently stop mid-way (common in Safari & Chrome). */
   const chunkText = useCallback((text: string): string[] => {
@@ -271,7 +286,7 @@ export function Storyteller({
 
     // Small delay so the engine fully resets before speaking fresh
     setTimeout(() => {
-      const chunks = chunkText(displayText);
+      const chunks = chunkText(stripMarkdown(displayText));
       let charOffset = 0;
       let chunkIndex = 0;
 
@@ -326,7 +341,7 @@ export function Storyteller({
 
       speakChunk(0);
     }, 120);
-  }, [displayText, isAr, getBestVoice, chunkText, stopSpeaking]);
+  }, [displayText, isAr, getBestVoice, chunkText, stripMarkdown, stopSpeaking]);
 
   // Cleanup on unmount
   useEffect(() => {
